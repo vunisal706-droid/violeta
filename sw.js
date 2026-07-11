@@ -1,5 +1,7 @@
-const CACHE='iguales-quest-v1';
+const CACHE='iguales-quest-v2';
 const ASSETS=[
+  './',
+  './index.html',
   './iguales-quest.html',
   './manifest.json',
   './icons/icon-192.png',

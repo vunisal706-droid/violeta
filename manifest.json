@@ -1,9 +1,10 @@
 {
   "name": "Iguales Quest — La Aventura de la Igualdad",
   "short_name": "Iguales Quest",
-  "description": "Videojuego educativo coeducativo de plataformas con preguntas curriculares. CEIP Capitulaciones de Santa Fe.",
-  "start_url": "./iguales-quest.html",
+  "description": "Videojuego educativo coeducativo de plataformas con preguntas curriculares para Educación Primaria. Software libre (GPLv3 / CC BY-SA 4.0).",
+  "start_url": "./",
   "scope": "./",
+  "id": "./",
   "display": "fullscreen",
   "orientation": "landscape",
   "background_color": "#faf5ff",
