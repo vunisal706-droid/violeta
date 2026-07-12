@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<!--
+  Iguales Quest — La Aventura de la Igualdad
+  Videojuego educativo coeducativo para Educación Primaria.
+
+  Copyright (C) 2026
+
+  Este programa es software libre: puede redistribuirlo y/o modificarlo
+  bajo los términos de la Licencia Pública General de GNU (GNU GPL)
+  publicada por la Free Software Foundation, en su versión 3 o (a su
+  elección) cualquier versión posterior.
+
+  Este programa se distribuye con la esperanza de que sea útil, pero SIN
+  NINGUNA GARANTÍA. Véase la Licencia Pública General de GNU para más
+  detalles: archivo LICENSE.
+
+  Los contenidos didácticos se distribuyen bajo Creative Commons
+  BY-SA 4.0. Véase el archivo LICENSE-CONTENIDOS.txt.
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#7c3aed">
+<meta name="description" content="Iguales Quest — La Aventura de la Igualdad. Material curricular coeducativo gamificado para Educación Primaria.">
+<meta name="license" content="GPL-3.0-or-later (código) · CC BY-SA 4.0 (contenidos)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Iguales Quest · La Aventura de la Igualdad</title>
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="%237c3aed"/><circle cx="32" cy="32" r="24" fill="%23ede9fe"/><path d="M32 14l4.4 9 9.9 1.4-7.2 7 1.7 9.9L32 36.6l-8.8 4.7 1.7-9.9-7.2-7 9.9-1.4z" fill="%237c3aed"/><circle cx="32" cy="30" r="5" fill="%23fbbf24"/><rect x="30.5" y="38" width="3" height="12" rx="1.5" fill="%23db2777" transform="rotate(-35 32 44)"/></svg>'>
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-title" content="Iguales Quest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-primary:#7c3aed; --color-primary-light:#ede9fe; --color-primary-dark:#6d28d9;
+  --color-secondary:#db2777; --color-secondary-light:#fce7f3;
+  --color-bg:#faf5ff; --color-surface:#ffffff; --color-border:#ddd6fe;
+  --color-text:#2e1065; --color-text-muted:#7e6bab;
+  --color-success:#16a34a; --color-success-bg:#dcfce7;
+  --color-error:#dc2626; --color-error-bg:#fee2e2;
+  --gold:#f59e0b; --gold-light:#fef3c7;
+  --font-body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --font-display:'Baloo 2','Plus Jakarta Sans',sans-serif;
+  --radius:20px; --radius-sm:14px;
+  --shadow-clay:8px 8px 0 0 rgba(124,58,237,.10), inset 0 -4px 0 rgba(124,58,237,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{font-family:var(--font-body);background:
+  radial-gradient(ellipse at 0% 0%, rgba(124,58,237,.10) 0%, transparent 55%),
+  radial-gradient(ellipse at 100% 0%, rgba(219,39,119,.08) 0%, transparent 55%),
+  radial-gradient(ellipse at 50% 100%, rgba(245,158,11,.08) 0%, transparent 55%),
+  var(--color-bg);
+  color:var(--color-text); min-height:100vh; -webkit-tap-highlight-color:transparent}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--color-primary);outline-offset:3px;border-radius:8px}
+.screen{display:none;min-height:100vh;padding:20px;max-width:960px;margin:0 auto}
+.screen.active{display:block;animation:fadeInUp .35s ease}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes shine{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+.btn{border:none;border-radius:16px;font-family:var(--font-display);font-weight:700;
+  font-size:1.15rem;padding:16px 32px;min-height:56px;color:#fff;background:var(--color-primary);
+  box-shadow:0 6px 0 var(--color-primary-dark),0 8px 14px rgba(124,58,237,.25);
+  transition:transform .1s,box-shadow .1s,filter .15s}
+.btn:hover{filter:brightness(1.07)}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--color-primary-dark),0 4px 8px rgba(124,58,237,.2)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn-pink{background:var(--color-secondary);box-shadow:0 6px 0 #be185d,0 8px 14px rgba(219,39,119,.25)}
+.btn-pink:active{box-shadow:0 2px 0 #be185d,0 4px 8px rgba(219,39,119,.2)}
+.btn-gold{background:var(--gold);box-shadow:0 6px 0 #b45309,0 8px 14px rgba(245,158,11,.3);color:#431407}
+.btn-gold:active{box-shadow:0 2px 0 #b45309,0 4px 8px rgba(245,158,11,.25)}
+.btn-ghost{background:var(--color-surface);color:var(--color-primary);border:2px solid var(--color-border);
+  box-shadow:0 4px 0 var(--color-border);font-size:1rem;padding:12px 22px;min-height:48px}
+.btn-ghost:active{transform:translateY(3px);box-shadow:0 1px 0 var(--color-border)}
+.btn-tts{background:var(--color-primary-light);border:2px solid var(--color-border);color:var(--color-primary-dark);
+  border-radius:50%;width:48px;height:48px;min-height:48px;font-size:1.3rem;padding:0;box-shadow:0 3px 0 var(--color-border);flex:0 0 auto}
+.btn-tts:active{transform:translateY(2px);box-shadow:none}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.topbar .title-mini{font-family:var(--font-display);font-weight:800;font-size:1.25rem;color:var(--color-primary)}
+
+.hero{text-align:center;padding-top:20px}
+.mascot-wrap{display:inline-block;animation:bounce 2.4s ease infinite}
+.game-title{font-family:var(--font-display);font-size:clamp(2.3rem,7vw,4rem);font-weight:800;line-height:1.05;
+  background:linear-gradient(100deg,var(--color-primary) 20%,var(--color-secondary) 55%,var(--gold) 85%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;margin:14px 0 6px}
+.game-subtitle{font-size:1.1rem;color:var(--color-text-muted);font-weight:600;max-width:600px;margin:0 auto 20px}
+.cycle-selector{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+.cycle-btn{border:3px solid var(--color-border);border-radius:var(--radius);background:var(--color-surface);
+  padding:14px 24px;min-width:180px;text-align:center;transition:all .18s;box-shadow:var(--shadow-clay)}
+.cycle-btn .c-big{font-family:var(--font-display);font-weight:800;font-size:1.3rem;display:block;color:var(--color-text)}
+.cycle-btn .c-small{font-size:.88rem;color:var(--color-text-muted);font-weight:600}
+.cycle-btn.active{border-color:var(--color-primary);background:var(--color-primary-light);transform:translateY(-3px)}
+.cycle-btn.active .c-big{color:var(--color-primary-dark)}
+.home-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.home-progress{color:var(--color-text-muted);font-weight:600;font-size:.95rem}
+.wallet-pill{display:inline-flex;align-items:center;gap:8px;background:var(--color-surface);
+  border:2px solid var(--color-border);border-radius:999px;padding:8px 18px;font-family:var(--font-display);
+  font-weight:800;font-size:1.05rem;color:var(--color-secondary);box-shadow:var(--shadow-clay);margin-bottom:16px}
+.footer-credit{margin-top:30px;font-size:.8rem;color:var(--color-text-muted);text-align:center;line-height:1.6}
+
+.worlds-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
+.world-card{background:var(--color-surface);border:2px solid var(--color-border);border-radius:var(--radius);
+  padding:20px;text-align:left;box-shadow:var(--shadow-clay);transition:transform .18s;position:relative;overflow:hidden}
+.world-card:hover{transform:translateY(-4px)}
+.world-card .w-emoji{font-size:2.6rem;line-height:1}
+.world-card h3{font-family:var(--font-display);font-size:1.22rem;margin:10px 0 4px;color:var(--color-text)}
+.world-card p{font-size:.92rem;color:var(--color-text-muted);font-weight:500;min-height:42px}
+.world-card .w-stars{font-size:1.25rem;letter-spacing:2px;margin-top:8px}
+.world-card .w-status{margin-top:8px;display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.88rem;
+  padding:6px 14px;border-radius:999px}
+.world-card.done{border-color:var(--color-success)}
+.world-card.done .w-status{background:var(--color-success-bg);color:var(--color-success)}
+.world-card.todo .w-status{background:var(--color-primary-light);color:var(--color-primary-dark)}
+.world-card .w-ribbon{position:absolute;top:14px;right:-34px;transform:rotate(45deg);background:var(--color-success);
+  color:#fff;font-size:.72rem;font-weight:800;padding:4px 40px;letter-spacing:.5px}
+
+.world-intro{background:var(--color-surface);border:2px solid var(--color-border);border-radius:var(--radius);
+  padding:26px;box-shadow:var(--shadow-clay);max-width:680px;margin:0 auto;text-align:center}
+.world-intro .w-emoji{font-size:3.6rem}
+.world-intro h2{font-family:var(--font-display);font-size:1.8rem;margin:8px 0 12px}
+.story-box{background:var(--color-primary-light);border-radius:var(--radius-sm);padding:18px;text-align:left;
+  font-size:1.02rem;line-height:1.65;font-weight:500;margin-bottom:18px;display:flex;gap:12px;align-items:flex-start}
+
+/* ===== PLATAFORMAS ===== */
+.canvas-wrap{position:relative;max-width:1100px;margin:0 auto;border-radius:var(--radius);overflow:hidden;
+  border:3px solid var(--color-border);box-shadow:var(--shadow-clay);background:#dbeafe;touch-action:none}
+#gameCanvas{display:block;width:100%;height:auto}
+.canvas-wrap:fullscreen{max-width:none;border:none;border-radius:0;display:flex;align-items:center;
+  justify-content:center;background:#ede9fe}
+.canvas-wrap:fullscreen #gameCanvas{width:auto;height:100%;max-width:100vw;max-height:100vh}
+.game-overlay-hud{position:absolute;top:8px;left:10px;right:64px;display:flex;gap:8px;flex-wrap:wrap;z-index:4;pointer-events:none}
+.game-overlay-hud .hm{background:rgba(255,255,255,.88);border:2px solid rgba(124,58,237,.25);border-radius:999px;
+  padding:5px 13px;font-family:var(--font-display);font-weight:800;font-size:.95rem;color:var(--color-text)}
+.game-overlay-hud .hm.ok{border-color:var(--color-success);color:var(--color-success)}
+.btn-fs{position:absolute;top:8px;right:8px;z-index:5;width:46px;height:46px;border-radius:12px;border:none;
+  background:rgba(255,255,255,.88);color:var(--color-primary-dark);font-size:1.25rem;font-weight:800;
+  box-shadow:0 3px 8px rgba(0,0,0,.18)}
+.btn-exit-game{position:absolute;top:8px;right:60px;z-index:5;height:46px;border-radius:12px;border:none;
+  background:rgba(255,255,255,.88);color:var(--color-error);font-size:.95rem;font-weight:800;padding:0 14px;
+  box-shadow:0 3px 8px rgba(0,0,0,.18);font-family:var(--font-display)}
+#scr-game{max-width:1140px;padding:12px}
+.touch-controls{position:absolute;inset:auto 0 0 0;display:none;justify-content:space-between;
+  padding:10px 14px;pointer-events:none;z-index:4}
+.touch-controls .tc-group{display:flex;gap:12px}
+.tc-btn{pointer-events:auto;width:68px;height:68px;border-radius:50%;border:none;font-size:1.7rem;
+  background:rgba(255,255,255,.82);color:var(--color-primary-dark);box-shadow:0 4px 10px rgba(0,0,0,.2);
+  font-weight:800;user-select:none;-webkit-user-select:none}
+.tc-btn:active{background:var(--color-primary-light);transform:scale(.94)}
+@media (pointer:coarse){.touch-controls{display:flex}}
+.quiz-modal{position:absolute;inset:0;background:rgba(250,245,255,.96);display:none;align-items:center;
+  justify-content:center;padding:14px;z-index:10}
+.quiz-modal.show{display:flex;animation:fadeInUp .25s ease}
+.quiz-modal .question-card{max-height:100%;overflow:auto;width:100%;max-width:640px}
+
+.question-card{background:var(--color-surface);border:2px solid var(--color-border);border-radius:var(--radius);
+  box-shadow:var(--shadow-clay);padding:24px;max-width:720px;margin:0 auto}
+.question-text{font-family:var(--font-display);font-size:clamp(1.2rem,3.4vw,1.6rem);font-weight:700;
+  text-align:center;line-height:1.4;margin-bottom:8px}
+.q-tts{display:flex;justify-content:center;margin-bottom:14px}
+.options-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:640px){.options-grid{grid-template-columns:1fr 1fr}.options-grid .opt:last-child:nth-child(odd){grid-column:1/-1}}
+.opt{background:#fff;border:2px solid var(--color-border);border-radius:var(--radius-sm);padding:15px 18px;
+  min-height:60px;font-size:1.02rem;font-weight:600;color:var(--color-text);text-align:left;transition:all .15s;
+  display:flex;align-items:center;gap:10px}
+.opt:hover:not(:disabled){border-color:var(--color-primary);background:var(--color-primary-light);transform:scale(1.015)}
+.opt.correct{background:var(--color-success-bg);border-color:var(--color-success);animation:pop .4s ease}
+.opt.wrong{background:var(--color-error-bg);border-color:var(--color-error);animation:shake .4s ease}
+.opt:disabled{cursor:default}
+.explain-box{margin-top:14px;background:var(--gold-light);border:2px solid #fcd34d;border-radius:var(--radius-sm);
+  padding:13px 15px;font-weight:600;font-size:.96rem;display:none;line-height:1.5}
+.explain-box.show{display:flex;gap:10px;align-items:flex-start;animation:fadeInUp .3s ease}
+.next-wrap{text-align:center;margin-top:16px;display:none}
+.next-wrap.show{display:block}
+
+/* ===== PROFESORADO ===== */
+.teacher-intro{background:var(--color-surface);border:2px solid var(--color-border);border-radius:var(--radius);
+  padding:22px;box-shadow:var(--shadow-clay);margin-bottom:20px;max-width:820px;margin-left:auto;margin-right:auto}
+.teacher-intro h3{font-family:var(--font-display);color:var(--color-primary);font-size:1.2rem;margin-bottom:8px}
+.teacher-intro p{font-size:.98rem;line-height:1.6;color:var(--color-text);margin-bottom:8px}
+.teacher-download{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:14px 0 4px}
+.sda-list{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.sda-item{background:var(--color-surface);border:2px solid var(--color-border);border-left:6px solid var(--color-primary);
+  border-radius:var(--radius-sm);padding:16px 18px;box-shadow:var(--shadow-clay)}
+.sda-item h4{font-family:var(--font-display);font-size:1.1rem;color:var(--color-text);margin-bottom:2px}
+.sda-item .sda-world{font-size:.85rem;font-weight:700;color:var(--color-secondary);margin-bottom:8px}
+.sda-item p{font-size:.94rem;line-height:1.55;color:var(--color-text);margin-bottom:8px}
+.sda-tags{display:flex;flex-wrap:wrap;gap:6px}
+.sda-tag{background:var(--color-primary-light);color:var(--color-primary-dark);font-size:.76rem;font-weight:700;
+  padding:4px 11px;border-radius:999px}
+.sda-tag.prod{background:var(--gold-light);color:#92590a}
+.teacher-note{max-width:820px;margin:18px auto 0;font-size:.85rem;color:var(--color-text-muted);
+  line-height:1.6;background:var(--gold-light);border:2px solid #fcd34d;border-radius:var(--radius-sm);padding:14px 16px}
+
+/* ===== VÍDEO PIONERA ===== */
+.video-stage{max-width:520px;margin:24px auto 0;text-align:center}
+.video-title{font-family:var(--font-display);font-weight:800;font-size:1.35rem;color:var(--color-primary);margin-bottom:14px}
+.video-frame{background:linear-gradient(160deg,var(--color-primary-light),var(--color-secondary-light));
+  border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-clay);border:3px solid var(--color-border);
+  width:min(400px,88vw);height:min(62vh,620px);margin:0 auto;display:flex;align-items:center;justify-content:center}
+#pioneerVideo{width:100%;height:100%;object-fit:contain;display:block;background:transparent}
+.video-skip-wrap{margin-top:18px}
+
+.result-screen{text-align:center;max-width:640px;margin:0 auto}
+.result-emoji{font-size:4.2rem;animation:pop .5s ease}
+.result-title{font-family:var(--font-display);font-size:2rem;margin:8px 0}
+.result-stars{font-size:2.4rem;letter-spacing:6px;margin:6px 0}
+.result-stats{display:flex;gap:14px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+.stat{background:var(--color-surface);border:2px solid var(--color-border);border-radius:var(--radius-sm);
+  padding:14px 22px;box-shadow:var(--shadow-clay)}
+.stat .s-val{font-family:var(--font-display);font-weight:800;font-size:1.6rem;display:block;color:var(--color-primary)}
+.stat .s-lab{font-size:.85rem;color:var(--color-text-muted);font-weight:600}
+
+.card-reveal{perspective:1000px;display:inline-block;margin:14px 0}
+.pioneer-card{width:250px;border-radius:var(--radius);overflow:hidden;background:#fff;
+  border:3px solid var(--gold);box-shadow:0 12px 28px rgba(124,58,237,.22);text-align:center;position:relative}
+.pioneer-card .pc-top{padding:22px 14px 14px;background:linear-gradient(140deg,var(--color-primary-light),var(--color-secondary-light))}
+.pioneer-card .pc-avatar{width:110px;height:110px;border-radius:50%;margin:0 auto;display:flex;align-items:center;
+  justify-content:center;font-family:var(--font-display);font-weight:800;font-size:2.8rem;color:#fff;
+  border:4px solid #fff;box-shadow:0 6px 14px rgba(0,0,0,.15)}
+.pioneer-card h4{font-family:var(--font-display);font-size:1.2rem;margin:12px 0 2px;padding:0 10px}
+.pioneer-card .pc-years{font-size:.82rem;color:var(--color-text-muted);font-weight:700}
+.pioneer-card .pc-field{display:inline-block;margin:8px 0 4px;background:var(--color-primary);color:#fff;
+  font-size:.78rem;font-weight:800;padding:5px 14px;border-radius:999px;letter-spacing:.3px}
+.pioneer-card .pc-bio{font-size:.88rem;line-height:1.55;font-weight:500;padding:8px 16px 18px;color:var(--color-text)}
+.pioneer-card.locked{filter:grayscale(1);opacity:.55;border-color:var(--color-border)}
+.pioneer-card.locked .pc-avatar{background:#9ca3af!important}
+.pioneer-card .pc-shine{position:absolute;inset:0;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);
+  background-size:200% 100%;animation:shine 2.6s ease infinite;pointer-events:none}
+.album-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;justify-items:center}
+.album-count{text-align:center;font-family:var(--font-display);font-weight:800;font-size:1.2rem;
+  color:var(--color-primary);margin-bottom:18px}
+
+/* ===== VESTUARIO ===== */
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}
+.cape-card{background:var(--color-surface);border:3px solid var(--color-border);border-radius:var(--radius);
+  padding:18px;text-align:center;box-shadow:var(--shadow-clay)}
+.cape-card.equipped{border-color:var(--color-success)}
+.cape-swatch{width:80px;height:80px;border-radius:50% 50% 50% 6px;margin:0 auto 10px;border:3px solid #fff;
+  box-shadow:0 5px 12px rgba(0,0,0,.15);transform:rotate(-8deg)}
+.cape-card h4{font-family:var(--font-display);font-size:1.1rem;margin-bottom:4px}
+.cape-card .cape-price{font-weight:800;color:var(--color-secondary);margin-bottom:10px;font-family:var(--font-display)}
+
+.duel-setup{max-width:560px;margin:0 auto;text-align:center}
+.team-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.team-box{border:3px solid;border-radius:var(--radius);padding:16px;background:var(--color-surface);box-shadow:var(--shadow-clay)}
+.team-box.t1{border-color:var(--color-primary)}
+.team-box.t2{border-color:var(--color-secondary)}
+.team-box label{font-weight:800;font-family:var(--font-display);display:block;margin-bottom:8px}
+.team-box input{width:100%;border:2px solid var(--color-border);border-radius:10px;padding:10px;font-size:1rem;
+  font-family:inherit;font-weight:600;text-align:center}
+.team-box input:focus{outline:none;border-color:var(--color-primary)}
+.duel-scoreboard{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:560px;margin:0 auto 16px}
+.duel-team{border-radius:var(--radius-sm);padding:10px 14px;text-align:center;border:3px solid transparent;background:var(--color-surface);box-shadow:var(--shadow-clay)}
+.duel-team .dt-name{font-weight:800;font-family:var(--font-display);font-size:1rem}
+.duel-team .dt-score{font-family:var(--font-display);font-weight:800;font-size:1.7rem}
+.duel-team.t1 .dt-score{color:var(--color-primary)}
+.duel-team.t2 .dt-score{color:var(--color-secondary)}
+.duel-team.turn{border-color:var(--gold);background:var(--gold-light)}
+.turn-banner{text-align:center;font-family:var(--font-display);font-weight:800;font-size:1.15rem;margin-bottom:14px;color:var(--color-text)}
+
+.diploma-wrap{max-width:720px;margin:0 auto}
+.diploma{background:#fffdf5;border:6px double var(--gold);border-radius:18px;padding:38px 30px;text-align:center;
+  box-shadow:0 12px 30px rgba(124,58,237,.15);position:relative}
+.diploma h2{font-family:var(--font-display);font-size:2rem;color:var(--color-primary-dark);margin:6px 0 2px}
+.diploma .d-sub{font-size:.95rem;color:var(--color-text-muted);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.diploma .d-name{font-family:var(--font-display);font-size:2.1rem;color:var(--color-secondary);margin:16px 0 4px;min-height:52px}
+.diploma .d-text{font-size:1rem;line-height:1.7;font-weight:500;max-width:520px;margin:10px auto}
+.diploma .d-badges{font-size:1.9rem;letter-spacing:8px;margin:12px 0}
+.diploma .d-school{margin-top:18px;font-weight:700;font-size:.9rem;color:var(--color-text-muted)}
+.diploma-name-input{margin:18px auto;max-width:380px;display:flex;gap:10px}
+.diploma-name-input input{flex:1;border:2px solid var(--color-border);border-radius:12px;padding:12px;font-size:1.05rem;
+  font-family:inherit;font-weight:600;text-align:center}
+.diploma-name-input input:focus{outline:none;border-color:var(--color-primary)}
+
+.confetti-piece{position:fixed;top:-12px;width:10px;height:10px;border-radius:2px;z-index:9999;pointer-events:none;
+  animation:confettiFall linear forwards}
+@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--color-text);color:#fff;
+  padding:12px 22px;border-radius:999px;font-weight:700;z-index:9998;animation:fadeInUp .3s ease;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+
+body.font-big{font-size:18px}
+body.font-bigger{font-size:20px}
+.a11y-bar{display:flex;gap:8px;align-items:center}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+@media print{
+  body{background:#fff}
+  body *{visibility:hidden}
+  .diploma,.diploma *{visibility:visible}
+  .diploma{position:fixed;inset:0;margin:auto;box-shadow:none;border-radius:0;height:96vh;display:flex;
+    flex-direction:column;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ INICIO ============ -->
+<section class="screen active" id="scr-home">
+  <div class="topbar">
+    <span class="title-mini">⭐ Iguales Quest</span>
+    <div class="a11y-bar">
+      <button class="btn-tts" id="btnFont" aria-label="Cambiar tamaño de letra" title="Tamaño de letra">Aa</button>
+      <button class="btn-tts" id="btnSound" aria-label="Activar o desactivar sonidos" title="Sonidos">🎵</button>
+      <button class="btn-tts" id="btnMute" aria-label="Activar o desactivar lectura en voz alta" title="Voz">🔊</button>
+    </div>
+  </div>
+  <div class="hero">
+    <div class="mascot-wrap" id="mascotHome" aria-hidden="true"></div>
+    <h1 class="game-title">Iguales Quest</h1>
+    <p class="game-subtitle">El <strong>Malvado Estereotipo</strong> y su ejército de <strong>Prohibidores</strong> han sembrado prejuicios en seis mundos y han encerrado a seis grandes Pioneras. <strong>Violeta, la súper exploradora,</strong> te necesita. ¡La aventura de la igualdad empieza ahora!</p>
+    <div class="q-tts"><button class="btn-tts" onclick="speak('El Malvado Estereotipo y su ejército de Prohibidores han sembrado prejuicios en seis mundos y han encerrado a seis grandes Pioneras. Violeta, la súper exploradora, te necesita. ¡La aventura de la igualdad empieza ahora!')" aria-label="Escuchar la historia">🔊</button></div>
+    <div><span class="wallet-pill">💎 <span id="walletHome">0</span> gemas para el Vestuario</span></div>
+    <div class="cycle-selector" role="group" aria-label="Elige tu ciclo">
+      <button class="cycle-btn active" data-cycle="2" onclick="setCycle(2,this)">
+        <span class="c-big">🌟 2º Ciclo</span><span class="c-small">3º y 4º de Primaria</span>
+      </button>
+      <button class="cycle-btn" data-cycle="3" onclick="setCycle(3,this)">
+        <span class="c-big">🔥 3º Ciclo</span><span class="c-small">5º y 6º de Primaria</span>
+      </button>
+    </div>
+    <div class="home-actions">
+      <button class="btn" onclick="go('scr-map');renderMap()">🗺️ ¡Comenzar aventura!</button>
+      <button class="btn btn-pink" onclick="go('scr-album');renderAlbum()">📔 Álbum de Pioneras</button>
+    </div>
+    <div class="home-actions">
+      <button class="btn btn-gold" onclick="go('scr-duel-setup')">⚔️ Duelo de Pioneras</button>
+      <button class="btn btn-ghost" onclick="go('scr-shop');renderShop()">🧥 Vestuario de Violeta</button>
+      <button class="btn btn-ghost" onclick="go('scr-teacher');renderTeacher()">👩‍🏫 Profesorado</button>
+    </div>
+    <p class="home-progress" id="homeProgress"></p>
+    <p class="footer-credit">Material curricular coeducativo para Educación Primaria<br>
+    Elaborado conforme a la LOMLOE, el Decreto 101/2023 y el III Plan Estratégico de Igualdad de Género en Educación de Andalucía.<br>
+    Software libre · Código GPLv3 · Contenidos CC BY-SA 4.0</p>
+  </div>
+</section>
+
+<!-- ============ MAPA ============ -->
+<section class="screen" id="scr-map">
+  <div class="topbar">
+    <button class="btn-ghost" onclick="go('scr-home');renderHome()">← Inicio</button>
+    <span class="title-mini">🗺️ Mapa de la Aventura</span>
+    <span class="wallet-pill" style="margin:0">💎 <span id="walletMap">0</span></span>
+  </div>
+  <div class="worlds-grid" id="worldsGrid"></div>
+</section>
+
+<!-- ============ INTRO MUNDO ============ -->
+<section class="screen" id="scr-intro">
+  <div class="topbar">
+    <button class="btn-ghost" onclick="go('scr-map');renderMap()">← Mapa</button>
+    <span class="title-mini" id="introTitleMini"></span><span></span>
+  </div>
+  <div class="world-intro">
+    <div class="w-emoji" id="introEmoji"></div>
+    <h2 id="introTitle"></h2>
+    <div class="story-box">
+      <button class="btn-tts" id="introTts" aria-label="Escuchar la historia">🔊</button>
+      <span id="introStory"></span>
+    </div>
+    <button class="btn" id="introPlay">🚀 ¡Al rescate! (pantalla completa)</button>
+  </div>
+</section>
+
+<!-- ============ JUEGO ============ -->
+<section class="screen" id="scr-game">
+  <div class="canvas-wrap" id="canvasWrap">
+    <canvas id="gameCanvas" width="960" height="560" aria-label="Nivel de plataformas de Violeta"></canvas>
+    <div class="game-overlay-hud">
+      <span class="hm" id="hudLives">💜💜💜</span>
+      <span class="hm" id="hudGems">💎 0</span>
+      <span class="hm" id="hudQuota">❓ 0/5</span>
+      <span class="hm" id="hudScore">⭐ 0</span>
+    </div>
+    <button class="btn-exit-game" onclick="exitLevel()">✕ Salir</button>
+    <button class="btn-fs" id="btnFullscreen" aria-label="Pantalla completa" title="Pantalla completa">⛶</button>
+    <div class="touch-controls" aria-hidden="true">
+      <div class="tc-group">
+        <button class="tc-btn" id="tcLeft">◀</button>
+        <button class="tc-btn" id="tcRight">▶</button>
+      </div>
+      <div class="tc-group">
+        <button class="tc-btn" id="tcJump">⬆</button>
+      </div>
+    </div>
+    <div class="quiz-modal" id="quizModal" role="dialog" aria-modal="true" aria-label="Pregunta">
+      <div class="question-card">
+        <p class="question-text" id="qText" aria-live="polite"></p>
+        <div class="q-tts"><button class="btn-tts" id="qTts" aria-label="Escuchar la pregunta">🔊</button></div>
+        <div class="options-grid" id="optGrid"></div>
+        <div class="explain-box" id="explainBox"><span>💡</span><span id="explainText"></span></div>
+        <div class="next-wrap" id="nextWrap"><button class="btn" id="btnNext">Continuar ➜</button></div>
+      </div>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:8px;font-weight:600;color:var(--color-text-muted);font-size:.88rem">
+    ⌨️ Flechas / A-D · Espacio o ↑ para saltar (¡dos veces = <strong>doble salto</strong>!) · Salta sobre los Prohibidores para eliminar sus prejuicios · 5 aciertos en los bloques <strong>?</strong> abren la jaula 🔓</p>
+</section>
+
+<!-- ============ PROFESORADO ============ -->
+<section class="screen" id="scr-teacher">
+  <div class="topbar">
+    <button class="btn-ghost" onclick="go('scr-home');renderHome()">← Inicio</button>
+    <span class="title-mini">👩‍🏫 Profesorado · Situaciones de Aprendizaje</span><span></span>
+  </div>
+  <div class="teacher-intro">
+    <h3>Material curricular coeducativo para 2º y 3º ciclo de Primaria</h3>
+    <p>Cada uno de los seis mundos de <strong>Iguales Quest</strong> vertebra una <strong>situación de aprendizaje (SdA) completa</strong> alineada con la LOMLOE y el Decreto 101/2023. El videojuego actúa como activación, práctica y evaluación gamificada; cada SdA culmina en un producto final que transfiere el aprendizaje al aula, al centro y a las familias. Cada mundo integra además a una mujer pionera como recompensa y referente.</p>
+    <div class="teacher-download">
+      <a class="btn" href="docs/IgualesQuest_Memoria_SdA.docx" download>📄 Descargar memoria completa (Word)</a>
+    </div>
+  </div>
+  <div class="sda-list" id="sdaList"></div>
+  <p class="teacher-note">ℹ️ La memoria descargable incluye la concreción curricular detallada (competencias específicas, criterios de evaluación, saberes básicos), la secuenciación por sesiones con tiempos, las medidas DUA, la vinculación con los ODS, la colaboración con las familias, los indicadores e instrumentos de evaluación y una rúbrica general. La numeración de competencias y criterios es orientativa: cotéjese con Séneca antes de la programación.</p>
+  <p class="teacher-note" style="background:var(--color-primary-light);border-color:var(--color-border)">🔓 <strong>Software libre.</strong> Este material se distribuye con licencias libres: el código bajo <strong>GNU GPL v3</strong> y los contenidos (textos, situaciones de aprendizaje e ilustraciones) bajo <strong>Creative Commons BY-SA 4.0</strong>. Cualquier centro puede usarlo, copiarlo, adaptarlo y redistribuirlo libremente, siempre que mantenga estas mismas licencias. Los archivos de licencia (LICENSE y LICENSE-CONTENIDOS) acompañan al material.</p>
+</section>
+
+<!-- ============ VÍDEO DE AGRADECIMIENTO ============ -->
+<section class="screen" id="scr-video">
+  <div class="video-stage">
+    <p class="video-title" id="videoTitle">¡Gracias por liberarme!</p>
+    <div class="video-frame">
+      <video id="pioneerVideo" playsinline webkit-playsinline preload="auto" controls></video>
+    </div>
+    <div class="video-skip-wrap">
+      <button class="btn btn-ghost" id="btnSkipVideo">⏭ Saltar vídeo</button>
+      <button class="btn btn-gold" id="videoContinueBtn" hidden>Continuar ➜</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESULTADO ============ -->
+<section class="screen" id="scr-result">
+  <div class="result-screen">
+    <div class="result-emoji" id="resEmoji"></div>
+    <h2 class="result-title" id="resTitle"></h2>
+    <div class="result-stars" id="resStars"></div>
+    <p id="resMsg" style="font-weight:600;color:var(--color-text-muted)"></p>
+    <div class="result-stats">
+      <div class="stat"><span class="s-val" id="resScore">0</span><span class="s-lab">Puntos</span></div>
+      <div class="stat"><span class="s-val" id="resGems">0</span><span class="s-lab">💎 Gemas</span></div>
+      <div class="stat"><span class="s-val" id="resBest">—</span><span class="s-lab">Récord</span></div>
+    </div>
+    <div id="resCardWrap"></div>
+    <div class="home-actions">
+      <button class="btn btn-ghost" id="resRetry">🔄 Repetir</button>
+      <button class="btn" onclick="go('scr-map');renderMap()">🗺️ Volver al mapa</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ÁLBUM ============ -->
+<section class="screen" id="scr-album">
+  <div class="topbar">
+    <button class="btn-ghost" onclick="go('scr-home');renderHome()">← Inicio</button>
+    <span class="title-mini">📔 Álbum de Pioneras</span><span></span>
+  </div>
+  <p class="album-count" id="albumCount"></p>
+  <div class="album-grid" id="albumGrid"></div>
+  <div class="home-actions" style="margin-top:26px">
+    <button class="btn btn-gold" id="btnDiploma" onclick="go('scr-diploma');renderDiploma()" hidden>🎓 ¡Consigue tu diploma!</button>
+  </div>
+</section>
+
+<!-- ============ VESTUARIO ============ -->
+<section class="screen" id="scr-shop">
+  <div class="topbar">
+    <button class="btn-ghost" onclick="go('scr-home');renderHome()">← Inicio</button>
+    <span class="title-mini">🧥 Vestuario de Violeta</span>
+    <span class="wallet-pill" style="margin:0">💎 <span id="walletShop">0</span></span>
+  </div>
+  <p style="text-align:center;font-weight:600;color:var(--color-text-muted);margin-bottom:18px">
+    Consigue gemas 💎 en los niveles y desbloquea capas nuevas para Violeta.</p>
+  <div class="shop-grid" id="shopGrid"></div>
+</section>
+
+<!-- ============ DUELO SETUP ============ -->
+<section class="screen" id="scr-duel-setup">
+  <div class="topbar">
+    <button class="btn-ghost" onclick="go('scr-home');renderHome()">← Inicio</button>
+    <span class="title-mini">⚔️ Duelo de Pioneras</span><span></span>
+  </div>
+  <div class="duel-setup">
+    <p style="font-weight:600;line-height:1.6">Dos equipos se enfrentan respondiendo por turnos preguntas sobre las Pioneras y la igualdad. ¡Gana el equipo con más puntos tras 10 rondas!</p>
+    <div class="team-row">
+      <div class="team-box t1"><label for="t1name">Equipo 1 💜</label><input id="t1name" maxlength="18" value="Violetas"></div>
+      <div class="team-box t2"><label for="t2name">Equipo 2 💗</label><input id="t2name" maxlength="18" value="Estrellas"></div>
+    </div>
+    <button class="btn btn-gold" onclick="startDuel()">⚔️ ¡Empezar duelo!</button>
+  </div>
+</section>
+
+<!-- ============ DUELO JUEGO ============ -->
+<section class="screen" id="scr-duel">
+  <div class="topbar">
+    <button class="btn-ghost" onclick="go('scr-duel-setup')">✕ Salir</button>
+    <span class="title-mini">⚔️ Duelo · Ronda <span id="duelRound">1</span>/10</span><span></span>
+  </div>
+  <div class="duel-scoreboard">
+    <div class="duel-team t1" id="dTeam1"><span class="dt-name" id="dName1"></span><span class="dt-score" id="dScore1">0</span></div>
+    <div class="duel-team t2" id="dTeam2"><span class="dt-name" id="dName2"></span><span class="dt-score" id="dScore2">0</span></div>
+  </div>
+  <p class="turn-banner" id="turnBanner"></p>
+  <div class="question-card">
+    <p class="question-text" id="dqText" aria-live="polite"></p>
+    <div class="q-tts"><button class="btn-tts" id="dqTts" aria-label="Escuchar la pregunta">🔊</button></div>
+    <div class="options-grid" id="dOptGrid"></div>
+    <div class="explain-box" id="dExplainBox"><span>💡</span><span id="dExplainText"></span></div>
+    <div class="next-wrap" id="dNextWrap"><button class="btn" id="dBtnNext">Siguiente ➜</button></div>
+  </div>
+</section>
+
+<!-- ============ DUELO RESULTADO ============ -->
+<section class="screen" id="scr-duel-result">
+  <div class="result-screen">
+    <div class="result-emoji">🏆</div>
+    <h2 class="result-title" id="duelWinner"></h2>
+    <div class="result-stats" id="duelFinalScores"></div>
+    <div class="home-actions">
+      <button class="btn btn-gold" onclick="startDuel()">🔄 Otro duelo</button>
+      <button class="btn" onclick="go('scr-home');renderHome()">🏠 Inicio</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIPLOMA ============ -->
+<section class="screen" id="scr-diploma">
+  <div class="topbar">
+    <button class="btn-ghost" onclick="go('scr-album');renderAlbum()">← Álbum</button>
+    <span class="title-mini">🎓 Diploma</span><span></span>
+  </div>
+  <div class="diploma-wrap">
+    <div class="diploma-name-input no-print">
+      <input id="diplomaName" maxlength="40" placeholder="Escribe tu nombre" aria-label="Tu nombre para el diploma">
+      <button class="btn btn-ghost" onclick="setDiplomaName()">✓</button>
+    </div>
+    <div class="diploma" id="diplomaBox">
+      <div style="font-size:2.4rem">⭐</div>
+      <p class="d-sub">Iguales Quest · La Aventura de la Igualdad</p>
+      <h2>Diploma de Agente de la Igualdad</h2>
+      <p class="d-name" id="dName">_______________</p>
+      <p class="d-text">Ha superado los seis mundos de la aventura, ha liberado a las seis Pioneras y se compromete a tratar a todas las personas con <strong>respeto e igualdad</strong>, en el cole, en casa y en todas partes.</p>
+      <p class="d-badges">🏙️ 🏰 🌳 🏟️ 🔬 🕊️</p>
+      <p class="d-school">Iguales Quest · La Aventura de la Igualdad · Curso 2025/2026<br>Junto a Violeta, la súper exploradora ⭐</p>
+    </div>
+    <div class="home-actions" style="margin-top:20px">
+      <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimir diploma</button>
+    </div>
+  </div>
+</section>
+<script>
+/* ================== VIOLETA (SVG mascota portada) ================== */
+const VIOLETA_SVG = `<svg width="150" height="170" viewBox="0 0 150 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Violeta, la súper exploradora">
+  <ellipse cx="75" cy="162" rx="42" ry="7" fill="rgba(124,58,237,.15)"/>
+  <path d="M40 88 Q30 130 45 152 L60 148 Q52 120 58 96 Z" fill="#a78bfa"/>
+  <path d="M110 88 Q120 130 105 152 L90 148 Q98 120 92 96 Z" fill="#a78bfa"/>
+  <rect x="52" y="86" width="46" height="58" rx="18" fill="#7c3aed"/>
+  <circle cx="75" cy="118" r="9" fill="#fbbf24"/>
+  <path d="M75 111 l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7z" fill="#7c3aed"/>
+  <rect x="44" y="96" width="12" height="34" rx="6" fill="#7c3aed"/>
+  <rect x="94" y="96" width="12" height="34" rx="6" fill="#7c3aed"/>
+  <circle cx="50" cy="134" r="7" fill="#f5c8a0"/>
+  <circle cx="100" cy="134" r="7" fill="#f5c8a0"/>
+  <circle cx="112" cy="120" r="12" fill="none" stroke="#db2777" stroke-width="5"/>
+  <rect x="118" y="128" width="6" height="18" rx="3" fill="#db2777" transform="rotate(-40 121 137)"/>
+  <rect x="58" y="142" width="14" height="18" rx="6" fill="#6d28d9"/>
+  <rect x="78" y="142" width="14" height="18" rx="6" fill="#6d28d9"/>
+  <ellipse cx="65" cy="162" rx="11" ry="5" fill="#db2777"/>
+  <ellipse cx="85" cy="162" rx="11" ry="5" fill="#db2777"/>
+  <circle cx="75" cy="52" r="30" fill="#f5c8a0"/>
+  <path d="M45 48 Q45 20 75 20 Q105 20 105 48 Q95 40 75 40 Q55 40 45 48 Z" fill="#5b3a29"/>
+  <path d="M45 48 Q48 66 44 74 Q38 66 41 50 Z" fill="#5b3a29"/>
+  <path d="M105 48 Q102 66 106 74 Q112 66 109 50 Z" fill="#5b3a29"/>
+  <path d="M42 40 Q42 14 75 12 Q108 14 108 40 L108 44 Q75 34 42 44 Z" fill="#7c3aed"/>
+  <rect x="38" y="40" width="74" height="9" rx="4.5" fill="#6d28d9"/>
+  <path d="M70 26 l2 4 4.4.6-3.2 3.1.8 4.4-4-2.1-4 2.1.8-4.4-3.2-3.1 4.4-.6z" fill="#fbbf24"/>
+  <circle cx="64" cy="52" r="4" fill="#2e1065"/>
+  <circle cx="86" cy="52" r="4" fill="#2e1065"/>
+  <circle cx="65.5" cy="50.5" r="1.4" fill="#fff"/>
+  <circle cx="87.5" cy="50.5" r="1.4" fill="#fff"/>
+  <circle cx="57" cy="62" r="4.5" fill="#f9a8d4" opacity=".7"/>
+  <circle cx="93" cy="62" r="4.5" fill="#f9a8d4" opacity=".7"/>
+  <path d="M66 66 Q75 74 84 66" stroke="#2e1065" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>`;
+
+/* ================== PIONERAS ================== */
+const PIONEERS = [
+ {id:0,name:"Margarita Salas",years:"1938 – 2019",field:"CIENCIA",color:"#7c3aed",ini:"MS",
+  bio:"Científica española. Descubrió una forma de leer el ADN que se usa en todo el mundo. Su invento es la patente más importante de la ciencia española."},
+ {id:1,name:"Clara Campoamor",years:"1888 – 1972",field:"DERECHOS",color:"#db2777",ini:"CC",
+  bio:"Abogada y política. Luchó para que las mujeres españolas pudieran votar. Gracias a ella, en 1931 se consiguió el voto femenino en España."},
+ {id:2,name:"Gloria Fuertes",years:"1917 – 1998",field:"POESÍA",color:"#16a34a",ini:"GF",
+  bio:"Poeta madrileña. Escribió cientos de poemas y cuentos para niños y niñas, llenos de humor y de paz. Rompió moldes con su forma de ser libre."},
+ {id:3,name:"Lili Álvarez",years:"1905 – 1998",field:"DEPORTE",color:"#ea580c",ini:"LA",
+  bio:"Deportista pionera. Fue tres veces finalista de Wimbledon en tenis y practicó esquí, patinaje y automovilismo cuando casi ninguna mujer podía hacerlo."},
+ {id:4,name:"Hipatia de Alejandría",years:"c. 360 – 415",field:"MATEMÁTICAS",color:"#0891b2",ini:"H",
+  bio:"Matemática, astrónoma y filósofa de la antigüedad. Dirigió una escuela y enseñó a muchas personas. Es un símbolo del amor por el saber."},
+ {id:5,name:"María Zambrano",years:"1904 – 1991",field:"FILOSOFÍA",color:"#f59e0b",ini:"MZ",
+  bio:"Filósofa andaluza, de Vélez-Málaga. Pensó sobre la libertad y la persona. Fue la primera mujer en recibir el Premio Cervantes, en 1988."}
+];
+
+/* ================== MUNDOS ================== */
+const WORLDS = [
+ {id:0,emoji:"🏙️",name:"Ciudad de las Profesiones",desc:"Los Prohibidores dicen que hay trabajos «de chicos» y «de chicas». ¡Demuestra que no!",
+  story:"En la Ciudad de las Profesiones, los Prohibidores gritan «¡no puedes!» a quien elige un trabajo con libertad. La científica Margarita Salas está encerrada en la torre. Salta sobre los Prohibidores, responde a los bloques mágicos y libérala."},
+ {id:1,emoji:"🏰",name:"Castillo del Hogar",desc:"En este castillo las tareas no se reparten. ¡Ayuda a que todos colaboren!",
+  story:"En el Castillo del Hogar solo unas pocas personas hacen todas las tareas, ¡y están agotadas! Clara Campoamor está atrapada en la mazmorra. Demuestra que las tareas son de toda la familia y ábrele la puerta."},
+ {id:2,emoji:"🌳",name:"Bosque de los Cuentos",desc:"Los cuentos de este bosque están llenos de estereotipos. ¡Escribe finales nuevos!",
+  story:"Los Prohibidores han hechizado los cuentos del bosque: las princesas solo esperan y los príncipes no pueden llorar. La poeta Gloria Fuertes está prisionera en el árbol más alto. Elige los finales igualitarios y rompe el hechizo."},
+ {id:3,emoji:"🏟️",name:"Estadio de las Campeonas",desc:"Aquí dicen que el deporte no es para todas las personas. ¡Gana el partido de la igualdad!",
+  story:"En el Estadio, los Prohibidores han echado a media población de las pistas. La deportista Lili Álvarez está encerrada en los vestuarios. Acierta las preguntas y devuelve el deporte a todo el mundo."},
+ {id:4,emoji:"🔬",name:"Laboratorio de las Sabias",desc:"Alguien ha borrado los nombres de las grandes científicas. ¡Recupéralos!",
+  story:"En el Laboratorio de las Sabias han borrado de los libros los nombres de las mujeres científicas. Hipatia de Alejandría está atrapada tras un muro de fórmulas. Responde bien y devuelve cada nombre a su lugar."},
+ {id:5,emoji:"🕊️",name:"Plaza del Buen Trato",desc:"La última batalla: demuestra que sabes tratar bien y resolver conflictos.",
+  story:"Llegamos a la Plaza del Buen Trato, el corazón del reino. El Malvado Estereotipo lanza su último ataque: enfados, burlas y malas palabras. La filósofa María Zambrano espera tu ayuda. Elige siempre el respeto y ganarás la aventura."}
+];
+
+/* ================== BANCO DE PREGUNTAS (l:0 ambos, 2:solo 2º ciclo, 3:solo 3º) ================== */
+const QUESTIONS=[
+ /* Mundo 1 */
+ [
+  {l:0,q:"María quiere ser piloto de aviones. ¿Puede serlo?",o:["Sí, si estudia y se prepara","No, es cosa de hombres","Solo si no hay otro trabajo"],c:0,e:"Cualquier persona puede pilotar si se forma. ¡Hay muchas mujeres piloto!"},
+  {l:0,q:"¿Quién puede ser enfermero o enfermera?",o:["Solo las mujeres","Cualquier persona que estudie para ello","Solo los hombres"],c:1,e:"Cuidar es cosa de todas las personas: las profesiones no tienen género."},
+  {l:0,q:"Pablo quiere ser maestro de Infantil. ¿Qué piensas?",o:["Genial, será un gran maestro","Es raro, eso es de mujeres","No debería"],c:0,e:"Educar y cuidar también es cosa de hombres. Lo importante es la vocación."},
+  {l:0,q:"Si a Carmen le encantan los ordenadores, puede ser...",o:["Programadora informática","Solo secretaria","Nada de ordenadores"],c:0,e:"La informática necesita más chicas: programadoras, ingenieras, creadoras de videojuegos."},
+  {l:0,q:"Un chico quiere ser peluquero y una chica, mecánica. ¿Quién elige bien?",o:["Los dos","Ninguno","Solo la chica"],c:0,e:"Elegir con libertad lo que nos gusta es un derecho de todas las personas."},
+  {l:0,q:"Lucía sueña con conducir camiones. ¿Qué le dices?",o:["¡Adelante, será una gran camionera!","Eso es de hombres","Mejor otra cosa"],c:0,e:"Cada vez hay más mujeres camioneras, taxistas y maquinistas."},
+  {l:0,q:"¿Quién puede ser cocinero o cocinera profesional?",o:["Cualquier persona con formación","Solo las madres","Solo chefs de la tele"],c:0,e:"En las mejores cocinas trabajan hombres y mujeres codo con codo."},
+  {l:0,q:"Un hospital necesita...",o:["Médicas, médicos, enfermeras y enfermeros","Solo hombres","Solo mujeres"],c:0,e:"Los equipos diversos cuidan mejor de las personas."},
+  {l:0,q:"Marcos quiere estudiar para ser bailarín. ¿Qué opinas?",o:["Perfecto, el baile pide fuerza y arte","Los chicos no bailan","Es una pérdida de tiempo"],c:0,e:"Grandes bailarines demuestran que el baile es para quien lo ama."},
+  {l:0,q:"Ana quiere ser jueza. Para lograrlo necesita...",o:["Estudiar mucho Derecho","Ser hombre","Tener suerte"],c:0,e:"Hoy muchas mujeres son juezas, fiscalas y abogadas."},
+  {l:0,q:"¿Puede una mujer ser astronauta?",o:["Sí, muchas han ido al espacio","No","Solo de copiloto"],c:0,e:"Decenas de mujeres han viajado al espacio. ¿Serás tú una?"},
+  {l:0,q:"David quiere ser modisto y diseñar ropa. ¿Qué piensas?",o:["Genial, hay grandes diseñadores","Eso es de chicas","No sirve para nada"],c:0,e:"El diseño de moda tiene enormes figuras de todos los géneros."},
+  {l:0,q:"¿Quién puede conducir un autobús escolar?",o:["Cualquier persona con el carné","Solo hombres","Solo personas mayores"],c:0,e:"Conducir bien no depende del género, sino de la formación."},
+  {l:0,q:"Sara quiere ser albañila y construir casas. ¿Qué le dices?",o:["¡Adelante!","Eso no es para chicas","Mejor limpia casas"],c:0,e:"La construcción también es para las mujeres que quieran dedicarse a ella."},
+  {l:0,q:"¿Puede un hombre trabajar en una guardería cuidando bebés?",o:["Sí, cuidar es cosa de todos","No, eso es de mujeres","Solo si es el jefe"],c:0,e:"El cuidado de la infancia lo hacen hombres y mujeres estupendamente."},
+  {l:0,q:"Elena quiere ser científica. Lo más importante es...",o:["Su curiosidad y esfuerzo","Su peinado","Ser chico"],c:0,e:"La ciencia necesita mentes curiosas, sin importar el género."},
+  {l:0,q:"Un veterinario cura animales. ¿Puede serlo una mujer?",o:["Claro que sí","No","Solo con animales pequeños"],c:0,e:"Muchísimas veterinarias cuidan animales de toda clase."},
+  {l:0,q:"¿De qué color es la ropa de trabajo de una ingeniera?",o:["Del color que ella quiera","Solo rosa","Solo azul"],c:0,e:"Los colores no tienen género; cada persona elige."},
+  {l:0,q:"Si en tu clase preguntan quién quiere ser presidenta del Gobierno...",o:["Chicas y chicos pueden querer serlo","Solo los chicos","Nadie puede"],c:0,e:"Cualquier persona puede aspirar a gobernar y representar a los demás."},
+  {l:0,q:"Un buen equipo de trabajo funciona mejor si...",o:["Hay personas diferentes que suman","Todos son iguales","Nadie habla"],c:0,e:"La diversidad aporta ideas y talento."},
+  {l:0,q:"¿Quién puede ganar un premio Nobel?",o:["Cualquier persona brillante","Solo hombres","Solo personas ricas"],c:0,e:"Muchas mujeres han ganado el Nobel en ciencias, literatura y paz."},
+  {l:0,q:"Jorge quiere ser logopeda y ayudar a hablar mejor. ¿Qué piensas?",o:["Es una gran profesión de cuidado","Eso es de chicas","No sirve"],c:0,e:"Ayudar a comunicarse es una labor valiosa para cualquiera."},
+  {l:0,q:"Cobrar por trabajar y ahorrar dinero propio es un derecho de...",o:["Todas las personas adultas","Solo los hombres","Solo quien manda en casa"],c:0,e:"Tener ingresos propios da autonomía a todas las personas."},
+  {l:0,q:"Una capitana pilota un barco. ¿Es posible?",o:["Sí, hay capitanas de barco","No","Solo en barcos pequeños"],c:0,e:"El mar también es para las mujeres que se preparan para navegar."},
+  {l:0,q:"¿Quién puede arreglar un enchufe estropeado tras aprender a hacerlo?",o:["Cualquier persona","Solo los hombres","Solo un electricista famoso"],c:0,e:"Las habilidades se aprenden; no dependen del género."},
+  {l:2,q:"¿Qué necesitas para ser bombera o bombero?",o:["Entrenar y superar las pruebas","Ser chico","Ser muy alto"],c:0,e:"Las pruebas son iguales para todos: valor y preparación no tienen género."},
+  {l:2,q:"Cobrar lo mismo por el mismo trabajo es...",o:["Justo","Imposible","Solo para mayores"],c:0,e:"A igual trabajo, igual salario. Es justicia básica."},
+  {l:2,q:"Margarita Salas fue...",o:["Una científica española muy importante","Una futbolista","Una cantante"],c:0,e:"Descubrió cómo copiar el ADN. ¡La liberarás en este mundo!"},
+  {l:2,q:"¿Qué hace una ingeniera?",o:["Diseña y construye cosas","Solo dibuja","Cura enfermos"],c:0,e:"Diseñan puentes, robots, aviones y aplicaciones."},
+  {l:2,q:"Para ser policía necesitas...",o:["Prepararte y aprobar las pruebas","Ser chico","Solo ser fuerte"],c:0,e:"En la policía trabajan hombres y mujeres con igual preparación."},
+  {l:2,q:"Una mujer puede dirigir una empresa grande. A eso se le llama...",o:["Ser directiva o jefa","Imposible","Ser secretaria"],c:0,e:"Muchas mujeres dirigen grandes empresas."},
+  {l:2,q:"¿Quién inventa cosas nuevas?",o:["Personas curiosas de cualquier género","Solo hombres","Solo robots"],c:0,e:"Muchos inventos, como el lavavajillas, los idearon mujeres."},
+  {l:2,q:"Una arquitecta se dedica a...",o:["Diseñar edificios","Pintar cuadros","Cantar"],c:0,e:"Diseña casas, colegios y museos."},
+  {l:2,q:"Si te gustan los números, podrías ser...",o:["Matemática o economista","Nada","Solo cajera"],c:0,e:"Las matemáticas abren muchísimas profesiones."},
+  {l:2,q:"Un profesor de Educación Física puede ser...",o:["Hombre o mujer","Solo hombre","Solo exdeportista"],c:0,e:"Enseñar deporte es cosa de cualquier persona preparada."},
+  {l:3,q:"En España, ¿pueden las mujeres ser militares y pilotos de caza?",o:["Sí, desde hace años","No","Solo en oficinas"],c:0,e:"Desde 1988 pueden entrar en las Fuerzas Armadas en todos los puestos."},
+  {l:3,q:"¿Por qué antes había pocas mujeres científicas?",o:["No las dejaban estudiar en la universidad","No eran capaces","No querían"],c:0,e:"Leyes injustas se lo impidieron. Al cambiarlas, todo cambió."},
+  {l:3,q:"¿Qué es un estereotipo?",o:["Una idea fija y falsa sobre un grupo","Un tipo de trabajo","Un aparato"],c:0,e:"Etiquetas falsas como «las chicas no valen para la ciencia». ¡A romperlas!"},
+  {l:3,q:"¿Qué significa «igualdad de oportunidades»?",o:["Que todas las personas pueden llegar a lo mismo si se esfuerzan","Que somos idénticos","Que nadie trabaja"],c:0,e:"No es ser iguales en todo: es tener las mismas puertas abiertas."},
+  {l:3,q:"Un «techo de cristal» es...",o:["Una barrera invisible que frena a las mujeres","Un tejado transparente","Un premio"],c:0,e:"No se ve, pero impide ascender. Conocerlo ayuda a romperlo."},
+  {l:3,q:"La brecha salarial es...",o:["Cobrar distinto por razón de género","Una montaña","Una moda"],c:0,e:"Cuando por el mismo trabajo se cobra menos por ser mujer. Las leyes la combaten."},
+  {l:3,q:"Las primeras universitarias españolas tuvieron que...",o:["Pedir permisos especiales para estudiar","No estudiar","Pagar el doble"],c:0,e:"Hasta 1910 necesitaban permisos especiales para ir a la universidad."},
+  {l:3,q:"Si en una profesión casi no hay mujeres, lo justo es...",o:["Dar las mismas oportunidades a todas","Prohibirla","No hacer nada"],c:0,e:"Los referentes y las oportunidades iguales abren todos los caminos."},
+  {l:3,q:"La «segregación ocupacional» significa que...",o:["Ciertos trabajos se ven «de hombres» o «de mujeres»","Todos hacen lo mismo","No hay trabajos"],c:0,e:"Es un problema que limita la libertad de elegir profesión."},
+  {l:3,q:"¿Qué son los «cuidados» como sector laboral?",o:["Trabajos de atender a personas: sanidad, educación, dependencia","Solo limpiar","Un deporte"],c:0,e:"Sostienen la vida y deben valorarse y repartirse mejor."},
+  {l:3,q:"Una mujer que lidera investigaciones en un laboratorio es una...",o:["Investigadora principal","Ayudante obligatoria","Excepción imposible"],c:0,e:"Muchas mujeres dirigen equipos científicos punteros."},
+  {l:3,q:"El «efecto Matilda» en el trabajo científico consiste en...",o:["Atribuir a hombres logros de mujeres","Un truco de magia","Un tipo de beca"],c:0,e:"Muchas científicas vieron su trabajo firmado por colegas varones."},
+  {l:3,q:"Que existan mujeres presidentas y ministras demuestra que...",o:["La política es para todas las personas","Solo ellas pueden","Es algo raro"],c:0,e:"La representación diversa mejora las decisiones de todos."},
+  {l:3,q:"¿Por qué es útil conocer a mujeres referentes en cada profesión?",o:["Animan a otras niñas a atreverse","Para copiarlas","No sirve"],c:0,e:"Ver a quien lo logró ayuda a creer que tú también puedes."},
+  {l:3,q:"La conciliación laboral y familiar debe ser cosa de...",o:["Madres y padres por igual","Solo madres","Solo abuelas"],c:0,e:"Cuidar y trabajar se reparten entre todas las personas de la familia."},
+  {l:0,q:"Una mujer puede ser jefa de un equipo de trabajo. Eso es...",o:["Normal y positivo","Imposible","Un problema"],c:0,e:"Liderar depende de la capacidad, no del género."},
+  {l:0,q:"Si te gusta dibujar, podrías ser...",o:["Ilustrador o ilustradora","Solo un hobby","Nada"],c:0,e:"El arte es una profesión para quien lo ama."},
+  {l:0,q:"¿Puede una chica reparar ordenadores?",o:["Claro que sí","No","Solo encenderlos"],c:0,e:"La técnica se aprende, no depende del género."},
+  {l:0,q:"Un hombre que trabaja de limpiador está...",o:["Haciendo un trabajo digno","Haciendo algo raro","Perdiendo el tiempo"],c:0,e:"Todos los trabajos honrados merecen respeto."},
+  {l:0,q:"Para elegir profesión, lo más importante es...",o:["Lo que te gusta y se te da bien","Lo que dicen que es de tu género","Lo que hagan tus amigos"],c:0,e:"Tu vocación es tuya: elígela libremente."},
+  {l:0,q:"Una periodista informa sobre lo que pasa. ¿Puede serlo cualquiera?",o:["Sí, quien se prepare","Solo hombres","Solo en la radio"],c:0,e:"Hay grandes periodistas de todos los géneros."},
+  {l:0,q:"Si en un anuncio de trabajo dicen «solo hombres»...",o:["Es injusto y no debería permitirse","Está bien","Es normal"],c:0,e:"Excluir por género en el trabajo es discriminación."},
+  {l:0,q:"Una mujer puede ser entrenadora de un equipo masculino...",o:["Sí, si está preparada","No","Solo de niños"],c:0,e:"Ya hay entrenadoras en el deporte profesional."},
+  {l:0,q:"El trabajo de dentista lo puede hacer...",o:["Cualquier persona que estudie Odontología","Solo hombres","Solo quien tenga buenos dientes"],c:0,e:"La formación es lo que cuenta."},
+  {l:0,q:"Si un niño quiere ser enfermero y le dicen «eso es de chicas»...",o:["Le están poniendo un estereotipo","Tienen razón","Debe cambiar de idea"],c:0,e:"Cuidar es una profesión valiosa para cualquiera."},
+  {l:0,q:"Ser agricultora o agricultor es cosa de...",o:["Quien quiera trabajar la tierra","Solo hombres","Solo mayores"],c:0,e:"Muchas mujeres dirigen explotaciones agrícolas."},
+  {l:0,q:"Un traductor o traductora trabaja con...",o:["Idiomas","Máquinas","Animales"],c:0,e:"Una profesión abierta a cualquiera con talento lingüístico."},
+  {l:0,q:"Que una mujer sea alcaldesa de un pueblo es...",o:["Totalmente posible","Imposible","Solo simbólico"],c:0,e:"Muchas mujeres gobiernan ciudades y pueblos."},
+  {l:0,q:"¿Puede un hombre ser bailarín profesional y ganarse la vida así?",o:["Sí, y muy bien","No","Solo de aficionado"],c:0,e:"El baile profesional tiene grandes figuras masculinas."},
+  {l:0,q:"Si te encanta ayudar a la gente, podrías ser...",o:["Trabajador o trabajadora social","Nada","Solo voluntario"],c:0,e:"Ayudar también es una profesión."},
+  {l:0,q:"Una fotógrafa recorre el mundo con su cámara. Eso...",o:["Es una profesión estupenda","No existe","Es solo para hombres"],c:0,e:"Hay grandes fotoperiodistas mujeres."},
+ ],
+ /* Mundo 2 */
+ [
+  {l:0,q:"¿Quién debe poner la mesa en casa?",o:["Cualquier miembro de la familia","Siempre mamá","Siempre la abuela"],c:0,e:"Las tareas se reparten entre todas las personas de la casa."},
+  {l:0,q:"Lavar los platos es tarea de...",o:["Toda la familia, por turnos","Las chicas","Nadie"],c:0,e:"Repartir por turnos es lo más justo."},
+  {l:0,q:"El padre de Juan plancha la ropa. Eso es...",o:["Normal, las tareas se comparten","Raro","Un error"],c:0,e:"En un hogar igualitario todas las personas hacen de todo."},
+  {l:0,q:"Si tu hermano nunca ayuda en casa, lo justo es...",o:["Que colabore como los demás","Que siga igual","Que ayude solo en Navidad"],c:0,e:"Colaborar demuestra que queremos a nuestra familia."},
+  {l:0,q:"Un reparto justo de tareas consigue que...",o:["Todos tengan más tiempo libre","Haya más peleas","Nadie descanse"],c:0,e:"Si todos ayudan, las tareas acaban antes."},
+  {l:0,q:"Hoy toca hacer la cama. ¿Quién la hace?",o:["Cada persona la suya","Siempre mamá","El perro"],c:0,e:"Una responsabilidad pequeña que dice algo grande."},
+  {l:0,q:"Cocinar en familia es...",o:["Divertido y de todos","Solo de mayores","Cosa de chicas"],c:0,e:"Cocinar juntos une a la familia."},
+  {l:0,q:"Recoger los juguetes es tarea de...",o:["Quien ha jugado","La madre","Nadie"],c:0,e:"Quien disfruta el juego, recoge el juego."},
+  {l:0,q:"Sacar la basura le toca a...",o:["Quien tenga el turno, sea quien sea","Solo al padre","Solo al hijo mayor"],c:0,e:"Con turnos claros, nadie carga con todo."},
+  {l:0,q:"Si un bebé llora por la noche, quién se levanta debe ser...",o:["Madre y padre se turnan","Siempre la madre","Nadie"],c:0,e:"Cuidar de noche también se comparte."},
+  {l:0,q:"Tender la ropa mojada es tarea de...",o:["Cualquiera de la casa","Solo mujeres","Solo en verano"],c:0,e:"Una tarea sencilla que puede hacer todo el mundo."},
+  {l:0,q:"¿Quién puede aprender a coser un botón?",o:["Cualquier persona","Solo las abuelas","Solo las niñas"],c:0,e:"Coser es una habilidad útil para todos."},
+  {l:0,q:"Si en casa alguien está enfermo, cuidarle es cosa de...",o:["Toda la familia","Solo la madre","Solo del médico"],c:0,e:"El cuidado se reparte con cariño entre todos."},
+  {l:0,q:"Regar las plantas del balcón le corresponde a...",o:["Quien tenga esa tarea asignada","Solo a las chicas","A nadie"],c:0,e:"Con un reparto claro, la casa funciona mejor."},
+  {l:0,q:"Barrer el suelo es una tarea...",o:["Para cualquier persona","Solo de mujeres","Aburrida e inútil"],c:0,e:"Mantener limpia la casa es cosa de todos."},
+  {l:0,q:"Hacer la lista de la compra puede hacerla...",o:["Cualquier miembro de la familia","Solo mamá","Solo quien cocina siempre"],c:0,e:"Organizar la casa se comparte."},
+  {l:0,q:"Si dos hermanos comparten habitación, ordenarla es...",o:["Tarea de los dos","Solo del pequeño","Solo del mayor"],c:0,e:"El espacio común se cuida entre quienes lo usan."},
+  {l:0,q:"Dar de comer a la mascota le toca a...",o:["Quien se comprometió a cuidarla","Solo a la madre","A nadie"],c:0,e:"Tener mascota es una responsabilidad compartida."},
+  {l:0,q:"Preparar el desayuno del fin de semana puede hacerlo...",o:["Cualquiera, ¡y en familia mejor!","Solo mamá","Solo los mayores"],c:0,e:"Empezar el día colaborando es genial."},
+  {l:0,q:"Si el padre cuida a los hijos mientras la madre trabaja, es...",o:["Algo normal y estupendo","Algo raro","Un problema"],c:0,e:"Cuidar es tan de padres como de madres."},
+  {l:2,q:"Cuidar de los abuelos es responsabilidad de...",o:["Toda la familia","Solo las hijas","Los vecinos"],c:0,e:"Cuidar a quienes queremos es tarea compartida."},
+  {l:2,q:"Antiguamente, ¿quién hacía casi todas las tareas de casa?",o:["Las mujeres, y era injusto","Los hombres","Los niños"],c:0,e:"Se pensaba que la casa era «cosa de mujeres». Era injusto."},
+  {l:2,q:"Hacer la compra, cocinar y limpiar son tareas...",o:["De toda la familia según su edad","Solo de las madres","Solo de los padres"],c:0,e:"Hasta los más pequeños pueden ayudar."},
+  {l:2,q:"Un calendario de tareas sirve para...",o:["Repartir el trabajo con justicia","Decorar","Apuntar cumpleaños"],c:0,e:"Un tablón visible hace el reparto claro."},
+  {l:2,q:"Si tu padre cose un botón, está...",o:["Haciendo una tarea normal","Haciendo algo raro","Perdiendo el tiempo"],c:0,e:"Coser, planchar o cocinar sirve a cualquiera."},
+  {l:2,q:"El trabajo de casa...",o:["Es trabajo aunque no se pague","No es trabajo","Se hace solo"],c:0,e:"Limpiar, cocinar y cuidar sostienen la vida."},
+  {l:2,q:"Clara Campoamor luchó para que las mujeres pudieran...",o:["Votar en las elecciones","Jugar al fútbol","Conducir motos"],c:0,e:"Gracias a ella, votaron por primera vez en 1933."},
+  {l:2,q:"Un buen reparto de tareas necesita...",o:["Que cada persona cumpla su parte","Que mande una sola","Que nadie ayude"],c:0,e:"El compromiso de todos hace el hogar más justo."},
+  {l:2,q:"Ayudar a poner la lavadora te enseña a ser...",o:["Responsable y autónomo","Aburrido","Mayor de golpe"],c:0,e:"Aprender tareas te hace más independiente."},
+  {l:2,q:"Si toda la familia recoge tras la cena...",o:["Se acaba antes y hay tiempo para jugar","Es peor","No cambia nada"],c:0,e:"Colaborar libera tiempo para todos."},
+  {l:3,q:"¿Qué es la corresponsabilidad?",o:["Repartir tareas y cuidados entre todos","Responder rápido","Un deporte"],c:0,e:"Responsabilidad compartida: la clave del hogar igualitario."},
+  {l:3,q:"Si las dos personas adultas trabajan fuera, las tareas...",o:["Se reparten entre las dos","Las hace siempre ella","No las hace nadie"],c:0,e:"El descanso vale igual para todas las personas."},
+  {l:3,q:"¿Qué pasa si solo una persona hace todas las tareas?",o:["Se agota y es injusto","Nada","Está más contenta"],c:0,e:"Esa «carga invisible» debe repartirse."},
+  {l:3,q:"Los «cuidados» (cocinar, limpiar, cuidar personas) son...",o:["Imprescindibles para la sociedad","Poco importantes","Un pasatiempo"],c:0,e:"Sin cuidados no hay escuela ni trabajo. Deben compartirse y valorarse."},
+  {l:3,q:"Hasta 1975, una mujer casada en España necesitaba permiso del marido para...",o:["Trabajar o abrir una cuenta","Nada","Cantar"],c:0,e:"Era la «licencia marital», eliminada en 1975."},
+  {l:3,q:"Repartir tareas según capacidades y tiempo de cada uno es reparto...",o:["Equitativo","Aburrido","Imposible"],c:0,e:"Lo equitativo tiene en cuenta a cada persona."},
+  {l:3,q:"La «carga mental» del hogar es...",o:["Estar pendiente de organizar todo","Un peso físico","Un examen"],c:0,e:"Recordar y planificar también cansa: se comparte."},
+  {l:3,q:"Un permiso de paternidad sirve para que...",o:["El padre cuide al bebé recién nacido","La madre trabaje más","Nadie cuide"],c:0,e:"Cuidar desde el principio es cosa de padres y madres."},
+  {l:3,q:"Si en casa se dice «ayudo a mamá», sería más justo decir...",o:["«Colaboro en mi casa»","«Es cosa suya»","«No me toca»"],c:0,e:"La casa es de todos: no se «ayuda», se colabora."},
+  {l:3,q:"Un hogar igualitario enseña a los hijos e hijas a...",o:["Ser autónomos y responsables","Depender de otros","Mandar"],c:0,e:"Ver el reparto justo educa para la vida."},
+  {l:3,q:"El derecho al descanso y al tiempo libre es de...",o:["Todas las personas de la casa","Solo quien trabaja fuera","Solo los niños"],c:0,e:"Descansar no es un premio: es un derecho de todos."},
+  {l:3,q:"Cuando alguien dice «las tareas de casa no son un trabajo de verdad»...",o:["Se equivoca: sostienen la vida","Tiene razón","Es una broma buena"],c:0,e:"El trabajo del hogar es esencial aunque no se pague."},
+  {l:3,q:"Enseñar a niños y niñas a cocinar sirve para...",o:["Que sean autónomos de mayores","Solo para las niñas","Nada"],c:0,e:"Cocinar es una habilidad para toda la vida y para todos."},
+  {l:3,q:"Que un abuelo cuide a sus nietos es...",o:["Una forma valiosa de cuidado","Cosa solo de abuelas","Algo extraño"],c:0,e:"El cuidado no tiene género ni edad."},
+  {l:3,q:"Repartir bien las tareas en casa es un ejemplo de...",o:["Igualdad en la vida diaria","Pérdida de tiempo","Cosa de mayores"],c:0,e:"La igualdad se practica también en lo cotidiano."},
+  {l:3,q:"Si una tarea «no le gusta a nadie», lo justo es...",o:["Turnarse para hacerla","Que la haga siempre el mismo","No hacerla nunca"],c:0,e:"Las tareas menos agradables también se reparten."},
+  {l:3,q:"Corresponsabilidad significa que los cuidados son...",o:["Responsabilidad de todos, no un favor","Un regalo","Obligación de uno solo"],c:0,e:"Cuidar es compromiso compartido, no un favor que se hace."},
+  {l:0,q:"Fregar el suelo es tarea de...",o:["Quien tenga el turno","Solo las mujeres","Nadie"],c:0,e:"Los turnos hacen el reparto justo."},
+  {l:0,q:"Si tu madre trabaja fuera y tu padre también...",o:["Los dos deben hacer tareas en casa","Solo ella","Solo él"],c:0,e:"Dos trabajan fuera, dos colaboran dentro."},
+  {l:0,q:"Guardar la compra al llegar a casa lo puede hacer...",o:["Toda la familia","Solo quien la ha traído","Nadie"],c:0,e:"Entre todos se hace en un momento."},
+  {l:0,q:"Aprender a planchar te sirve para...",o:["Ser autónomo de mayor","Nada","Solo si eres chica"],c:0,e:"Las habilidades del hogar son para toda la vida."},
+  {l:0,q:"Si un niño ayuda a bañar a su hermano pequeño...",o:["Está aprendiendo a cuidar","Hace algo raro","Pierde el tiempo"],c:0,e:"Cuidar se aprende desde pequeños, niños y niñas."},
+  {l:0,q:"Poner la lavadora es una tarea...",o:["Que cualquiera puede aprender","Solo de mujeres","Muy difícil"],c:0,e:"Se aprende en cinco minutos y sirve toda la vida."},
+  {l:0,q:"Preparar la mochila del cole es responsabilidad de...",o:["Cada niño o niña","Solo la madre","El profesor"],c:0,e:"Tu material es tu responsabilidad."},
+  {l:0,q:"Si en casa nadie recoge, lo mejor es...",o:["Hablarlo y repartir las tareas","Enfadarse","Dejarlo así"],c:0,e:"El diálogo organiza mejor que el enfado."},
+  {l:0,q:"Que un padre lleve a sus hijos al médico es...",o:["Normal y necesario","Cosa de madres","Extraño"],c:0,e:"Cuidar la salud de los hijos es de los dos."},
+  {l:0,q:"Poner la mesa y quitarla son tareas...",o:["Rápidas y de todos","Solo de las niñas","Aburridas e inútiles"],c:0,e:"Entre todos, la casa funciona mejor."},
+  {l:0,q:"Si tu abuela siempre cocina para todos, sería justo...",o:["Que otros también cocinen","Que siga ella siempre","Comer fuera"],c:0,e:"Nadie debe cargar con todo el trabajo."},
+  {l:0,q:"Limpiar lo que ensucias es...",o:["Responsabilidad tuya","Cosa de tu madre","Cosa de nadie"],c:0,e:"Cada persona se hace cargo de lo suyo."},
+  {l:0,q:"Ir a la compra con tu familia te enseña a...",o:["Organizar y elegir bien","Nada","Gastar sin más"],c:0,e:"Participar en la casa te hace más autónomo."},
+  {l:0,q:"Un padre que hace la cena todos los días...",o:["Es un padre corresponsable","Hace algo insólito","Se equivoca"],c:0,e:"Cocinar es tan de padres como de madres."},
+  {l:0,q:"Si tus padres se reparten las tareas, aprendes que...",o:["La igualdad se practica en casa","No importa","Uno manda"],c:0,e:"El ejemplo en casa educa más que mil palabras."},
+  {l:0,q:"Cuidar a un familiar enfermo puede hacerlo...",o:["Cualquier miembro de la familia","Solo las mujeres","Solo un médico"],c:0,e:"El cuidado familiar se comparte."},
+  {l:0,q:"Doblar la ropa limpia le corresponde a...",o:["Quien tenga esa tarea","Solo la madre","Nadie"],c:0,e:"Todas las tareas entran en el reparto."},
+  {l:0,q:"Que en casa haya una lista de tareas visible ayuda a...",o:["Que nadie se olvide de su parte","Discutir más","Nada"],c:0,e:"Lo escrito organiza y evita conflictos."},
+  {l:0,q:"Un niño que aprende a coser...",o:["Gana una habilidad útil","Hace algo de chicas","Pierde el tiempo"],c:0,e:"Coser es útil para cualquier persona."},
+  {l:0,q:"Si toda la familia colabora, la casa...",o:["Funciona mejor y todos descansan","Es un caos","Da igual"],c:0,e:"La corresponsabilidad beneficia a todos."},
+  {l:0,q:"Cuidar de las plantas y los animales de casa enseña...",o:["Responsabilidad","Nada","Solo a las niñas"],c:0,e:"Cuidar es aprender a querer bien."},
+ ],
+ /* Mundo 3 */
+ [
+  {l:0,q:"En un cuento nuevo, la princesa...",o:["Puede rescatar, explorar o inventar","Espera a que la rescaten","Solo se peina"],c:0,e:"Las protagonistas también viven aventuras."},
+  {l:0,q:"¿Puede un príncipe llorar cuando está triste?",o:["Sí, todas las personas sienten","No, los chicos no lloran","Solo en secreto"],c:0,e:"Expresar emociones nos hace más fuertes, no más débiles."},
+  {l:0,q:"¿Qué personaje rompe estereotipos?",o:["Una dragona bombera","Una princesa que solo duerme","Un lobo malo"],c:0,e:"¡Rompe dos estereotipos de golpe!"},
+  {l:0,q:"¿Quién puede ser el héroe o la heroína?",o:["Cualquier personaje","Solo los fuertes","Solo los príncipes"],c:0,e:"El valor y la inteligencia no tienen género."},
+  {l:0,q:"En las películas de hoy, las protagonistas chicas...",o:["Son valientes, listas y divertidas","Siempre necesitan que las salven","No existen"],c:0,e:"Cada vez hay más protagonistas que brillan por sí mismas."},
+  {l:0,q:"Un dragón que cuida flores es...",o:["Un personaje original y genial","Un error","Imposible"],c:0,e:"La ternura también es de dragones."},
+  {l:0,q:"¿De qué color pueden vestir príncipes y princesas?",o:["Del que quieran","Ellas rosa, ellos azul","Solo blanco"],c:0,e:"Los colores no tienen dueño."},
+  {l:0,q:"¿Quién puede salvar a quién en un cuento?",o:["Cualquiera a cualquiera","Solo el chico a la chica","Nadie"],c:0,e:"La ayuda va en todas direcciones."},
+  {l:0,q:"Una niña protagonista puede ser...",o:["Científica, pirata o astronauta","Solo princesa","Solo ayudante"],c:0,e:"En los cuentos nuevos, ellas eligen su aventura."},
+  {l:0,q:"Un personaje que cocina y cuida a su familia puede ser...",o:["Un papá estupendo","Solo una mamá","Imposible"],c:0,e:"Cuidar en los cuentos también es cosa de ellos."},
+  {l:0,q:"Si en un cuento el chico tiene miedo, eso...",o:["Es normal, todos sentimos miedo","Le hace débil","Está mal"],c:0,e:"Sentir miedo es humano y valiente reconocerlo."},
+  {l:0,q:"Una heroína puede resolver el problema usando...",o:["Su ingenio","Solo su fuerza","La magia de otro"],c:0,e:"La inteligencia es una gran superpotencia."},
+  {l:0,q:"En un cuento igualitario, las tareas del castillo...",o:["Las reparten todos los personajes","Solo las sirvientas","Nadie"],c:0,e:"Hasta en los castillos se colabora."},
+  {l:0,q:"¿Puede un cuento tener dos protagonistas, niño y niña, por igual?",o:["Claro que sí","No","Solo si mandan los chicos"],c:0,e:"Compartir el protagonismo hace mejores historias."},
+  {l:0,q:"Si un personaje es diferente a los demás...",o:["Enriquece la historia","Sobra","Hay que quitarlo"],c:0,e:"La diversidad hace los cuentos más ricos."},
+  {l:0,q:"Un final feliz de verdad es aquel en que...",o:["Los personajes son libres y se respetan","Alguien manda sobre otro","Todo sigue igual"],c:0,e:"La libertad y el respeto son el mejor final."},
+  {l:0,q:"Los juguetes de los cuentos...",o:["Son para niños y niñas","Unos de chicos, otros de chicas","No importan"],c:0,e:"Los juguetes no tienen género."},
+  {l:0,q:"Una bruja de cuento también puede ser...",o:["Buena y sabia","Siempre malvada","Muda"],c:0,e:"Romper el molde de «bruja mala» da personajes nuevos."},
+  {l:2,q:"Caperucita podría acabar el cuento...",o:["Salvando ella a la abuela con ingenio","Esperando al cazador","Perdida"],c:0,e:"Puede ser la heroína de su historia."},
+  {l:2,q:"Un final igualitario para Cenicienta sería...",o:["Montar su propio taller de zapatos","Esperar toda la vida","Perder el zapato"],c:0,e:"Su talento vale más que un zapato de cristal."},
+  {l:2,q:"Gloria Fuertes fue...",o:["Una poeta para niños y niñas","Una pirata","Una reina"],c:0,e:"Llenó de humor y poesía la infancia. ¡Vas a liberarla!"},
+  {l:2,q:"Pippi Calzaslargas es famosa por ser...",o:["Fuerte, libre y divertida","Miedosa","Silenciosa"],c:0,e:"Rompió todos los moldes."},
+  {l:2,q:"Cambiar el final de un cuento clásico...",o:["Es un juego creativo estupendo","Está prohibido","Estropea el libro"],c:0,e:"Los cuentos son de quien los cuenta."},
+  {l:2,q:"Los personajes masculinos también pueden...",o:["Cuidar, cocinar y emocionarse","Solo luchar","Solo mandar"],c:0,e:"Un héroe que cuida es doblemente héroe."},
+  {l:2,q:"Un cuento donde una niña inventa máquinas nos enseña que...",o:["Ellas también crean e inventan","Es imposible","Solo juegan"],c:0,e:"La creatividad no tiene género."},
+  {l:2,q:"Si un cuento solo tiene personajes chicos, podemos...",o:["Añadir chicas protagonistas","Dejarlo así siempre","Borrarlo"],c:0,e:"Reescribir para incluir a todos es genial."},
+  {l:2,q:"Una princesa que quiere ser exploradora...",o:["Puede vivir grandes viajes","Debe quedarse en el castillo","No existe"],c:0,e:"Sus sueños valen tanto como los de cualquiera."},
+  {l:2,q:"Un cuentacuentos puede hacerlo...",o:["Cualquier persona con ganas","Solo las maestras","Solo actores"],c:0,e:"Contar historias es para todo el mundo."},
+  {l:3,q:"Los cuentos antiguos a veces muestran...",o:["Estereotipos de género","Solo animales","Recetas"],c:0,e:"Reflejan ideas de otra época. Leerlos con ojo crítico nos hace sabios."},
+  {l:3,q:"Escribir cuentos con personajes variados nos ayuda a...",o:["Imaginar un mundo más justo","Aburrirnos","Copiar"],c:0,e:"La imaginación cambia el mundo real."},
+  {l:3,q:"«Los chicos no juegan con muñecas» es...",o:["Un estereotipo falso","Una norma","Una ley"],c:0,e:"Jugar con muñecas enseña a cuidar, y eso es de todos."},
+  {l:3,q:"Contar cuántos personajes femeninos hablan en una película sirve para...",o:["Detectar desigualdad","Aprobar","Nada"],c:0,e:"Si ellas apenas hablan, la historia tiene un problema."},
+  {l:3,q:"Si en un cuento todas las chicas son débiles, el cuento tiene...",o:["Un estereotipo de género","Mucha acción","Un final feliz"],c:0,e:"Repetir ese papel es un estereotipo. ¡A reescribirlo!"},
+  {l:3,q:"Algunas escritoras firmaban con nombre de hombre porque...",o:["No las tomaban en serio","Les gustaba","Era obligatorio"],c:0,e:"Las hermanas Brontë usaron seudónimos masculinos para publicar."},
+  {l:3,q:"Un «personaje diverso» representa...",o:["A personas diferentes de la vida real","Solo a los guapos","A nadie"],c:0,e:"Cuanta más diversidad, más niños se ven reflejados."},
+  {l:3,q:"El «test de Bechdel» comprueba si en una historia...",o:["Dos mujeres hablan de algo que no sea un hombre","Hay dragones","Gana el bueno"],c:0,e:"Es una forma sencilla de detectar desigualdad en el cine."},
+  {l:3,q:"Reescribir un mito para dar voz a sus personajes femeninos es...",o:["Recuperar su mirada","Estropearlo","Copiar"],c:0,e:"Muchas autoras reescriben mitos desde la mirada de ellas."},
+  {l:3,q:"El humor de un cuento es mejor cuando...",o:["No se ríe de nadie por ser diferente","Se burla de alguien","Ofende"],c:0,e:"Reír juntos une; reírse de otro hace daño."},
+  {l:3,q:"Los álbumes ilustrados coeducativos buscan...",o:["Mostrar a todas las personas con respeto","Vender más","Asustar"],c:0,e:"Educan en igualdad desde la primera infancia."},
+  {l:3,q:"Que un príncipe pida ayuda en un cuento demuestra que...",o:["Pedir ayuda es de valientes","Es débil","Ha perdido"],c:0,e:"Pedir ayuda es inteligente y valiente."},
+  {l:3,q:"Una protagonista con discapacidad en un cuento aporta...",o:["Inclusión y referentes reales","Nada","Un problema"],c:0,e:"Todas las personas merecen verse en las historias."},
+  {l:3,q:"El «hada madrina» podría ser también...",o:["Un hada padrino","Imposible","Solo mujer"],c:0,e:"Los papeles mágicos tampoco tienen género."},
+  {l:3,q:"Si un cuento premia solo la belleza de las chicas, transmite...",o:["Un mensaje injusto","Una gran lección","Humor"],c:0,e:"Valen mucho más el ingenio, la valentía y la bondad."},
+  {l:3,q:"Crear tu propio cuento igualitario sirve para...",o:["Expresarte y cambiar la mirada","Perder el tiempo","Copiar a otros"],c:0,e:"Tus historias también educan en igualdad."},
+  {l:3,q:"Que niños y niñas lean cuentos de heroínas...",o:["Amplía lo que creen posible para todos","Solo interesa a ellas","Es aburrido"],c:0,e:"Los referentes abren la imaginación de todo el mundo."},
+  {l:0,q:"Un cuento donde la niña arregla la nave espacial nos dice que...",o:["Ellas también son ingenieras","Es imposible","Es un error"],c:0,e:"En los cuentos nuevos, ellas construyen y reparan."},
+  {l:0,q:"Si un cuento tiene una madre que trabaja y un padre que cocina...",o:["Refleja familias reales de hoy","Está mal escrito","Es raro"],c:0,e:"La literatura puede mostrar la vida tal y como es."},
+  {l:0,q:"Una historia donde todos los personajes se ayudan enseña...",o:["Cooperación","Competición","Egoísmo"],c:0,e:"Los cuentos también enseñan valores."},
+  {l:0,q:"El villano de un cuento puede ser...",o:["De cualquier género","Siempre un hombre","Siempre una bruja"],c:0,e:"Los papeles no se reparten por género."},
+  {l:0,q:"Una niña que quiere ser caballera andante...",o:["Puede vivir grandes aventuras","No existe","Debe ser princesa"],c:0,e:"El valor no tiene género."},
+  {l:0,q:"Si en un cuento la chica gana la carrera...",o:["Es un final estupendo","Es injusto","Es imposible"],c:0,e:"Ellas también ganan y compiten."},
+  {l:0,q:"Los cuentos que muestran a niños llorando enseñan que...",o:["Las emociones son de todos","Los niños son débiles","Está mal llorar"],c:0,e:"Sentir es humano."},
+  {l:0,q:"Una historia con personajes de distintos países...",o:["Enseña a valorar la diversidad","Confunde","Sobra"],c:0,e:"El mundo es diverso y los cuentos también."},
+  {l:0,q:"Si un cuento dice que las chicas solo sirven para limpiar...",o:["Transmite un estereotipo injusto","Dice la verdad","Es divertido"],c:0,e:"Esos mensajes hay que cuestionarlos."},
+  {l:0,q:"Reescribir un cuento es...",o:["Crear tu propia versión","Copiar","Estropearlo"],c:0,e:"Los cuentos se reinventan en cada generación."},
+  {l:0,q:"Un rey y una reina que gobiernan juntos y por igual...",o:["Muestran un reparto justo del poder","Es imposible","Sobra uno"],c:0,e:"Compartir el poder es más justo."},
+  {l:0,q:"Un personaje que pide ayuda cuando lo necesita...",o:["Es inteligente","Es débil","Es un cobarde"],c:0,e:"Pedir ayuda es de listos y valientes."},
+  {l:0,q:"Los cuentos con protagonistas mayores nos enseñan que...",o:["Todas las edades tienen historias","Solo los jóvenes importan","Nada"],c:0,e:"La sabiduría también protagoniza."},
+  {l:0,q:"Si dibujas una científica en tu cuento...",o:["Das un referente a las niñas","Te equivocas","Sobra"],c:0,e:"Las ilustraciones también educan en igualdad."},
+  {l:0,q:"Un cuento donde los amigos resuelven un conflicto hablando...",o:["Enseña diálogo y paz","Es aburrido","Es irreal"],c:0,e:"La resolución pacífica se aprende leyendo también."},
+  {l:0,q:"Una historia protagonizada por dos amigas valientes...",o:["Es tan válida como cualquier otra","Solo gusta a las niñas","No interesa"],c:0,e:"Las buenas historias son para todo el mundo."},
+  {l:0,q:"Cuando lees, puedes preguntarte...",o:["¿Quién decide en esta historia?","Nada","Solo el final"],c:0,e:"Leer con espíritu crítico nos hace más sabios."},
+  {l:0,q:"Un cuento con un niño que cuida a su gato enseña...",o:["Que cuidar es de todos","Que es raro","Nada"],c:0,e:"El cuidado no tiene género ni en la ficción."},
+  {l:0,q:"Los personajes con gafas, silla de ruedas o muletas...",o:["Deben aparecer también en los cuentos","No interesan","Dan pena"],c:0,e:"Todas las personas merecen verse representadas."},
+  {l:0,q:"Si un cuento dice que la belleza es lo más importante en una chica...",o:["Transmite un mensaje injusto","Es cierto","Es bonito"],c:0,e:"Valen más el ingenio, la valentía y la bondad."},
+  {l:0,q:"Contar cuentos a los más pequeños es una tarea...",o:["Preciosa y para cualquiera","Solo de mujeres","Aburrida"],c:0,e:"Narrar es un regalo que todos pueden dar."},
+  {l:0,q:"Un dragón que llora porque está triste...",o:["Muestra que todos sentimos","Es ridículo","Es un error"],c:0,e:"Hasta los dragones tienen corazón."},
+  {l:0,q:"Inventar historias donde todos son libres nos ayuda a...",o:["Imaginar un mundo mejor","Perder el tiempo","Confundirnos"],c:0,e:"La imaginación es el primer paso del cambio."},
+ ],
+ /* Mundo 4 */
+ [
+  {l:0,q:"¿Pueden las chicas jugar al fútbol?",o:["Claro, hay ligas profesionales femeninas","No","Solo de porteras"],c:0,e:"El fútbol femenino llena estadios. ¡España es campeona del mundo!"},
+  {l:0,q:"Si un chico hace ballet...",o:["Desarrolla fuerza, arte y disciplina","Se equivoca","Debe ocultarlo"],c:0,e:"El ballet exige una gran preparación física."},
+  {l:0,q:"En el patio, la pista debería ser...",o:["Compartida por todos los juegos","Solo de los mayores","Solo del fútbol"],c:0,e:"El patio es de todo el alumnado."},
+  {l:0,q:"¿Qué deportista es un buen ejemplo?",o:["Quien respeta y anima a su equipo","Quien grita al árbitro","Quien no deja jugar"],c:0,e:"El deporte enseña respeto y trabajo en equipo."},
+  {l:0,q:"Jugar juntos chicos y chicas en el recreo...",o:["Es divertido y justo","Está prohibido","Es imposible"],c:0,e:"Los juegos mixtos son más ricos."},
+  {l:0,q:"La gimnasia rítmica es un deporte...",o:["Para quien le guste","Solo de chicas","Solo olímpico"],c:0,e:"Ya hay competiciones masculinas. No tiene género."},
+  {l:0,q:"Para ser buen deportista hace falta...",o:["Entrenar, esforzarse y respetar","Ser chico","Ser muy alto"],c:0,e:"El esfuerzo vale más que cualquier etiqueta."},
+  {l:0,q:"Si tu equipo pierde, lo deportivo es...",o:["Felicitar al otro equipo","Enfadarse","Irse sin saludar"],c:0,e:"Saber perder es de campeones y campeonas."},
+  {l:0,q:"¿Puede una chica ser árbitra de fútbol?",o:["Sí, y cada vez hay más","No","Solo en partidos de chicas"],c:0,e:"Ya hay árbitras en las grandes ligas."},
+  {l:0,q:"Un chico que hace patinaje artístico...",o:["Practica un deporte precioso y difícil","Se equivoca","Debe callarlo"],c:0,e:"Requiere fuerza, equilibrio y arte."},
+  {l:0,q:"Si una compañera es la que mejor juega al baloncesto...",o:["La animas y aprendes de ella","Te enfadas","No te lo crees"],c:0,e:"Admirar el talento nos hace mejores."},
+  {l:0,q:"En un equipo mixto, chicas y chicos...",o:["Juegan y colaboran juntos","No pueden","Compiten separados"],c:0,e:"Colaborar más allá de las etiquetas enriquece el juego."},
+  {l:0,q:"El deporte sirve sobre todo para...",o:["Divertirse y estar sano","Humillar al rival","Presumir"],c:0,e:"Salud, diversión y amistad: ese es el objetivo."},
+  {l:0,q:"Si alguien no sabe jugar todavía...",o:["Le ayudas a aprender","Te ríes","No le dejas jugar"],c:0,e:"Todos empezamos sin saber. Incluir es de campeones."},
+  {l:0,q:"Las chicas que corren, saltan y compiten...",o:["Son igual de deportistas","No son femeninas","No deberían"],c:0,e:"Correr y competir es de todas las personas."},
+  {l:0,q:"Un buen capitán o capitana de equipo...",o:["Anima y cuida a todos","Solo se luce","Manda a gritos"],c:0,e:"Liderar es cuidar al equipo."},
+  {l:0,q:"El deporte adaptado permite que...",o:["Personas con discapacidad también compitan","Nadie gane","Solo miren"],c:0,e:"La inclusión también se entrena."},
+  {l:0,q:"Nadar es un deporte...",o:["Para todas las personas","Solo de chicos","Solo en verano"],c:0,e:"El agua es para quien quiera aprender a nadar."},
+  {l:2,q:"La selección española femenina de fútbol ganó...",o:["El Mundial de 2023","Nada importante","Un concurso"],c:0,e:"¡Campeonas del mundo en 2023!"},
+  {l:2,q:"Carolina Marín es campeona olímpica y mundial de...",o:["Bádminton","Ajedrez","Esgrima"],c:0,e:"La onubense es una de las mejores de la historia."},
+  {l:2,q:"El deporte femenino en televisión...",o:["Merece el mismo espacio","No interesa","De madrugada"],c:0,e:"Si no se ve, no existe: dar visibilidad crea referentes."},
+  {l:2,q:"Alexia Putellas ha ganado...",o:["El Balón de Oro","Un Óscar","Wimbledon"],c:0,e:"El Balón de Oro dos veces seguidas."},
+  {l:2,q:"Un equipo mixto es...",o:["Un equipo con chicos y chicas","De robots","Sin normas"],c:0,e:"Enseña a colaborar más allá de las etiquetas."},
+  {l:2,q:"Teresa Perales, nadadora paralímpica, ha ganado...",o:["Más de 25 medallas","Ninguna","Solo una carrera"],c:0,e:"27 medallas paralímpicas: esfuerzo e inclusión."},
+  {l:2,q:"Si en el recreo solo unos ocupan toda la pista...",o:["Hay que repartir el espacio","Está bien","Que se aguanten los demás"],c:0,e:"El patio se comparte entre todo el alumnado."},
+  {l:2,q:"Ona Carbonell destaca en...",o:["Natación artística","Atletismo","Judo"],c:0,e:"Una de las mejores nadadoras artísticas de España."},
+  {l:2,q:"Practicar deporte en equipo enseña a...",o:["Colaborar y respetar","Mandar","Ganar siempre"],c:0,e:"El equipo funciona cuando todos suman."},
+  {l:2,q:"Una entrenadora de fútbol...",o:["Puede dirigir cualquier equipo","Solo equipos de chicas","No existe"],c:0,e:"Hay grandes entrenadoras en el deporte profesional."},
+  {l:2,q:"El respeto al árbitro o árbitra es...",o:["Parte del juego limpio","Opcional","De cobardes"],c:0,e:"Sin respeto no hay deporte."},
+  {l:2,q:"Si una niña quiere jugar al rugby...",o:["Puede hacerlo","Es demasiado bruto para ella","No hay equipos"],c:0,e:"Hay rugby femenino y es espectacular."},
+  {l:3,q:"Lili Álvarez fue...",o:["Pionera del deporte español, finalista de Wimbledon","Cocinera","Pintora"],c:0,e:"Compitió al máximo cuando casi ninguna mujer podía. ¡Vas a liberarla!"},
+  {l:3,q:"Kathrine Switzer es famosa por...",o:["Correr el maratón de Boston cuando estaba prohibido para mujeres","Inventar el baloncesto","Cruzar el océano a nado"],c:0,e:"En 1967 corrió aunque intentaron expulsarla."},
+  {l:3,q:"¿Por qué antes las mujeres no corrían maratones?",o:["Por normas injustas ya cambiadas","No podían","No querían"],c:0,e:"Se decía falsamente que era peligroso. Las pioneras lo desmintieron."},
+  {l:3,q:"¿Por qué importa ver deporte femenino en la tele?",o:["Crea referentes para niñas y niños","No importa","Solo para vender"],c:0,e:"Ver a campeonas anima a muchas niñas a atreverse."},
+  {l:3,q:"La primera española con oro olímpico fue...",o:["Miriam Blasco, en judo (1992)","Nadie","Una tenista en 1900"],c:0,e:"Ganó el oro en Barcelona 92 y abrió camino."},
+  {l:3,q:"«Corres como una niña» debería significar...",o:["Correr con ganas y talento","Correr mal","Correr despacio"],c:0,e:"Usarlo como insulto es un estereotipo. Ellas corren y ganan."},
+  {l:3,q:"El deporte paralímpico demuestra que...",o:["El deporte es para todas las personas","Solo compiten algunos","No importan las medallas"],c:0,e:"Cada persona tiene su forma de brillar."},
+  {l:3,q:"Que una mujer sea presidenta de un club deportivo es...",o:["Posible y cada vez más común","Imposible","Solo honorífico"],c:0,e:"El liderazgo deportivo también es de las mujeres."},
+  {l:3,q:"La brecha en premios entre deporte masculino y femenino es...",o:["Una desigualdad que se está corrigiendo","Justa","Un invento"],c:0,e:"Muchas competiciones ya igualan los premios."},
+  {l:3,q:"Serena Williams es un referente mundial de...",o:["Tenis","Golf","Natación"],c:0,e:"Una de las mejores tenistas de la historia."},
+  {l:3,q:"Simone Biles destaca en...",o:["Gimnasia artística","Boxeo","Ciclismo"],c:0,e:"Una de las mejores gimnastas de todos los tiempos."},
+  {l:3,q:"Que existan vestuarios y equipos para chicas en un club es...",o:["Necesario para la igualdad","Un lujo","Innecesario"],c:0,e:"Las mismas condiciones permiten las mismas oportunidades."},
+  {l:3,q:"El juego limpio consiste en...",o:["Respetar reglas, rivales y árbitros","Ganar como sea","Engañar con astucia"],c:0,e:"Sin juego limpio, el deporte pierde su valor."},
+  {l:3,q:"Edurne Pasaban fue la primera mujer en...",o:["Coronar los catorce ochomiles","Ganar la Fórmula 1","Cruzar el Atlántico sola"],c:0,e:"Alpinista pionera en alcanzar las montañas más altas."},
+  {l:3,q:"Que niñas y niños practiquen juntos deporte en el cole...",o:["Fomenta el respeto y la igualdad","Es un lío","Baja el nivel"],c:0,e:"La coeducación física une y enseña a convivir."},
+  {l:3,q:"Los referentes deportivos femeninos sirven para...",o:["Que las niñas se atrevan a soñar","Rellenar periódicos","Nada"],c:0,e:"Ver a quien lo logró ayuda a creer que tú puedes."},
+  {l:3,q:"Apoyar a tu equipo sin insultar al rival es...",o:["Afición sana","Ser débil","Aburrido"],c:0,e:"Animar con respeto también se aprende."},
+  {l:0,q:"Si una chica juega mejor al fútbol que tú...",o:["La reconoces y aprendes","Te enfadas","Dices que hizo trampa"],c:0,e:"El talento se admira, venga de quien venga."},
+  {l:0,q:"Un chico que anima a las chicas de su clase en un partido...",o:["Es un buen compañero","Hace el ridículo","Pierde el tiempo"],c:0,e:"Apoyar al equipo es de campeones."},
+  {l:0,q:"Los juegos tradicionales (comba, goma, canicas) son para...",o:["Todos los niños y niñas","Unas de chicas, otros de chicos","Nadie"],c:0,e:"Los juegos no tienen dueño."},
+  {l:0,q:"En un torneo del cole, los equipos mixtos...",o:["Son una idea estupenda","No funcionan","Están prohibidos"],c:0,e:"Jugar juntos enseña a colaborar."},
+  {l:0,q:"Si alguien se cae en el patio...",o:["Le ayudas a levantarse","Te ríes","Sigues jugando"],c:0,e:"El compañerismo está por encima del juego."},
+  {l:0,q:"Hacer estiramientos y calentar antes de jugar es...",o:["Importante para todos","Cosa de profesionales","Una pérdida de tiempo"],c:0,e:"Cuidar el cuerpo evita lesiones."},
+  {l:0,q:"Una niña que quiere jugar en el equipo de baloncesto del cole...",o:["Debe poder hacerlo","Solo si sobran plazas","No puede"],c:0,e:"Todas las personas tienen derecho a jugar."},
+  {l:0,q:"El objetivo del deporte en el cole es...",o:["Aprender, moverse y disfrutar","Ganar como sea","Eliminar a los peores"],c:0,e:"En el cole se juega para crecer, no para descartar."},
+  {l:0,q:"Elegir a los últimos siempre a los mismos compañeros...",o:["Les hace sentir mal: hay formas mejores","Es normal","Es divertido"],c:0,e:"Formar equipos sin excluir es más justo."},
+  {l:0,q:"Practicar deporte ayuda a...",o:["Estar sano y hacer amigos","Solo a ganar","Nada"],c:0,e:"Salud, amistad y bienestar para todos."},
+  {l:0,q:"Un chico al que no le gusta el fútbol...",o:["Puede practicar otro deporte","No es un chico de verdad","Debe obligarse"],c:0,e:"Cada persona elige lo que disfruta."},
+  {l:0,q:"El baloncesto femenino en España...",o:["Tiene grandes jugadoras","No existe","No interesa"],c:0,e:"La selección femenina ha ganado medallas europeas."},
+  {l:0,q:"Si en el patio hay una sola pista, lo justo es...",o:["Turnarse entre todos los juegos","Que la use siempre el fútbol","Que la usen los mayores"],c:0,e:"Repartir el espacio es repartir la diversión."},
+  {l:0,q:"Que las chicas jueguen al fútbol en el recreo es...",o:["Normal y estupendo","Raro","Solo si sobran"],c:0,e:"El balón también es suyo."},
+  {l:0,q:"Un compañero con discapacidad puede participar en el juego si...",o:["Adaptamos las normas","No puede","Solo mira"],c:0,e:"Adaptar el juego incluye a todos."},
+  {l:0,q:"Cuando ganas un partido, lo mejor es...",o:["Celebrarlo sin humillar al rival","Burlarte","Presumir"],c:0,e:"El respeto al rival es parte del deporte."},
+  {l:0,q:"La natación, el atletismo o el judo son deportes...",o:["Para chicos y chicas","Unos de ellas, otros de ellos","Solo olímpicos"],c:0,e:"Todos los deportes están abiertos a todas las personas."},
+  {l:0,q:"Si una chica es la capitana del equipo mixto...",o:["Es totalmente normal","No puede ser","Debe ceder el puesto"],c:0,e:"Liderar depende de las cualidades, no del género."},
+  {l:0,q:"Ver deporte femenino en televisión...",o:["Debería ser tan habitual como el masculino","No interesa","Es innecesario"],c:0,e:"Visibilizar crea referentes."},
+  {l:0,q:"Insultar al equipo contrario es...",o:["Contrario al juego limpio","Parte del juego","Divertido"],c:0,e:"Sin respeto no hay deporte."},
+  {l:0,q:"Si tu equipo tiene chicos y chicas y funcionáis bien...",o:["Demostráis que la igualdad suma","Es casualidad","Es imposible"],c:0,e:"Los equipos mixtos rinden y enseñan."},
+ ],
+ /* Mundo 5 */
+ [
+  {l:0,q:"¿Pueden las niñas ser astronautas?",o:["Sí, muchas han ido al espacio","No","Solo de copiloto"],c:0,e:"¿Serás tú una de ellas?"},
+  {l:0,q:"Si te gusta investigar y preguntar, puedes ser...",o:["Científico o científica","Nada","Solo ayudante"],c:0,e:"La curiosidad es la semilla de la ciencia."},
+  {l:0,q:"Las vacunas y medicinas existen gracias a...",o:["Científicas y científicos en equipo","La suerte","Internet"],c:0,e:"La ciencia es trabajo en equipo donde cada mente cuenta."},
+  {l:0,q:"Para hacer un experimento necesitas...",o:["Curiosidad y cuidado","Ser mayor","Una bata cara"],c:0,e:"Preguntar, probar y observar: así trabaja la ciencia."},
+  {l:0,q:"Las matemáticas son...",o:["Para todas las personas","Solo para genios","Solo para chicos"],c:0,e:"Se entrenan como un músculo: nadie nace sabiendo."},
+  {l:0,q:"Si tu compañera es la mejor en ciencias, tú...",o:["Aprendes con ella","Te burlas","No te lo crees"],c:0,e:"Admirar el talento nos hace mejores."},
+  {l:0,q:"Los inventos los hacen...",o:["Personas curiosas de cualquier género","Solo hombres con bata","Las máquinas solas"],c:0,e:"Muchos inventos llevan firma de mujer."},
+  {l:0,q:"Una niña que desmonta juguetes para ver cómo funcionan...",o:["Tiene alma de ingeniera","Los rompe sin más","Hace algo raro"],c:0,e:"La curiosidad técnica es de todas las personas."},
+  {l:0,q:"Mirar el cielo con un telescopio es cosa de...",o:["Cualquiera con curiosidad","Solo hombres","Solo de noche cerrada"],c:0,e:"La astronomía es para toda persona que sueñe con las estrellas."},
+  {l:0,q:"Cuando algo sale mal en un experimento...",o:["Aprendes y lo intentas de nuevo","Te rindes","Es culpa tuya"],c:0,e:"Equivocarse forma parte de investigar."},
+  {l:0,q:"¿Quién puede programar un robot?",o:["Quien aprenda a hacerlo","Solo chicos","Solo adultos"],c:0,e:"La programación se aprende y es para todos."},
+  {l:0,q:"Una geóloga estudia...",o:["Las rocas y la Tierra","Las estrellas de cine","La cocina"],c:0,e:"Investiga volcanes, minerales y terremotos."},
+  {l:0,q:"Cuidar el planeta y estudiar la naturaleza es tarea de...",o:["Científicas y científicos de todo tipo","Solo hombres","Nadie"],c:0,e:"La ciencia también protege el medio ambiente."},
+  {l:0,q:"Una bióloga marina trabaja...",o:["Estudiando la vida del mar","En una peluquería","Solo en tierra"],c:0,e:"Explora océanos y protege a sus criaturas."},
+  {l:0,q:"Para ser buena en ciencia lo más importante es...",o:["El esfuerzo y la curiosidad","Ser un genio nato","Tener suerte"],c:0,e:"Se construye con preguntas y constancia."},
+  {l:2,q:"Hipatia de Alejandría fue...",o:["Matemática y astrónoma de la antigüedad","Una faraona","Una actriz"],c:0,e:"Enseñaba hace 1.600 años. ¡Vas a liberarla!"},
+  {l:2,q:"Marie Curie ganó...",o:["Dos Premios Nobel","Un partido de tenis","La lotería"],c:0,e:"Única persona con Nobel en dos ciencias: Física y Química."},
+  {l:2,q:"El 11 de febrero celebramos...",o:["El Día de la Mujer y la Niña en la Ciencia","El carnaval","El día del libro"],c:0,e:"La ciencia necesita a todas las mentes brillantes."},
+  {l:2,q:"Valentina Tereshkova fue...",o:["La primera mujer en el espacio","Una pintora","Una tenista"],c:0,e:"En 1963 orbitó la Tierra 48 veces."},
+  {l:2,q:"Jane Goodall es famosa por estudiar...",o:["Los chimpancés","Los volcanes","Las estrellas"],c:0,e:"Vivió en la selva para entender a los chimpancés."},
+  {l:2,q:"¿Qué hace una astrónoma?",o:["Estudia estrellas y planetas","Arregla coches","Cocina"],c:0,e:"Explora el universo con telescopios."},
+  {l:2,q:"Para ser un gran científico o científica hace falta...",o:["Curiosidad, esfuerzo y equipo","Ser genio de pequeño","Suerte"],c:0,e:"Cualquiera puede lograrlo con constancia."},
+  {l:2,q:"Una química trabaja con...",o:["Sustancias y reacciones","Solo con plantas","Solo con números"],c:0,e:"Estudia de qué está hecho todo lo que nos rodea."},
+  {l:2,q:"Las niñas en clase de ciencias...",o:["Pueden ser tan buenas como cualquiera","Aprenden menos","No deben opinar"],c:0,e:"El talento científico no tiene género."},
+  {l:2,q:"Un microscopio sirve para...",o:["Ver cosas muy pequeñas","Ver las estrellas","Escuchar música"],c:0,e:"Con él se descubre un mundo invisible."},
+  {l:3,q:"Ada Lovelace es considerada...",o:["La primera programadora de la historia","Astronauta","Doctora"],c:0,e:"Escribió el primer algoritmo en el siglo XIX."},
+  {l:3,q:"María Zambrano fue una gran...",o:["Filósofa española","Nadadora","Astronauta"],c:0,e:"Primera mujer Premio Cervantes. La verás en el último mundo."},
+  {l:3,q:"¿Por qué conocemos pocos nombres de científicas?",o:["Su trabajo se ocultó o se atribuyó a hombres","No existieron","No descubrieron nada"],c:0,e:"Se llama «efecto Matilda». Hoy recuperamos sus nombres."},
+  {l:3,q:"Margarita Salas inventó una patente que...",o:["Fue la más rentable de la ciencia española","No sirvió","Se perdió"],c:0,e:"Su método para copiar ADN se usa en todo el planeta."},
+  {l:3,q:"Rosalind Franklin ayudó a descubrir...",o:["La forma del ADN","Un planeta","La electricidad"],c:0,e:"Su «fotografía 51» reveló la doble hélice."},
+  {l:3,q:"Marie Curie estudió en una universidad clandestina porque...",o:["En su país no admitían mujeres","No tenía tiempo","Era barata"],c:0,e:"En Polonia estudió a escondidas antes de irse a París."},
+  {l:3,q:"Hedy Lamarr, además de actriz, inventó...",o:["Una tecnología base del wifi y el bluetooth","El teléfono","La rueda"],c:0,e:"Su «salto de frecuencias» de 1942 sigue vivo hoy."},
+  {l:3,q:"Katherine Johnson calculó trayectorias para...",o:["Los viajes espaciales de la NASA","Los trenes","Los barcos piratas"],c:0,e:"Sus cálculos llevaron astronautas a la Luna. «Figuras ocultas» cuenta su historia."},
+  {l:3,q:"El efecto Matilda consiste en...",o:["Atribuir a hombres los logros de mujeres","Un truco de magia","Una beca"],c:0,e:"Muchas científicas vieron su trabajo firmado por otros."},
+  {l:3,q:"Jocelyn Bell descubrió los púlsares, pero el Nobel...",o:["Se lo dieron a su director","Se lo dieron a ella","No existía"],c:0,e:"Un caso claro del efecto Matilda en la astronomía."},
+  {l:3,q:"Que haya más mujeres en carreras STEM (ciencia y tecnología) es...",o:["Bueno para la ciencia y la sociedad","Innecesario","Un capricho"],c:0,e:"La diversidad de mentes hace avanzar la ciencia."},
+  {l:3,q:"Barbara McClintock ganó el Nobel estudiando...",o:["La genética del maíz","Los planetas","El fuego"],c:0,e:"Sus descubrimientos tardaron años en ser reconocidos."},
+  {l:3,q:"Una ingeniera aeroespacial diseña...",o:["Aviones y naves espaciales","Solo puentes","Ropa"],c:0,e:"El cielo y el espacio también son territorio de mujeres."},
+  {l:3,q:"Wangari Maathai ganó el Nobel de la Paz por...",o:["Plantar millones de árboles","Una fórmula","Un cuadro"],c:0,e:"Unió ciencia, medioambiente y derechos de las mujeres."},
+  {l:3,q:"Celebrar el 11F en el cole sirve para...",o:["Dar referentes científicos a las niñas","Perder clase","Nada"],c:0,e:"Ver a científicas anima a las niñas a serlo."},
+  {l:3,q:"Que una niña diga «de mayor seré ingeniera» es...",o:["Un sueño totalmente posible","Poco realista","Cosa de chicos"],c:0,e:"Con esfuerzo y oportunidades, puede lograrlo."},
+  {l:3,q:"Gertrude Elion desarrolló medicinas que...",o:["Salvaron millones de vidas","No funcionaron","Se perdieron"],c:0,e:"Ganó el Nobel de Medicina por sus fármacos."},
+  {l:3,q:"La ciencia avanza más cuando...",o:["Participan personas diversas","Solo trabajan unos pocos","No se comparte"],c:0,e:"Cada mirada distinta aporta nuevas soluciones."},
+  {l:3,q:"Que se enseñen nombres de científicas en clase sirve para...",o:["Recuperar su memoria y crear referentes","Aprobar el examen","Rellenar el libro"],c:0,e:"Visibilizarlas repara siglos de olvido."},
+  {l:3,q:"Mae Jemison fue la primera mujer afroamericana en...",o:["Viajar al espacio","Ganar Wimbledon","Dirigir la ONU"],c:0,e:"Médica y astronauta, un gran referente."},
+  {l:3,q:"El pensamiento crítico en ciencia significa...",o:["Preguntar y comprobar antes de creer","Creerlo todo","No preguntar"],c:0,e:"Dudar con método es la base del saber."},
+  {l:0,q:"Una niña que quiere estudiar Física puede...",o:["Lograrlo con esfuerzo","No, es muy difícil para ella","Solo si es genia"],c:0,e:"La física es para toda mente curiosa."},
+  {l:0,q:"Si te gusta cuidar animales podrías ser...",o:["Bióloga o veterinaria","Nada","Solo dueña de mascotas"],c:0,e:"El amor por la naturaleza abre profesiones científicas."},
+  {l:0,q:"En un laboratorio trabajan...",o:["Mujeres y hombres","Solo hombres","Solo robots"],c:0,e:"La ciencia es cosa de equipos diversos."},
+  {l:0,q:"Hacer preguntas en clase de ciencias es...",o:["Lo mejor que puedes hacer","Molestar","De listillos"],c:0,e:"Preguntar es el motor de la ciencia."},
+  {l:0,q:"Un experimento se repite varias veces para...",o:["Comprobar si el resultado es fiable","Aburrirse","Perder tiempo"],c:0,e:"Comprobar es la base del método científico."},
+  {l:0,q:"Una ingeniera de caminos construye...",o:["Carreteras y puentes","Solo casas","Ropa"],c:0,e:"Las grandes obras también las diseñan ellas."},
+  {l:0,q:"Los seres humanos llegamos a la Luna gracias a...",o:["El trabajo de miles de personas, mujeres incluidas","Solo tres astronautas","La suerte"],c:0,e:"Matemáticas como Katherine Johnson hicieron los cálculos."},
+  {l:0,q:"Si una niña dice «las mates se me dan bien»...",o:["Es estupendo y normal","Está presumiendo","Es raro"],c:0,e:"El talento matemático no tiene género."},
+  {l:0,q:"Estudiar el clima y el cambio climático es tarea de...",o:["Científicas y científicos del clima","Nadie","Solo políticos"],c:0,e:"La ciencia nos ayuda a cuidar el planeta."},
+  {l:0,q:"Una médica puede operar a cualquier paciente...",o:["Sí, si está formada para ello","Solo a mujeres","Solo a niños"],c:0,e:"La cirugía es cuestión de formación y pericia."},
+  {l:0,q:"La palabra «científica» existe y se usa porque...",o:["Hay muchas mujeres en la ciencia","Es un invento","Suena mal"],c:0,e:"Nombrar en femenino visibiliza a las mujeres."},
+  {l:0,q:"Si en los libros solo salen científicos hombres...",o:["Falta la mitad de la historia","Está bien","Es lo normal"],c:0,e:"Recuperar los nombres de ellas es hacer justicia."},
+  {l:0,q:"Una programadora crea...",o:["Aplicaciones y videojuegos","Solo hojas de cálculo","Nada"],c:0,e:"Muchos videojuegos y apps los crean mujeres."},
+  {l:0,q:"Investigar cómo curar una enfermedad requiere...",o:["Muchos años de trabajo en equipo","Un solo genio","Suerte"],c:0,e:"La ciencia avanza con colaboración y paciencia."},
+  {l:0,q:"La curiosidad por saber cómo funcionan las cosas es...",o:["El principio de toda ciencia","Cosa de niños","Una molestia"],c:0,e:"Nunca dejes de preguntar."},
+  {l:0,q:"Los robots que ayudan en los hospitales fueron diseñados por...",o:["Equipos de ingeniería mixtos","Solo hombres","Ellos mismos"],c:0,e:"La tecnología la crean personas diversas."},
+  {l:0,q:"Una arqueóloga estudia...",o:["Restos del pasado","El futuro","Los arcos"],c:0,e:"Grandes arqueólogas han descubierto civilizaciones enteras."},
+  {l:0,q:"Si tu experimento falla, has aprendido...",o:["Qué no funciona, y eso también es ciencia","Nada","Que no vales"],c:0,e:"El error enseña tanto como el acierto."},
+  {l:0,q:"Que haya niñas en los clubes de robótica del cole es...",o:["Estupendo y necesario","Innecesario","Un lío"],c:0,e:"La tecnología necesita su talento."},
+  {l:0,q:"Una farmacéutica prepara y dispensa...",o:["Medicamentos","Comida","Ropa"],c:0,e:"Una profesión sanitaria con muchísimas mujeres."},
+  {l:0,q:"El método científico empieza por...",o:["Hacerse una pregunta","Saber la respuesta","Copiar"],c:0,e:"Preguntar bien es medio camino andado."},
+  {l:0,q:"Una física estudia...",o:["Cómo funciona el universo","Solo el gimnasio","Los idiomas"],c:0,e:"Desde los átomos hasta las galaxias."},
+  {l:0,q:"Ver a una mujer explicando ciencia en la tele...",o:["Da referentes a las niñas","No aporta","Es raro"],c:0,e:"Si se ve, se puede soñar."},
+  {l:0,q:"La ciencia sirve para...",o:["Entender el mundo y mejorarlo","Aprobar exámenes","Presumir"],c:0,e:"Conocer nos hace más libres."},
+  {l:0,q:"Los descubrimientos científicos pertenecen a...",o:["Toda la humanidad","Solo a quien los hace","A las empresas"],c:0,e:"El conocimiento compartido nos beneficia a todos."},
+  {l:0,q:"Si te dicen «la ciencia no es para chicas»...",o:["Te están poniendo un estereotipo falso","Tienen razón","Debes hacerles caso"],c:0,e:"La historia está llena de científicas brillantes."},
+ ],
+ /* Mundo 6 */
+ [
+  {l:0,q:"Si ves que se ríen de un compañero, lo mejor es...",o:["Apoyarle y avisar a un adulto","Reírte también","Mirar a otro lado"],c:0,e:"Pedir ayuda te convierte en un héroe de verdad."},
+  {l:0,q:"Cuando estás muy enfadado, lo mejor es...",o:["Respirar, calmarte y hablar","Gritar más","Pegar"],c:0,e:"Parar, respirar y hablar: la técnica del semáforo."},
+  {l:0,q:"¿Los chicos pueden llorar cuando están tristes?",o:["Sí, es sano para todos","No","Solo de pequeños"],c:0,e:"Las emociones no tienen género."},
+  {l:0,q:"Si alguien te obliga a algo que no quieres...",o:["Dices NO y lo cuentas a un adulto de confianza","Obedeces","Te callas"],c:0,e:"Decir NO es tu derecho."},
+  {l:0,q:"Si un compañero está solo en el recreo...",o:["Le invitas a jugar","Es su problema","Te burlas"],c:0,e:"Un gesto pequeño alegra el día a alguien."},
+  {l:0,q:"Tratar bien a los demás empieza por...",o:["Respetar y escuchar","Ganar siempre","Mandar"],c:0,e:"Escuchar de verdad es la base del respeto."},
+  {l:0,q:"Pedir perdón cuando te equivocas es de...",o:["Personas valientes","Cobardes","Perdedores"],c:0,e:"Reconocer un error requiere valor."},
+  {l:0,q:"Si un juego hace daño a alguien...",o:["Se para y se cambia","Se sigue igual","Es más divertido"],c:0,e:"Un juego solo es bueno si todos lo pasan bien."},
+  {l:0,q:"Las palabras amables...",o:["Crean amistad","Son de débiles","No sirven"],c:0,e:"«Gracias» y «¿estás bien?» son palabras mágicas."},
+  {l:0,q:"Si alguien de tu clase es diferente...",o:["Lo respetas y le conoces","Te alejas","Te burlas"],c:0,e:"La diversidad hace la clase más rica."},
+  {l:0,q:"Cuando un amigo está triste, puedes...",o:["Escucharle y acompañarle","Ignorarle","Reírte"],c:0,e:"Estar al lado ya ayuda muchísimo."},
+  {l:0,q:"Compartir el balón en el recreo es...",o:["Justo y divertido","De tontos","Solo si te obligan"],c:0,e:"Compartir hace que todos disfruten."},
+  {l:0,q:"Si te equivocas con alguien, lo mejor es...",o:["Disculparte y arreglarlo","Esconderte","Echar la culpa a otro"],c:0,e:"Reparar el error es de personas responsables."},
+  {l:0,q:"Un abrazo o una palabra amable puede...",o:["Mejorar el día de alguien","No servir","Molestar siempre"],c:0,e:"Los pequeños gestos cuidan mucho."},
+  {l:0,q:"Cuando alguien te cuenta un secreto que le preocupa mucho...",o:["Puedes animarle a contarlo a un adulto","Te ríes","Lo cuentas a todos"],c:0,e:"Los secretos que pesan hay que compartirlos con un adulto de confianza."},
+  {l:0,q:"Trabajar en equipo funciona si...",o:["Se escucha a todos","Manda uno solo","Nadie ayuda"],c:0,e:"Las mejores ideas surgen escuchándonos."},
+  {l:0,q:"Si un compañero no habla tu idioma todavía...",o:["Le ayudas a integrarse","Le ignoras","Te burlas"],c:0,e:"Acoger a quien llega nuevo es de valientes."},
+  {l:0,q:"Decir la verdad con cariño es...",o:["Ser buena persona y sincera","Ser cruel","Aburrido"],c:0,e:"La sinceridad amable cuida a los demás."},
+  {l:2,q:"Un buen amigo o amiga...",o:["Te respeta y te trata bien","Te controla el móvil","Decide por ti"],c:0,e:"La amistad de verdad suma libertad."},
+  {l:2,q:"Resolver un conflicto hablando se llama...",o:["Diálogo","Pelea","Silencio"],c:0,e:"La herramienta más poderosa para los problemas."},
+  {l:2,q:"Un secreto que te hace sentir mal...",o:["Se cuenta a un adulto de confianza","Se guarda siempre","Se olvida"],c:0,e:"Los que pesan y asustan hay que contarlos."},
+  {l:2,q:"Si llega alguien nuevo a clase...",o:["Le ayudas a integrarse","Le ignoras","Le pones motes"],c:0,e:"Todos hemos sido «nuevos» alguna vez."},
+  {l:2,q:"Reírse DE alguien y reírse CON alguien...",o:["Son cosas muy distintas","Es lo mismo","Da igual"],c:0,e:"Reír juntos une; reírse de alguien hace daño."},
+  {l:2,q:"La empatía es...",o:["Ponerte en el lugar del otro","Un deporte","Una comida"],c:0,e:"Con empatía tratamos mejor a los demás."},
+  {l:2,q:"Si dos amigos discuten, lo mejor es...",o:["Hablar y buscar una solución","No hablarse nunca","Que gane el más fuerte"],c:0,e:"Dialogar arregla casi todo."},
+  {l:2,q:"Cuando alguien te dice «para, no me gusta»...",o:["Debes parar de inmediato","Sigues","Te ríes"],c:0,e:"Respetar el «no» del otro es fundamental."},
+  {l:2,q:"Cuidar tus emociones significa...",o:["Reconocerlas y expresarlas bien","Esconderlas","Gritarlas siempre"],c:0,e:"Entender lo que sientes te ayuda a estar mejor."},
+  {l:2,q:"Un compañero con discapacidad...",o:["Es un igual al que respetar","Un problema","Alguien de quien reírse"],c:0,e:"La inclusión es cosa de todos."},
+  {l:2,q:"Si ves acoso a alguien y no haces nada...",o:["Mejor avisar a un adulto","Está bien callar","No es asunto tuyo"],c:0,e:"Avisar ayuda a frenar el acoso."},
+  {l:3,q:"Decir «no me gusta que me hables así» es...",o:["Ser asertivo","Ser maleducado","Ser cobarde"],c:0,e:"La asertividad defiende tus derechos con respeto."},
+  {l:3,q:"Los celos y el control en una amistad o pareja son...",o:["Señales de una relación no sana","Muestras de cariño","Normales"],c:0,e:"Quien te quiere bien te quiere libre."},
+  {l:3,q:"«Me lo dices o te dejo de hablar» es...",o:["Chantaje","Una broma","Amistad"],c:0,e:"El chantaje emocional daña. Las relaciones sanas se basan en la confianza."},
+  {l:3,q:"El 25 de noviembre es el día internacional contra...",o:["La violencia hacia las mujeres","Los deberes","El frío"],c:0,e:"El mundo dice NO a la violencia contra las mujeres."},
+  {l:3,q:"Los gestos, miradas y silencios...",o:["También comunican y pueden ayudar o herir","No dicen nada","Solo los usan los mimos"],c:0,e:"La comunicación no verbal es poderosa."},
+  {l:3,q:"Si presencias una injusticia y no haces nada, eres...",o:["Espectador: tu ayuda puede cambiarlo","Inocente del todo","El más listo"],c:0,e:"Los espectadores que actúan frenan el acoso."},
+  {l:3,q:"Una relación sana se basa en...",o:["Respeto, confianza y libertad","Celos","Controlar el móvil del otro"],c:0,e:"Esa es la fórmula del buen trato."},
+  {l:3,q:"Ser asertivo es distinto de ser agresivo porque...",o:["Defiendes tus derechos sin faltar al respeto","Gritas más","Te callas siempre"],c:0,e:"Ni sumiso ni agresivo: firme y respetuoso."},
+  {l:3,q:"Un «micromachismo» es...",o:["Un gesto machista pequeño y cotidiano","Un microbio","Un deporte"],c:0,e:"Detectarlos ayuda a construir la igualdad día a día."},
+  {l:3,q:"Si un chico dice «eso es de niñas» para insultar...",o:["Usa un estereotipo dañino","Tiene razón","Es gracioso"],c:0,e:"Lo «de niñas» no es un insulto: es otro estereotipo."},
+  {l:3,q:"El respeto a la diversidad afectiva significa...",o:["Respetar cómo quiere y siente cada persona","Que todos amen igual","Nada"],c:0,e:"Cada persona merece respeto tal y como es."},
+  {l:3,q:"Cuando alguien sufre acoso, la mejor ayuda del grupo es...",o:["Apoyar a la víctima y avisar","Reírse","Grabarlo"],c:0,e:"El apoyo del grupo es clave para frenarlo."},
+  {l:3,q:"Poner límites y decir «hasta aquí» es...",o:["Sano y necesario","De egoístas","De maleducados"],c:0,e:"Cuidarte también es respetar a los demás."},
+  {l:3,q:"El buen trato en pareja de mayores incluye...",o:["Libertad y respeto mutuo","Controlar al otro","Revisar su móvil"],c:0,e:"El amor sano nunca controla ni asusta."},
+  {l:3,q:"Educar en igualdad ayuda a prevenir...",o:["La violencia de género","Los exámenes","La lluvia"],c:0,e:"El respeto se aprende desde pequeños."},
+  {l:3,q:"Expresar lo que sientes con «mensajes yo» (yo me siento...) sirve para...",o:["Comunicarte sin atacar","Culpar al otro","Callarte"],c:0,e:"Hablar de ti evita las peleas."},
+  {l:3,q:"Que chicos y chicas cuiden y se emocionen por igual es...",o:["Sano y necesario","Cosa solo de ellas","Debilidad"],c:0,e:"Las emociones y el cuidado son de todas las personas."},
+  {l:0,q:"Cuando alguien te pide que pares un juego porque le molesta...",o:["Paras y le escuchas","Sigues","Te ríes"],c:0,e:"Respetar el límite del otro es fundamental."},
+  {l:0,q:"Si un amigo te cuenta que le hacen daño...",o:["Le apoyas y buscáis ayuda","Le dices que aguante","Lo cuentas a todos"],c:0,e:"Acompañar y avisar a un adulto es la mejor ayuda."},
+  {l:0,q:"Poner motes que hacen daño es...",o:["Una forma de maltrato","Divertido","Normal"],c:0,e:"Las palabras también pueden herir."},
+  {l:0,q:"Si te enfadas con un amigo, lo mejor es...",o:["Hablarlo cuando estéis calmados","No hablarle nunca más","Vengarte"],c:0,e:"El diálogo repara las amistades."},
+  {l:0,q:"Cuando ganas discutiendo pero haces daño...",o:["No has ganado de verdad","Has ganado","Da igual"],c:0,e:"Ganar hiriendo no es ganar."},
+  {l:0,q:"Escuchar sin interrumpir es una forma de...",o:["Respeto","Aburrimiento","Debilidad"],c:0,e:"Escuchar de verdad es un regalo."},
+  {l:0,q:"Si alguien te dice algo que te duele, puedes...",o:["Decirle cómo te has sentido","Callarte siempre","Devolvérsela peor"],c:0,e:"Expresar lo que sientes es sano."},
+  {l:0,q:"Ayudar a un compañero que no entiende algo es...",o:["Generoso y hace mejor a la clase","Perder el tiempo","Cosa del profesor"],c:0,e:"Enseñar a otros también te ayuda a ti."},
+  {l:0,q:"Reírse de la ropa o el aspecto de alguien...",o:["Hace daño y no es gracioso","Es humor","Es normal"],c:0,e:"Nadie merece burlas por su aspecto."},
+  {l:0,q:"Si te equivocas y hieres a alguien sin querer...",o:["Pides perdón sinceramente","Lo niegas","Te enfadas tú"],c:0,e:"Reparar el daño es de personas maduras."},
+  {l:0,q:"Un grupo donde todos pueden opinar es...",o:["Un grupo sano","Un caos","Aburrido"],c:0,e:"Escucharnos hace mejores decisiones."},
+  {l:0,q:"Cuando un amigo consigue algo bueno, lo sano es...",o:["Alegrarte por él","Tener envidia","Restarle mérito"],c:0,e:"Celebrar los logros ajenos es señal de buena amistad."},
+  {l:0,q:"Excluir a alguien del grupo a propósito es...",o:["Una forma de acoso","Normal","Cosa suya"],c:0,e:"Dejar fuera a alguien duele mucho."},
+  {l:0,q:"Si alguien te trata mal, decírselo a un adulto es...",o:["Lo correcto y valiente","Chivarse","De cobardes"],c:0,e:"Pedir ayuda no es chivarse: es protegerte."},
+  {l:0,q:"El respeto se demuestra...",o:["Con hechos y palabras cada día","Solo con palabras","Solo cuando miran"],c:0,e:"Se practica a diario, no se proclama."},
+  {l:0,q:"Cuidar tus emociones y las de los demás es...",o:["Cosa de todos, chicos y chicas","Solo de las chicas","Una tontería"],c:0,e:"La educación emocional es para todo el mundo."},
+  {l:0,q:"Cuando alguien está nervioso, respirar despacio ayuda a...",o:["Calmarse","Enfadarse más","Nada"],c:0,e:"La respiración es una herramienta poderosa."},
+  {l:0,q:"Un buen equipo de clase se nota en que...",o:["Nadie se queda fuera","Ganan siempre los mismos","Manda uno"],c:0,e:"La inclusión es la señal de un grupo sano."},
+  {l:0,q:"Que un chico exprese cariño a sus amigos es...",o:["Sano y valiente","Ridículo","Impropio"],c:0,e:"El afecto entre amigos es de todos los géneros."},
+  {l:0,q:"Si ves un conflicto entre dos compañeros, puedes...",o:["Ayudarles a hablar o avisar a un adulto","Animar la pelea","Grabarlo"],c:0,e:"Ser mediador ayuda mucho más que jalear."},
+  {l:0,q:"Los buenos tratos hacen que la clase sea...",o:["Un lugar seguro para todos","Aburrida","Blanda"],c:0,e:"Donde hay respeto, se aprende mejor."},
+  {l:0,q:"Decir «gracias» y «por favor» cuesta...",o:["Muy poco y vale mucho","Demasiado","Nada, pero da igual"],c:0,e:"La cortesía es la puerta del buen trato."},
+ ]
+];
+
+/* ================== DUELO ================== */
+const DUEL_QUESTIONS = [
+ {q:"¿Quién consiguió el voto femenino en España?",o:["Clara Campoamor","Gloria Fuertes","Lili Álvarez"],c:0,e:"Clara Campoamor defendió el voto femenino en 1931."},
+ {q:"¿Qué científica española inventó la patente más rentable de nuestra ciencia?",o:["Margarita Salas","Hipatia","María Zambrano"],c:0,e:"Su método de copia del ADN se usa en todo el mundo."},
+ {q:"¿Quién escribía poemas y cuentos para niños y niñas?",o:["Gloria Fuertes","Clara Campoamor","Lili Álvarez"],c:0,e:"Gloria Fuertes es la gran poeta de la infancia."},
+ {q:"¿Qué pionera fue finalista de Wimbledon tres veces?",o:["Lili Álvarez","Hipatia","Margarita Salas"],c:0,e:"Lili Álvarez brilló en el tenis en los años 20."},
+ {q:"¿Quién fue matemática y astrónoma en la antigua Alejandría?",o:["Hipatia","Gloria Fuertes","Clara Campoamor"],c:0,e:"Hipatia dirigió una escuela de sabios hace 1.600 años."},
+ {q:"¿Qué filósofa andaluza ganó el Premio Cervantes?",o:["María Zambrano","Lili Álvarez","Margarita Salas"],c:0,e:"María Zambrano, de Vélez-Málaga, lo recibió en 1988."},
+ {q:"¿Qué es la corresponsabilidad?",o:["Repartir tareas y cuidados entre todos","Responder rápido","Correr en equipo"],c:0,e:"Responsabilidad compartida en el hogar."},
+ {q:"¿Qué es un estereotipo?",o:["Una idea fija y falsa sobre un grupo de personas","Un aparato de música","Un deporte"],c:0,e:"Etiquetas falsas que hay que romper."},
+ {q:"El 11 de febrero es el día de...",o:["La Mujer y la Niña en la Ciencia","Los videojuegos","La primavera"],c:0,e:"Un día para dar visibilidad a las científicas."},
+ {q:"El 25 de noviembre es el día contra...",o:["La violencia hacia las mujeres","El ruido","Los exámenes"],c:0,e:"Todo el mundo dice NO a la violencia ese día."},
+ {q:"¿Quién fue la primera programadora de la historia?",o:["Ada Lovelace","Marie Curie","Valentina Tereshkova"],c:0,e:"Escribió el primer algoritmo en el siglo XIX."},
+ {q:"¿Quién fue la primera mujer en viajar al espacio?",o:["Valentina Tereshkova","Ada Lovelace","Rosalind Franklin"],c:0,e:"En 1963, a bordo del Vostok 6."},
+ {q:"Marie Curie ganó el Premio Nobel...",o:["Dos veces","Ninguna vez","Diez veces"],c:0,e:"Física en 1903 y Química en 1911."},
+ {q:"La «fotografía 51» de Rosalind Franklin fue clave para descubrir...",o:["La forma del ADN","La Luna","El fuego"],c:0,e:"Reveló la doble hélice del ADN."},
+ {q:"¿Qué selección española ganó el Mundial de fútbol de 2023?",o:["La femenina","La de balonmano","Ninguna"],c:0,e:"¡Campeonas del mundo!"},
+ {q:"Carolina Marín es campeona de...",o:["Bádminton","Natación","Gimnasia"],c:0,e:"Oro olímpico en Río 2016 y varias veces campeona mundial."},
+ {q:"A igual trabajo debe haber...",o:["Igual salario","Más vacaciones para unos","Distinto sueldo"],c:0,e:"Es un principio básico de igualdad."},
+ {q:"Las tareas de casa son responsabilidad de...",o:["Toda la familia","Solo las madres","Solo los padres"],c:0,e:"Cada persona según su edad, ¡pero todas colaboran!"},
+ {q:"¿Pueden los chicos llorar y mostrar sus emociones?",o:["Sí, es sano para todas las personas","No","Solo de noche"],c:0,e:"Las emociones no tienen género."},
+ {q:"Decir «no» con respeto cuando algo no te gusta se llama...",o:["Asertividad","Timidez","Chantaje"],c:0,e:"La asertividad es una superhabilidad social."},
+ {q:"Kathrine Switzer corrió un maratón prohibido para mujeres en...",o:["Boston, 1967","París, 2020","Roma, 1800"],c:0,e:"Terminó la carrera aunque intentaron expulsarla."},
+ {q:"¿Quién puede ser protagonista de un cuento?",o:["Cualquier personaje, chico o chica","Solo príncipes","Solo dragones"],c:0,e:"El valor y la inteligencia no tienen género."},
+ {q:"Ocultar los logros de las científicas se llama...",o:["Efecto Matilda","Efecto mariposa","Efecto dominó"],c:0,e:"Hoy trabajamos para recuperar sus nombres."},
+ {q:"Un patio de recreo igualitario es aquel donde...",o:["Todos los juegos y personas comparten el espacio","Solo se juega al fútbol","Mandan los mayores"],c:0,e:"El patio es de todo el alumnado."},
+ {q:"Teresa Perales es una campeona española de...",o:["Natación paralímpica","Tenis","Esquí"],c:0,e:"27 medallas paralímpicas la avalan."},
+ {q:"Hedy Lamarr inventó una tecnología base de...",o:["El wifi y el bluetooth","La televisión","El microondas"],c:0,e:"Su «salto de frecuencias» de 1942 sigue vivo hoy."},
+ {q:"Un «techo de cristal» es...",o:["Una barrera invisible que frena a las mujeres","Un tejado moderno","Un tipo de premio"],c:0,e:"No se ve, pero impide ascender. Conocerlo ayuda a romperlo."},
+ {q:"Alexia Putellas ha ganado...",o:["El Balón de Oro","Un Grammy","La Vuelta ciclista"],c:0,e:"Dos Balones de Oro seguidos."}
+];
+
+/* ================== NIVELES ================== */
+/* # suelo · = plataforma · G gema · ? bloque pregunta · E Prohibidor · D jaula · P inicio · ~ pinchos */
+const LEVELS=[
+ [
+ "                                                                                ",
+ "                          V                         V                           ",
+ "                  G                        G G                                  ",
+ "        ?        ===        ?            =====          ?              G   D   ",
+ "       ===              ======                                 ?      ==== ####",
+ "  G                                  ==       E          G   =====             ",
+ " ===        E             G              ======        ====                    ",
+ "        ========         ===       ?                            E              ",
+ "                    G          ======           G       ===========            ",
+ "   P         ?     ===                         ===                       ?     ",
+ "  ###      ====           E                            G              =====    ",
+ "  ###   ~~      ########     ~~   ###   ~~~   ####  ~~####  ~~~   ##       ~~  ",
+ "################################################################################",
+ "################################################################################"],
+ [
+ "                                                                                ",
+ "                              V                           V                     ",
+ "     G                  ?                G                    G                 ",
+ "    ===       G       =====            =====        ?        ===      G    D   ",
+ "            =====                 E                =====             ==== #### ",
+ "  ?                        ==========                          E               ",
+ " ====    E                                  G       ====   =========           ",
+ "       =======      ?           G          ===                                 ",
+ "                  ======       ===                     ?                G      ",
+ "   P        G                          E              ====       ?    ====     ",
+ "  ###     =====        ~~~        ##########                   ====            ",
+ "  ###  ~~       ###### ~~~ ####               ~~~ ####### ~~~       ##### ~~   ",
+ "################################################################################",
+ "################################################################################"],
+ [
+ "                                                                                ",
+ "                        G                    V                V                 ",
+ "          ?            ===          G  ?                 ?          G          ",
+ "         ===       G              ======                ===        ===    D    ",
+ "   G           E  ===                          ====                      ####  ",
+ "  ===    ========            ?         E              G      E                 ",
+ "                            ====    =======          ===  ========      ?      ",
+ "        G                                                              ====    ",
+ "   P   ===        ?                G          ====        G                    ",
+ "  ###           ====     E        ===                    ===        E          ",
+ "  ###   ~~~           #######            ~~~        ~~         ##########  ~~  ",
+ "  ###       #####             ####### ~~     ###### ~~ ######              ##  ",
+ "################################################################################",
+ "################################################################################"],
+ [
+ "                                                                                ",
+ "                            V                          V                        ",
+ "       G          ?              G G              ?                G           ",
+ "      ===        ===            =====            ===        G     ===     D    ",
+ "             G          E                 E               ====           ####  ",
+ "   ?        ===     ==========        ========                                 ",
+ "  ====                                              ?           E        G     ",
+ "          E                G                      =====     ========    ===    ",
+ "   P    ======            ===         G                                        ",
+ "  ###              ?              E  ===       G         ?         G           ",
+ "  ###    ~~~     =====     ~~~  ######        ===       ====      ===    ~~~   ",
+ "  ###        ###       ###          ~~~ ##### ~~~ ####       ~~~      ###      ",
+ "################################################################################",
+ "################################################################################"],
+ [
+ "                                                                                ",
+ "                  G                     V                   V                   ",
+ "        ?        ===         ?               G   ?               G             ",
+ "       ===              E   ====            ========            ===       D    ",
+ "   G        ==========                 G                  E              ####  ",
+ "  ===                          G      ===   E         =========                ",
+ "         G       ?            ===        =======                    ?          ",
+ "   P    ===    ======                                     G        ====        ",
+ "  ###                    E           ?          G       ====                   ",
+ "  ###      ~~~     ###########     =====       ===              E        G     ",
+ "  ###  ###                     ~~~        ~~~        ~~~   ###########  ===    ",
+ "  ###          ~~~ ########### ~~~ ###### ~~~ ###### ~~~               ~~ ##   ",
+ "################################################################################",
+ "################################################################################"],
+ [
+ "                                                                                ",
+ "                        V                         V                 V           ",
+ "      G        ?            G        ?          G          ?          G        ",
+ "     ===      ===          ===      ===        ===        ===        ===   D   ",
+ "           E                    E                    E          E          ####",
+ "   ?     =======    G        =======     G       =======    ========           ",
+ "  ====             ===                  ===                              ?     ",
+ "               ?                 G             ?              G         ====   ",
+ "   P          ====      G       ===          ====            ===               ",
+ "  ###                  ===             E                              E        ",
+ "  ###    ~~~      ~~~        ~~~   #########   ~~~     ~~~      ############   ",
+ "  ###  ###   ####     ######  ~~~            ###  ####    ####              ## ",
+ "################################################################################",
+ "################################################################################"]
+];
+const WORLD_THEMES=[
+ {sky1:"#dff1ff",sky2:"#fef9c3",ground:"#94a3b8",grass:"#64748b",plat:"#7c3aed",far:"#b6cdea",mid:"#cfdff2"},
+ {sky1:"#fce7f3",sky2:"#ede9fe",ground:"#a78bfa",grass:"#7c3aed",plat:"#db2777",far:"#d8c6f0",mid:"#e6d8f7"},
+ {sky1:"#d9f7e2",sky2:"#fef9c3",ground:"#7cb85c",grass:"#4d9b3e",plat:"#92400e",far:"#a8dcb0",mid:"#c4ebc9"},
+ {sky1:"#ffe9d1",sky2:"#fef3c7",ground:"#e19b5d",grass:"#c97a3d",plat:"#0891b2",far:"#f4cfa5",mid:"#f8dfc0"},
+ {sky1:"#dcf1fb",sky2:"#ede9fe",ground:"#6cc4ea",grass:"#3aa6d8",plat:"#7c3aed",far:"#bfe4f4",mid:"#d4eef9"},
+ {sky1:"#fef6cf",sky2:"#fce7f3",ground:"#eec25e",grass:"#d9a63e",plat:"#db2777",far:"#f6dfa0",mid:"#fae9bd"}
+];
+const PROHIB_TXT=["¡NO PUEDES!","¡NO ES TUYO!","¡NIÑAS NO!","¡FUERA!","¡TÚ NO!","¡CALLA!"];
+
+/* ================== CAPAS (VESTUARIO) ================== */
+/* Referencia: completar los 6 mundos una vez da ~58 gemas. Los precios están
+   ajustados para que las primeras capas se consigan pronto y las dos últimas
+   supongan un reto de coleccionismo. */
+const CAPES=[
+ {id:"morada",  name:"Capa Morada",   c:"#a78bfa", price:0},
+ {id:"rosa",    name:"Capa Rosa",     c:"#f472b6", price:15},
+ {id:"turquesa",name:"Capa Turquesa", c:"#2dd4bf", price:30},
+ {id:"dorada",  name:"Capa Dorada",   c:"#fbbf24", price:50},
+ {id:"arcoiris",name:"Capa Arcoíris", c:"rainbow", price:85},
+ {id:"estrellas",name:"Capa Estrellada",c:"#6d28d9", price:120, stars:true}
+];
+
+/* ================== VÍDEOS DE AGRADECIMIENTO ================== */
+/* Nombrados según el personaje liberado en cada mundo (mismo orden que PIONEERS) */
+const PIONEER_VIDEOS=['margarita.mp4','clara.mp4','gloria.mp4','lili.mp4','hipatia.mp4','zambrano.mp4'];
+
+/* ================== SdA (pestaña Profesorado) ================== */
+const SDA_INFO=[
+ {n:1,titulo:'Profesiones sin etiquetas',world:'Mundo 1 · Ciudad de las Profesiones · Margarita Salas',
+  desc:'El alumnado desmonta el estereotipo de que existen «trabajos de chicos» y «trabajos de chicas» investigando su propio entorno y entrevistando a profesionales que rompen esos moldes. La científica Margarita Salas da rostro a la idea de que el talento no tiene género.',
+  areas:['Conocimiento del Medio','Lengua'],producto:'Mural «Profesiones sin etiquetas» con audios-entrevista QR',ses:'4 sesiones'},
+ {n:2,titulo:'Mi casa, nuestro equipo',world:'Mundo 2 · Castillo del Hogar · Clara Campoamor',
+  desc:'A partir de datos reales recogidos en casa, el alumnado toma conciencia del reparto desigual de las tareas domésticas y negocia un reparto más justo. Las matemáticas se ponen al servicio de la justicia. Clara Campoamor conecta la corresponsabilidad con la conquista de derechos.',
+  areas:['C. del Medio','Matemáticas','Lengua'],producto:'Contrato familiar de corresponsabilidad + gráficas',ses:'4 sesiones'},
+ {n:3,titulo:'Cuentos del revés',world:'Mundo 3 · Bosque de los Cuentos · Gloria Fuertes',
+  desc:'El alumnado analiza los estereotipos de género en los cuentos clásicos y los reescribe de forma coeducativa, creando una antología ilustrada para la biblioteca del centro. Gloria Fuertes es el referente de creatividad y libertad sin ataduras.',
+  areas:['Lengua','E. Artística'],producto:'Antología «Cuentos del revés» + cuentacuentos para Infantil',ses:'5 sesiones'},
+ {n:4,titulo:'Campeonas y campeones',world:'Mundo 4 · Estadio de las Campeonas · Lili Álvarez',
+  desc:'El alumnado analiza con datos el uso real de su patio, detecta desigualdades y propone un reparto más justo del espacio y de los juegos. Lili Álvarez encabeza una galería de referentes que incluye el deporte adaptado (Teresa Perales).',
+  areas:['E. Física','C. del Medio'],producto:'Plan de patio igualitario pilotado una semana',ses:'4 sesiones'},
+ {n:5,titulo:'Científicas invisibles, sabias visibles',world:'Mundo 5 · Laboratorio de las Sabias · Hipatia de Alejandría',
+  desc:'El alumnado recupera y hace visibles los nombres de grandes científicas silenciadas por el «efecto Matilda», combinando el método científico con la producción de textos biográficos. Culmina en una exposición para el 11F. Hipatia encabeza la galería de sabias.',
+  areas:['C. del Medio','Lengua','C. Digital'],producto:'Museo vivo «Sabias» con audioguías QR (11F)',ses:'5 sesiones'},
+ {n:6,titulo:'La Plaza del Buen Trato',world:'Mundo 6 · Plaza del Buen Trato · María Zambrano',
+  desc:'El alumnado aprende a reconocer y practicar el buen trato, la gestión emocional sin estereotipos y la resolución asertiva de conflictos, como prevención temprana de la violencia. Vinculada al 25N. María Zambrano cierra la galería como símbolo del pensamiento libre.',
+  areas:['Valores Cívicos','Lengua','E. Artística'],producto:'Decálogo del Buen Trato + escenas de asertividad (25N)',ses:'4 sesiones'}
+];
+function renderTeacher(){
+  const list=document.getElementById('sdaList'); list.innerHTML='';
+  SDA_INFO.forEach(s=>{
+    const div=document.createElement('div'); div.className='sda-item';
+    div.innerHTML=`<h4>SdA ${s.n}. ${s.titulo}</h4>
+      <div class="sda-world">${s.world}</div>
+      <p>${s.desc}</p>
+      <div class="sda-tags">
+        ${s.areas.map(a=>`<span class="sda-tag">${a}</span>`).join('')}
+        <span class="sda-tag">${s.ses}</span>
+        <span class="sda-tag prod">🎯 ${s.producto}</span>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+/* ================== ESTADO ================== */
+const STORE_KEY='igualesQuest_v3';
+let S = loadState();
+function loadState(){
+  const def={cycle:2,worlds:[0,0,0,0,0,0],best:[0,0,0,0,0,0],stars:[0,0,0,0,0,0],
+    gems:0,capes:["morada"],cape:"morada",seen:{},diplomaName:'',tts:true,sound:true};
+  try{
+    const st=Object.assign(def, JSON.parse(localStorage.getItem(STORE_KEY)||'{}'));
+    // Migración: si existe progreso de la versión anterior, se conserva (salvo 'seen')
+    const old=localStorage.getItem('igualesQuest_v2');
+    if(old && !localStorage.getItem(STORE_KEY)){
+      try{ const o=JSON.parse(old);
+        ['cycle','worlds','best','stars','gems','capes','cape','diplomaName','tts','sound']
+          .forEach(k=>{ if(o[k]!==undefined) st[k]=o[k]; });
+        st.seen={}; // el historial antiguo usaba índices: se descarta
+      }catch{}
+    }
+    if(typeof st.seen!=='object'||st.seen===null) st.seen={};
+    return st;
+  }
+  catch{ return def; }
+}
+function save(){ try{ localStorage.setItem(STORE_KEY,JSON.stringify(S)); }catch{} }
+
+/* ================== NAVEGACIÓN / UTIL ================== */
+function go(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active'); window.scrollTo(0,0); stopSpeak(); }
+function shuffle(a){ const b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
+function toast(msg){ const t=document.createElement('div');t.className='toast';t.textContent=msg;
+  document.body.appendChild(t); setTimeout(()=>t.remove(),2400); }
+function confetti(){ const colors=['#7c3aed','#db2777','#f59e0b','#16a34a','#0891b2'];
+  for(let i=0;i<80;i++){ const el=document.createElement('div'); el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;background:${colors[i%colors.length]};animation-duration:${.9+Math.random()*1.3}s;animation-delay:${Math.random()*.4}s;transform:rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(el); setTimeout(()=>el.remove(),2600); } }
+
+/* ---------- Vídeo de agradecimiento de la Pionera ---------- */
+function watchPioneerVideo(worldId,ctx){
+  const p=PIONEERS[worldId];
+  const v=document.getElementById('pioneerVideo');
+  stopSpeak();
+  document.getElementById('videoTitle').textContent='¡Gracias por liberarme! Soy '+p.name;
+  v.src='videos/'+PIONEER_VIDEOS[worldId];
+  v.currentTime=0;
+  document.getElementById('videoContinueBtn').hidden=true;
+  go('scr-video');
+  const done=()=>{
+    v.pause();
+    if(typeof ctx==='function') ctx();
+    else if(ctx==='album'){go('scr-album');renderAlbum();}
+    else if(ctx==='result'){go('scr-result');}
+    else {go('scr-map');renderMap();}
+  };
+  v.onended=()=>{document.getElementById('videoContinueBtn').hidden=false;};
+  document.getElementById('videoContinueBtn').onclick=done;
+  document.getElementById('btnSkipVideo').onclick=done;
+  v.play().catch(()=>{document.getElementById('videoContinueBtn').hidden=false;});
+}
+
+/* ================== SONIDO (WebAudio) ================== */
+let AC=null;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch{} } return AC; }
+function tone(f,t0,dur,type='square',vol=.12){
+  const a=ac(); if(!a||!S.sound)return;
+  const o=a.createOscillator(),g=a.createGain();
+  o.type=type;o.frequency.setValueAtTime(f,a.currentTime+t0);
+  g.gain.setValueAtTime(vol,a.currentTime+t0);
+  g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t0+dur);
+  o.connect(g);g.connect(a.destination);
+  o.start(a.currentTime+t0);o.stop(a.currentTime+t0+dur+.02);
+}
+const SFX={
+  jump(){tone(320,0,.12,'square',.08);tone(480,.06,.1,'square',.06);},
+  jump2(){tone(420,0,.1,'square',.08);tone(640,.05,.12,'square',.07);},
+  gem(){tone(880,0,.08,'sine',.12);tone(1320,.06,.12,'sine',.1);},
+  correct(){tone(523,0,.12,'triangle',.14);tone(659,.1,.12,'triangle',.14);tone(784,.2,.2,'triangle',.14);},
+  wrong(){tone(220,0,.18,'sawtooth',.1);tone(160,.14,.25,'sawtooth',.1);},
+  stomp(){tone(200,0,.08,'square',.14);tone(120,.05,.12,'square',.12);},
+  hurt(){tone(300,0,.1,'sawtooth',.12);tone(200,.08,.14,'sawtooth',.1);},
+  unlock(){[523,659,784,1046].forEach((f,i)=>tone(f,i*.09,.14,'triangle',.14));},
+  win(){[523,659,784,1046,784,1046,1318].forEach((f,i)=>tone(f,i*.11,.16,'triangle',.15));},
+  buy(){tone(660,0,.1,'sine',.12);tone(990,.08,.16,'sine',.12);}
+};
+
+/* ================== TTS ================== */
+function speak(text){ if(!S.tts||!('speechSynthesis' in window))return;
+  stopSpeak(); const u=new SpeechSynthesisUtterance(text); u.lang='es-ES'; u.rate=.95; speechSynthesis.speak(u); }
+function stopSpeak(){ if('speechSynthesis' in window) speechSynthesis.cancel(); }
+document.getElementById('btnMute').addEventListener('click',function(){
+  S.tts=!S.tts; save(); this.textContent=S.tts?'🔊':'🔇';
+  toast(S.tts?'Lectura en voz alta activada':'Lectura en voz alta desactivada'); if(!S.tts)stopSpeak(); });
+document.getElementById('btnSound').addEventListener('click',function(){
+  S.sound=!S.sound; save(); this.style.opacity=S.sound?'1':'.4';
+  toast(S.sound?'Sonidos activados':'Sonidos desactivados'); if(S.sound)SFX.gem(); });
+document.getElementById('btnFont').addEventListener('click',()=>{
+  const b=document.body;
+  if(b.classList.contains('font-bigger')){b.classList.remove('font-big','font-bigger');toast('Letra normal');}
+  else if(b.classList.contains('font-big')){b.classList.add('font-bigger');toast('Letra muy grande');}
+  else{b.classList.add('font-big');toast('Letra grande');} });
+
+/* ================== INICIO ================== */
+function setCycle(c,btn){ S.cycle=c; save();
+  document.querySelectorAll('.cycle-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+function renderHome(){
+  const done=S.worlds.filter(w=>w===1).length;
+  document.getElementById('homeProgress').textContent =
+    done===6 ? '🏆 ¡Aventura completada! Las 6 Pioneras son libres.' :
+    done===0 ? 'Aún no has liberado a ninguna Pionera. ¡Ánimo!' :
+    `Has liberado a ${done} de 6 Pioneras. ¡Sigue así!`;
+  document.getElementById('walletHome').textContent=S.gems;
+  document.querySelectorAll('.cycle-btn').forEach(b=>b.classList.toggle('active',+b.dataset.cycle===S.cycle));
+  document.getElementById('btnMute').textContent=S.tts?'🔊':'🔇';
+  document.getElementById('btnSound').style.opacity=S.sound?'1':'.4';
+}
+document.getElementById('mascotHome').innerHTML=VIOLETA_SVG;
+renderHome();
+
+/* ================== MAPA ================== */
+function renderMap(){
+  document.getElementById('walletMap').textContent=S.gems;
+  const g=document.getElementById('worldsGrid'); g.innerHTML='';
+  WORLDS.forEach(w=>{
+    const done=S.worlds[w.id]===1, st=S.stars[w.id];
+    const card=document.createElement('button');
+    card.className='world-card '+(done?'done':'todo');
+    card.setAttribute('aria-label',`Mundo ${w.id+1}: ${w.name}. ${done?'Completado con '+st+' estrellas':'Pendiente'}`);
+    card.innerHTML=`${done?'<span class="w-ribbon">LIBERADA</span>':''}
+      <span class="w-emoji">${w.emoji}</span>
+      <h3>Mundo ${w.id+1}: ${w.name}</h3><p>${w.desc}</p>
+      <div class="w-stars">${'★'.repeat(st)}${'☆'.repeat(3-st)}</div>
+      <span class="w-status">${done?'✓ Pionera liberada: '+PIONEERS[w.id].name:'🔒 '+PIONEERS[w.id].name+' te espera'}</span>`;
+    card.addEventListener('click',()=>openIntro(w.id));
+    g.appendChild(card);
+  });
+}
+
+/* ================== INTRO ================== */
+let currentWorld=0;
+function openIntro(id){
+  currentWorld=id; const w=WORLDS[id];
+  document.getElementById('introTitleMini').textContent=w.emoji+' Mundo '+(id+1);
+  document.getElementById('introEmoji').textContent=w.emoji;
+  document.getElementById('introTitle').textContent=w.name;
+  document.getElementById('introStory').textContent=w.story;
+  document.getElementById('introTts').onclick=()=>speak(w.story);
+  document.getElementById('introPlay').onclick=()=>startGame(id);
+  go('scr-intro');
+}
+
+/* ================== PANTALLA COMPLETA ================== */
+function enterFullscreen(){
+  const wrap=document.getElementById('canvasWrap');
+  try{
+    if(!document.fullscreenElement){
+      (wrap.requestFullscreen||wrap.webkitRequestFullscreen||function(){}).call(wrap);
+    }
+    if(screen.orientation&&screen.orientation.lock) screen.orientation.lock('landscape').catch(()=>{});
+  }catch(e){}
+}
+function exitFullscreen(){ try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(e){} }
+document.getElementById('btnFullscreen').addEventListener('click',()=>{
+  if(document.fullscreenElement) exitFullscreen(); else enterFullscreen();
+});
+
+/* ================== MOTOR ================== */
+const TILE=40, QUOTA=5;
+const cvs=document.getElementById('gameCanvas'), ctx=cvs.getContext('2d');
+const G={world:0,map:[],W:0,H:0,player:null,enemies:[],gems:[],qblocks:[],door:null,spikes:[],
+  puffs:[],pops:[],clouds:[],lives:3,gemsN:0,gemsTotal:0,score:0,correct:0,cam:0,
+  running:false,paused:false,invul:0,start:{x:0,y:0},raf:0,t:0};
+const keys={l:false,r:false,j:false,jHeld:false};
+
+function bankFor(worldId){
+  const lv = S.cycle===2 ? [0,2] : [0,3];
+  return QUESTIONS[worldId].filter(q=>lv.includes(q.l));
+}
+/* No-repetición persistente entre partidas */
+/* No-repetición persistente entre partidas.
+   Se guarda el texto de la pregunta (no el índice), así el historial sigue
+   siendo válido aunque el banco se amplíe en futuras versiones. */
+function nextQuestion(){
+  const bank=bankFor(G.world), key='w'+G.world+'c'+S.cycle;
+  if(!Array.isArray(S.seen[key]))S.seen[key]=[];
+  let unseen=bank.filter(q=>!S.seen[key].includes(q.q));
+  if(unseen.length===0){ S.seen[key]=[]; unseen=bank.slice();
+    toast('🔄 ¡Has visto todas las preguntas de este mundo! Empiezan de nuevo.'); }
+  const q=unseen[Math.floor(Math.random()*unseen.length)];
+  S.seen[key].push(q.q); save();
+  return q;
+}
+
+function startGame(worldId){
+  currentWorld=worldId; G.world=worldId;
+  const rows=LEVELS[worldId];
+  const maxW=Math.max(...rows.map(r=>r.length));
+  G.map=rows.map(r=>r.padEnd(maxW,' ').split('')); G.H=rows.length; G.W=maxW;
+  G.enemies=[];G.gems=[];G.qblocks=[];G.spikes=[];G.door=null;G.puffs=[];G.pops=[];
+  for(let y=0;y<G.H;y++)for(let x=0;x<G.W;x++){
+    const c=G.map[y][x];
+    if(c==='P'){G.start={x:x*TILE+7,y:y*TILE};G.map[y][x]=' ';}
+    if(c==='G'){G.gems.push({x,y,got:false});G.map[y][x]=' ';}
+    if(c==='?'){G.qblocks.push({x,y,done:false});G.map[y][x]=' ';}
+    if(c==='E'||c==='V'){G.enemies.push({x:x*TILE,y:y*TILE+8,w:32,h:32,dir:1,dead:false,ph:Math.random()*6,
+      tx:x,ty:y,fly:(c==='V'),y0:y*TILE+8,flap:Math.random()*6});G.map[y][x]=' ';}
+    if(c==='D'){G.door={x,y};G.map[y][x]=' ';}
+    if(c==='~'){G.spikes.push({x,y});G.map[y][x]=' ';}
+  }
+  G.gemsTotal=G.gems.length;
+  /* Prohibidores: los marcados con 'V' vuelan (llevan alas). Los marcados con 'E'
+     son terrestres y se apoyan sobre el primer suelo que haya debajo; si no
+     encuentran ninguno cerca, pasan a ser voladores (así no "andan por el aire"). */
+  G.enemies.forEach(e=>{
+    if(e.fly){ e.y0=e.ty*TILE+8; return; }
+    let groundY=-1;
+    for(let yy=e.ty+1; yy<G.H && yy<=e.ty+4; yy++){
+      const c=G.map[yy][e.tx];
+      if(c==='#'||c==='='){ groundY=yy; break; }
+    }
+    if(groundY===-1){ e.fly=true; e.y0=e.ty*TILE+8; }
+    else { e.y=groundY*TILE-e.h-0.01; }
+  });
+  G.player={x:G.start.x,y:G.start.y,w:26,h:38,vx:0,vy:0,onGround:false,face:1,coyote:0,jumps:2,blink:0};
+  G.lives=3;G.gemsN=0;G.score=0;G.correct=0;G.cam=0;G.invul=0;G.t=0;
+  G.clouds=Array.from({length:5},(_,i)=>({x:Math.random()*960,y:30+Math.random()*120,s:.6+Math.random()*.8,v:.15+Math.random()*.2}));
+  updateHud(); closeQuiz();
+  go('scr-game'); enterFullscreen();
+  G.running=true;G.paused=false;
+  cancelAnimationFrame(G.raf); loop();
+}
+function updateHud(){
+  document.getElementById('hudLives').textContent='💜'.repeat(Math.max(G.lives,0))+'🤍'.repeat(3-Math.max(G.lives,0));
+  document.getElementById('hudGems').textContent='💎 '+G.gemsN+'/'+G.gemsTotal;
+  const q=document.getElementById('hudQuota');
+  q.textContent='❓ '+G.correct+'/'+QUOTA;
+  q.classList.toggle('ok',G.correct>=QUOTA);
+  document.getElementById('hudScore').textContent='⭐ '+G.score;
+}
+function popText(x,y,txt,color){ G.pops.push({x,y,txt,color:color||'#7c3aed',life:50}); }
+function solid(x,y){
+  if(x<0||x>=G.W)return true; if(y<0)return false; if(y>=G.H)return false;
+  const c=G.map[y][x]; return c==='#'||c==='=';
+}
+function rectVsMap(p){
+  p.x+=p.vx;
+  let x0=Math.floor(p.x/TILE),x1=Math.floor((p.x+p.w)/TILE),y0=Math.floor(p.y/TILE),y1=Math.floor((p.y+p.h-1)/TILE);
+  for(let ty=y0;ty<=y1;ty++)for(let tx=x0;tx<=x1;tx++) if(solid(tx,ty)){
+    if(p.vx>0)p.x=tx*TILE-p.w-0.01; else if(p.vx<0)p.x=(tx+1)*TILE+0.01; p.vx=0;
+    x0=Math.floor(p.x/TILE);x1=Math.floor((p.x+p.w)/TILE);
+  }
+  p.y+=p.vy; p.onGround=false;
+  x0=Math.floor(p.x/TILE);x1=Math.floor((p.x+p.w)/TILE);
+  y0=Math.floor(p.y/TILE);y1=Math.floor((p.y+p.h)/TILE);
+  for(let ty=y0;ty<=y1;ty++)for(let tx=x0;tx<=x1;tx++) if(solid(tx,ty)){
+    if(p.vy>0){p.y=ty*TILE-p.h-0.01;p.vy=0;p.onGround=true;}
+    else if(p.vy<0){p.y=(ty+1)*TILE+0.01;p.vy=0;}
+    y0=Math.floor(p.y/TILE);y1=Math.floor((p.y+p.h)/TILE);
+  }
+}
+function overlapTile(p,t){ return p.x < (t.x+1)*TILE && p.x+p.w > t.x*TILE && p.y < (t.y+1)*TILE && p.y+p.h > t.y*TILE; }
+function overlap(a,b){ return a.x<b.x+b.w && a.x+a.w>b.x && a.y<b.y+b.h && a.y+a.h>b.y; }
+function spawnPuff(x,y,color){ for(let i=0;i<7;i++)G.puffs.push({x,y,vx:(Math.random()-.5)*3.4,vy:-Math.random()*2,life:20,c:color||'rgba(167,139,250,.75)'}); }
+
+function hurt(respawn){
+  if(G.invul>0)return;
+  G.lives--; updateHud(); G.invul=90; SFX.hurt();
+  if(G.lives<=0){ return endLevel(false); }
+  const p=G.player;
+  if(respawn){ p.x=G.start.x;p.y=G.start.y;p.vx=0;p.vy=0; }
+  else { p.vy=-7; p.x+=p.face*-26; }
+}
+function step(){
+  const p=G.player; G.t++;
+  if(G.invul>0)G.invul--;
+  const SPEED=4,JUMP=-13,GRAV=0.55,MAXJUMPS=2;
+  if(keys.l){p.vx=-SPEED;p.face=-1;} else if(keys.r){p.vx=SPEED;p.face=1;} else p.vx=0;
+  if(p.onGround){p.coyote=8;p.jumps=MAXJUMPS;} else if(p.coyote>0)p.coyote--;
+  if(keys.j&&!keys.jHeld){
+    if(p.coyote>0||p.jumps>0){
+      p.vy=JUMP; keys.jHeld=true;
+      if(p.coyote<=0){p.jumps--;SFX.jump2();spawnPuff(p.x+p.w/2,p.y+p.h);}
+      else {p.jumps=MAXJUMPS-1;SFX.jump();}
+      p.coyote=0;
+    }
+  }
+  if(!keys.j)keys.jHeld=false;
+  if(!keys.j&&p.vy<-4)p.vy=-4;
+  p.vy=Math.min(p.vy+GRAV,14);
+  const wasAir=!p.onGround;
+  rectVsMap(p);
+  if(wasAir&&p.onGround)spawnPuff(p.x+p.w/2,p.y+p.h,'rgba(120,120,120,.4)');
+  if(p.y>G.H*TILE+80)return hurt(true);
+  G.gems.forEach(g=>{ if(!g.got&&overlapTile(p,g)){g.got=true;G.gemsN++;G.score+=20;SFX.gem();
+    popText(g.x*TILE+20,g.y*TILE,'+20','#db2777');spawnPuff(g.x*TILE+20,g.y*TILE+20,'rgba(219,39,119,.6)');updateHud();} });
+  for(const s of G.spikes){ if(overlapTile(p,s))return hurt(false); }
+  for(const b of G.qblocks){ if(!b.done&&overlapTile(p,b)){ openQuiz(b); return; } }
+  G.enemies.forEach(e=>{
+    if(e.dead)return;
+    if(e.fly){
+      // VOLADOR: flota y patrulla; rebota contra muros, no necesita suelo
+      const nx=e.x+e.dir*1.6;
+      const wallTx=Math.floor((e.dir>0? nx+e.w : nx)/TILE), wallTy=Math.floor((e.y+e.h/2)/TILE);
+      if(solid(wallTx,wallTy)) e.dir*=-1; else e.x=nx;
+      e.y=e.y0+Math.sin(G.t*0.05+e.ph)*18;
+    } else {
+      // TERRESTRE: patrulla y da la vuelta en bordes y muros
+      const nx=e.x+e.dir*1.3;
+      const footTx=Math.floor((e.dir>0? nx+e.w+2 : nx-2)/TILE), footTy=Math.floor((e.y+e.h+4)/TILE);
+      const wallTx=Math.floor((e.dir>0? nx+e.w : nx)/TILE), wallTy=Math.floor((e.y+e.h/2)/TILE);
+      if(!solid(footTx,footTy)||solid(wallTx,wallTy)) e.dir*=-1; else e.x=nx;
+    }
+    if(G.invul<=0&&overlap(p,e)){
+      if(p.vy>2 && p.y+p.h-e.y<20){ e.dead=true;G.score+=50;p.vy=-8.5;SFX.stomp();
+        popText(e.x+16,e.y,'¡PLAS! +50','#16a34a');spawnPuff(e.x+16,e.y+16,'rgba(100,100,100,.6)');updateHud(); }
+      else hurt(false);
+    }
+  });
+  if(G.door&&overlapTile(p,G.door)){
+    if(G.correct>=QUOTA) return endLevel(true);
+    if(G.t%75===0) toast('🔒 Necesitas '+QUOTA+' aciertos ('+G.correct+'/'+QUOTA+')');
+  }
+  const target=Math.max(0,Math.min(p.x-cvs.width/2+p.w/2, G.W*TILE-cvs.width));
+  G.cam+=(target-G.cam)*0.12;
+}
+
+/* ---------- DIBUJO ---------- */
+function rrPath(x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r);}
+function drawBackdrop(th){
+  const grad=ctx.createLinearGradient(0,0,0,cvs.height);
+  grad.addColorStop(0,th.sky1);grad.addColorStop(1,th.sky2);
+  ctx.fillStyle=grad;ctx.fillRect(0,0,cvs.width,cvs.height);
+  // sol
+  const sg=ctx.createRadialGradient(830,80,10,830,80,70);
+  sg.addColorStop(0,'rgba(255,220,100,.95)');sg.addColorStop(1,'rgba(255,220,100,0)');
+  ctx.fillStyle=sg;ctx.beginPath();ctx.arc(830,80,70,0,7);ctx.fill();
+  ctx.fillStyle='#ffd76e';ctx.beginPath();ctx.arc(830,80,26,0,7);ctx.fill();
+  // nubes
+  ctx.fillStyle='rgba(255,255,255,.85)';
+  G.clouds.forEach(c=>{ c.x-=c.v; if(c.x<-120)c.x=cvs.width+120;
+    const s=c.s;ctx.beginPath();
+    ctx.arc(c.x,c.y,18*s,0,7);ctx.arc(c.x+22*s,c.y-8*s,14*s,0,7);ctx.arc(c.x+42*s,c.y,16*s,0,7);
+    ctx.arc(c.x+20*s,c.y+8*s,15*s,0,7);ctx.fill(); });
+  // silueta lejana y media por mundo
+  drawSilhouette(th.far,0.3,340,1);
+  drawSilhouette(th.mid,0.55,400,2);
+}
+function drawSilhouette(color,par,baseY,layer){
+  ctx.fillStyle=color;
+  const period=520, off=-((G.cam*par)%period);
+  for(let px=off-period;px<cvs.width+period;px+=period){
+    switch(G.world){
+      case 0: // ciudad
+        ctx.fillRect(px+20,baseY-120*layer,70,120*layer+200);
+        ctx.fillRect(px+110,baseY-70*layer,60,70*layer+200);
+        ctx.fillRect(px+190,baseY-150*layer,80,150*layer+200);
+        ctx.fillRect(px+300,baseY-95*layer,66,95*layer+200);
+        ctx.fillRect(px+390,baseY-130*layer,74,130*layer+200);
+        break;
+      case 1: // castillo
+        ctx.fillRect(px+40,baseY-110*layer,60,110*layer+200);
+        for(let i=0;i<4;i++)ctx.fillRect(px+40+i*16,baseY-110*layer-12,10,12);
+        ctx.fillRect(px+170,baseY-60*layer,180,60*layer+200);
+        for(let i=0;i<9;i++)ctx.fillRect(px+170+i*20,baseY-60*layer-10,12,10);
+        ctx.fillRect(px+380,baseY-130*layer,56,130*layer+200);
+        for(let i=0;i<4;i++)ctx.fillRect(px+380+i*15,baseY-130*layer-12,9,12);
+        break;
+      case 2: // bosque
+        for(let i=0;i<4;i++){const tx=px+50+i*120,h=90*layer+20*(i%2);
+          ctx.fillRect(tx-7,baseY-h+60,14,h+140);
+          ctx.beginPath();ctx.arc(tx,baseY-h+40,46,0,7);ctx.arc(tx-30,baseY-h+66,34,0,7);ctx.arc(tx+30,baseY-h+66,34,0,7);ctx.fill();}
+        break;
+      case 3: // estadio
+        ctx.beginPath();ctx.moveTo(px+20,baseY+200);
+        ctx.quadraticCurveTo(px+240,baseY-140*layer,px+460,baseY+200);ctx.fill();
+        ctx.fillRect(px+90,baseY-90*layer,8,90*layer);ctx.fillRect(px+380,baseY-90*layer,8,90*layer);
+        ctx.beginPath();ctx.moveTo(px+98,baseY-90*layer);ctx.lineTo(px+128,baseY-80*layer);ctx.lineTo(px+98,baseY-70*layer);ctx.fill();
+        break;
+      case 4: // laboratorio
+        for(let i=0;i<3;i++){const bx=px+70+i*160;
+          ctx.fillRect(bx-6,baseY-90*layer,12,40);
+          ctx.beginPath();ctx.moveTo(bx-6,baseY-50*layer);ctx.lineTo(bx-34,baseY+40);ctx.lineTo(bx+34,baseY+40);ctx.lineTo(bx+6,baseY-50*layer);ctx.closePath();ctx.fill();}
+        break;
+      case 5: // plaza con arcos (guiño a los Cuatro Arcos)
+        for(let i=0;i<3;i++){const ax=px+60+i*160;
+          ctx.fillRect(ax,baseY-100*layer,22,100*layer+200);
+          ctx.fillRect(ax+96,baseY-100*layer,22,100*layer+200);
+          ctx.fillRect(ax,baseY-100*layer-18,118,22);
+          for(let j=0;j<5;j++)ctx.fillRect(ax+j*24,baseY-100*layer-30,14,12);}
+        break;
+    }
+  }
+}
+function drawTerrain(th){
+  const x0=Math.floor(G.cam/TILE),x1=x0+Math.ceil(cvs.width/TILE)+1;
+  for(let y=0;y<G.H;y++)for(let x=x0;x<=x1&&x<G.W;x++){
+    const c=G.map[y]?.[x],px=x*TILE-G.cam,py=y*TILE;
+    if(c==='#'){
+      ctx.fillStyle=th.ground;ctx.fillRect(px,py,TILE+1,TILE+1);
+      ctx.fillStyle='rgba(0,0,0,.07)';
+      ctx.fillRect(px+8,py+14,5,5);ctx.fillRect(px+24,py+26,6,6);ctx.fillRect(px+16,py+32,4,4);
+      if(!solid(x,y-1)){
+        ctx.fillStyle=th.grass;rrPath(px-1,py-3,TILE+2,12,5);ctx.fill();
+        ctx.strokeStyle=th.grass;ctx.lineWidth=2;
+        for(let i=0;i<3;i++){const gx=px+7+i*12;
+          ctx.beginPath();ctx.moveTo(gx,py-2);ctx.quadraticCurveTo(gx+2,py-9,gx+4,py-2);ctx.stroke();}
+      }
+    } else if(c==='='){
+      ctx.fillStyle='rgba(0,0,0,.10)';rrPath(px+3,py+9,TILE-4,16,8);ctx.fill();
+      ctx.fillStyle=th.plat;rrPath(px+1,py+5,TILE-2,17,8);ctx.fill();
+      ctx.fillStyle='rgba(255,255,255,.4)';rrPath(px+5,py+8,TILE-10,5,3);ctx.fill();
+    }
+  }
+}
+function drawSpikes(){
+  G.spikes.forEach(s=>{const px=s.x*TILE-G.cam,py=s.y*TILE;
+    if(px<-TILE||px>cvs.width)return;
+    for(let i=0;i<4;i++){
+      ctx.fillStyle='#8b97a8';
+      ctx.beginPath();ctx.moveTo(px+i*10,py+TILE);ctx.lineTo(px+i*10+5,py+16);ctx.lineTo(px+i*10+10,py+TILE);ctx.closePath();ctx.fill();
+      ctx.fillStyle='rgba(255,255,255,.5)';
+      ctx.beginPath();ctx.moveTo(px+i*10+2,py+TILE);ctx.lineTo(px+i*10+5,py+20);ctx.lineTo(px+i*10+5,py+TILE);ctx.closePath();ctx.fill();
+    }});
+}
+function drawGems(){
+  G.gems.forEach(g=>{ if(g.got)return;
+    const px=g.x*TILE-G.cam+TILE/2,py=g.y*TILE+TILE/2+Math.sin(G.t*0.07+g.x)*4;
+    if(px<-TILE||px>cvs.width+TILE)return;
+    ctx.save();ctx.translate(px,py);
+    ctx.fillStyle='rgba(219,39,119,.25)';ctx.beginPath();ctx.arc(0,0,15,0,7);ctx.fill();
+    ctx.fillStyle='#e5488f';ctx.beginPath();ctx.moveTo(0,-11);ctx.lineTo(10,0);ctx.lineTo(0,11);ctx.lineTo(-10,0);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#f9a8d4';ctx.beginPath();ctx.moveTo(0,-11);ctx.lineTo(10,0);ctx.lineTo(0,0);ctx.closePath();ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.9)';ctx.beginPath();ctx.moveTo(-2,-6);ctx.lineTo(2,-3);ctx.lineTo(-2,-1);ctx.closePath();ctx.fill();
+    if(G.t%40<3){ctx.strokeStyle='#fff';ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(12,-12);ctx.lineTo(16,-16);ctx.moveTo(16,-12);ctx.lineTo(12,-16);ctx.stroke();}
+    ctx.restore();
+  });
+}
+function drawQBlocks(){
+  G.qblocks.forEach(b=>{const px=b.x*TILE-G.cam,py=b.y*TILE+ (b.done?0:Math.sin(G.t*0.09+b.x)*3);
+    if(px<-TILE||px>cvs.width)return;
+    ctx.fillStyle='rgba(0,0,0,.12)';rrPath(px+5,py+7,TILE-6,TILE-6,9);ctx.fill();
+    ctx.fillStyle=b.done?'#22b45f':'#f6ad20';rrPath(px+3,py+3,TILE-6,TILE-6,9);ctx.fill();
+    ctx.fillStyle=b.done?'#dcfce7':'#fde68a';rrPath(px+6,py+6,TILE-12,7,4);ctx.fill();
+    ctx.fillStyle='#fff';ctx.font='bold 22px "Baloo 2",sans-serif';ctx.textAlign='center';
+    ctx.fillText(b.done?'✓':'?',px+TILE/2,py+TILE/2+8);ctx.textAlign='left';
+    if(!b.done&&G.t%50<4){ctx.fillStyle='rgba(255,255,255,.9)';
+      ctx.beginPath();ctx.arc(px+TILE-6,py+6,2.5,0,7);ctx.fill();}
+  });
+}
+function drawDoor(){
+  if(!G.door)return;
+  const px=G.door.x*TILE-G.cam,py=G.door.y*TILE,open=G.correct>=QUOTA,p=PIONEERS[G.world];
+  if(px<-TILE*2||px>cvs.width+TILE)return;
+  // jaula
+  ctx.fillStyle='rgba(0,0,0,.12)';rrPath(px-6,py-TILE+4,TILE+16,TILE*2,12);ctx.fill();
+  ctx.fillStyle=open?'#22b45f':'#5f5484';rrPath(px-8,py-TILE,TILE+16,TILE*2,12);ctx.fill();
+  ctx.fillStyle=open?'#a7f3c9':'#8f83b8';rrPath(px-8,py-TILE,TILE+16,10,6);ctx.fill();
+  // pionera dentro
+  ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(px+TILE/2,py-4,11,0,7);ctx.fill();
+  ctx.fillStyle='#f5c8a0';ctx.beginPath();ctx.arc(px+TILE/2,py-14,8,0,7);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='bold 11px "Baloo 2",sans-serif';ctx.textAlign='center';
+  ctx.fillText(p.ini,px+TILE/2,py);ctx.textAlign='left';
+  // barrotes
+  if(!open){ctx.strokeStyle='#e9e4f7';ctx.lineWidth=4;
+    for(let i=0;i<4;i++){ctx.beginPath();ctx.moveTo(px+2+i*13,py-TILE+10);ctx.lineTo(px+2+i*13,py+TILE-8);ctx.stroke();}}
+  else if(G.t%14<7){ctx.fillStyle='rgba(255,255,200,.9)';
+    ctx.beginPath();ctx.arc(px-12,py-TILE-6,3,0,7);ctx.arc(px+TILE+12,py-6,3,0,7);ctx.fill();}
+  ctx.font='22px serif';ctx.fillText(open?'🔓':'🔒',px+TILE/2-11,py-TILE-8);
+}
+function drawEnemies(){
+  G.enemies.forEach(e=>{ if(e.dead)return;
+    const px=e.x-G.cam, wob=e.fly?0:Math.sin(G.t*0.18+e.ph)*2, py=e.y+wob;
+    if(px<-TILE*2||px>cvs.width+TILE)return;
+    ctx.save();ctx.translate(px+16,py+16);
+    if(e.fly){
+      /* ALAS batientes: los Prohibidores que flotan ahora vuelan de verdad */
+      const flap=Math.sin(G.t*0.35+e.flap);
+      ctx.fillStyle='#dbe2ea';ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.5;
+      [-1,1].forEach(s=>{
+        ctx.save();ctx.scale(s,1);ctx.rotate(flap*0.4);
+        ctx.beginPath();
+        ctx.moveTo(-12,-3);
+        ctx.quadraticCurveTo(-30,-15,-26,1);
+        ctx.quadraticCurveTo(-23,10,-12,6);
+        ctx.closePath();ctx.fill();ctx.stroke();
+        ctx.beginPath();ctx.moveTo(-14,-1);ctx.lineTo(-25,-5);
+        ctx.moveTo(-14,3);ctx.lineTo(-24,4);ctx.stroke();
+        ctx.restore();
+      });
+    } else {
+      // pies caminando
+      const stepA=Math.sin(G.t*0.25+e.ph)*4;
+      ctx.fillStyle='#3f3f46';
+      ctx.beginPath();ctx.ellipse(-8+stepA,17,6,4,0,0,7);ctx.fill();
+      ctx.beginPath();ctx.ellipse(8-stepA,17,6,4,0,0,7);ctx.fill();
+    }
+    // señal de prohibido (cuerpo)
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,16,0,7);ctx.fill();
+    ctx.strokeStyle='#e23d3d';ctx.lineWidth=6;ctx.beginPath();ctx.arc(0,0,13,0,7);ctx.stroke();
+    ctx.save();ctx.rotate(-Math.PI/4);ctx.fillStyle='#e23d3d';ctx.fillRect(-13,-3,26,6);ctx.restore();
+    // cejas enfadadas + ojos
+    ctx.fillStyle='#2e1065';
+    ctx.beginPath();ctx.arc(-5,-3,2.4,0,7);ctx.arc(5,-3,2.4,0,7);ctx.fill();
+    ctx.strokeStyle='#2e1065';ctx.lineWidth=2.4;
+    ctx.beginPath();ctx.moveTo(-9,-8);ctx.lineTo(-2,-6);ctx.moveTo(9,-8);ctx.lineTo(2,-6);ctx.stroke();
+    // bocadillo de texto ocasional
+    if(Math.floor((G.t+e.ph*60)/180)%2===0){
+      const txt=PROHIB_TXT[G.world];
+      ctx.font='bold 10px "Baloo 2",sans-serif';
+      const tw=ctx.measureText(txt).width+12;
+      ctx.fillStyle='rgba(255,255,255,.95)';rrPath(-tw/2,-40,tw,16,8);ctx.fill();
+      ctx.fillStyle='#e23d3d';ctx.textAlign='center';ctx.fillText(txt,0,-28);ctx.textAlign='left';
+    }
+    ctx.restore();
+  });
+}
+function drawViolet(p){
+  if(G.invul>0&&Math.floor(G.t/5)%2===0)return;
+  const cape=CAPES.find(c=>c.id===S.cape)||CAPES[0];
+  ctx.save();ctx.translate(p.x-G.cam+p.w/2,p.y);ctx.scale(p.face,1);
+  const run=p.onGround&&Math.abs(p.vx)>0.5, leg=run?Math.sin(G.t*0.4)*6:0;
+  // capa
+  let capeFill;
+  if(cape.c==='rainbow'){ capeFill=ctx.createLinearGradient(-20,6,0,40);
+    capeFill.addColorStop(0,'#f43f5e');capeFill.addColorStop(.3,'#f59e0b');capeFill.addColorStop(.6,'#22c55e');capeFill.addColorStop(1,'#3b82f6'); }
+  else capeFill=cape.c;
+  const w=Math.sin(G.t*0.2)*4 + (run?4:0) + (p.onGround?0:6);
+  ctx.fillStyle=capeFill;
+  ctx.beginPath();ctx.moveTo(-5,10);ctx.quadraticCurveTo(-22-w,22,-16-w,38);ctx.lineTo(-3,30);ctx.closePath();ctx.fill();
+  if(cape.stars){ctx.fillStyle='#fbbf24';
+    ctx.beginPath();ctx.arc(-13,22,2,0,7);ctx.arc(-9,30,1.6,0,7);ctx.arc(-16,32,1.6,0,7);ctx.fill();}
+  // piernas
+  ctx.fillStyle='#6d28d9';
+  rrPath(-8,30+(-leg>0?-2:0),7,9,3);ctx.fill();
+  rrPath(1,30+(leg>0?-2:0),7,9,3);ctx.fill();
+  ctx.fillStyle='#db2777';
+  ctx.beginPath();ctx.ellipse(-4+leg*0.4,39,6,3,0,0,7);ctx.fill();
+  ctx.beginPath();ctx.ellipse(4-leg*0.4,39,6,3,0,0,7);ctx.fill();
+  // cuerpo
+  ctx.fillStyle='#7c3aed';rrPath(-9,12,18,20,7);ctx.fill();
+  ctx.fillStyle='#fbbf24';ctx.beginPath();ctx.arc(0,21,4.4,0,7);ctx.fill();
+  ctx.fillStyle='#7c3aed';ctx.font='bold 7px sans-serif';
+  // brazo con lupa
+  ctx.strokeStyle='#f5c8a0';ctx.lineWidth=4.5;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(7,17);ctx.lineTo(13,22+(run?leg:0)*0.4);ctx.stroke();
+  ctx.strokeStyle='#db2777';ctx.lineWidth=3;
+  ctx.beginPath();ctx.arc(16,25,4.5,0,7);ctx.stroke();
+  // cabeza
+  ctx.fillStyle='#f5c8a0';ctx.beginPath();ctx.arc(0,3,11,0,7);ctx.fill();
+  // pelo + coleta
+  ctx.fillStyle='#5b3a29';
+  ctx.beginPath();ctx.arc(0,1,11,Math.PI*0.95,Math.PI*2.05);ctx.fill();
+  ctx.beginPath();ctx.moveTo(-10,2);ctx.quadraticCurveTo(-16,12+(p.onGround?0:4),-12,20);ctx.quadraticCurveTo(-9,12,-9,6);ctx.closePath();ctx.fill();
+  // gorro explorador
+  ctx.fillStyle='#7c3aed';rrPath(-12,-10,24,7,3);ctx.fill();rrPath(-8,-15,16,7,3);ctx.fill();
+  ctx.fillStyle='#fbbf24';
+  ctx.beginPath();ctx.moveTo(0,-14);ctx.lineTo(1.4,-11);ctx.lineTo(4.4,-10.6);ctx.lineTo(2.2,-8.6);ctx.lineTo(2.8,-5.6);ctx.lineTo(0,-7.2);ctx.lineTo(-2.8,-5.6);ctx.lineTo(-2.2,-8.6);ctx.lineTo(-4.4,-10.6);ctx.lineTo(-1.4,-11);ctx.closePath();ctx.fill();
+  // cara
+  p.blink=(p.blink+1)%180;
+  ctx.fillStyle='#2e1065';
+  if(p.blink<170){ctx.beginPath();ctx.arc(3,3,2,0,7);ctx.arc(8,3,2,0,7);ctx.fill();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(3.7,2.3,.7,0,7);ctx.arc(8.7,2.3,.7,0,7);ctx.fill();}
+  else{ctx.strokeStyle='#2e1065';ctx.lineWidth=1.6;
+    ctx.beginPath();ctx.moveTo(1,3);ctx.lineTo(5,3);ctx.moveTo(6,3);ctx.lineTo(10,3);ctx.stroke();}
+  ctx.fillStyle='#f9a8d4';ctx.globalAlpha=.6;
+  ctx.beginPath();ctx.arc(0,7,2,0,7);ctx.fill();ctx.globalAlpha=1;
+  ctx.strokeStyle='#2e1065';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(5.5,6,2.6,0.2*Math.PI,0.8*Math.PI);ctx.stroke();
+  ctx.restore();
+}
+function drawFx(){
+  G.puffs=G.puffs.filter(pf=>pf.life-->0);
+  G.puffs.forEach(pf=>{pf.x+=pf.vx;pf.y+=pf.vy;
+    ctx.globalAlpha=pf.life/20;ctx.fillStyle=pf.c;
+    ctx.beginPath();ctx.arc(pf.x-G.cam,pf.y,4,0,7);ctx.fill();});
+  ctx.globalAlpha=1;
+  G.pops=G.pops.filter(pp=>pp.life-->0);
+  ctx.font='bold 17px "Baloo 2",sans-serif';ctx.textAlign='center';
+  G.pops.forEach(pp=>{pp.y-=0.8;
+    ctx.globalAlpha=Math.min(1,pp.life/25);
+    ctx.fillStyle='#fff';ctx.fillText(pp.txt,pp.x-G.cam+1,pp.y+1);
+    ctx.fillStyle=pp.color;ctx.fillText(pp.txt,pp.x-G.cam,pp.y);});
+  ctx.globalAlpha=1;ctx.textAlign='left';
+}
+function draw(){
+  const th=WORLD_THEMES[G.world];
+  drawBackdrop(th); drawTerrain(th); drawSpikes(); drawGems(); drawQBlocks(); drawDoor(); drawEnemies(); drawFx(); drawViolet(G.player);
+}
+function loop(){
+  if(!G.running)return;
+  if(!G.paused){step();draw();}
+  G.raf=requestAnimationFrame(loop);
+}
+
+/* ---------- QUIZ ---------- */
+let activeBlock=null;
+function openQuiz(block){
+  activeBlock=block; G.paused=true; keys.l=keys.r=keys.j=false;
+  const q=nextQuestion(); block.q=q;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qTts').onclick=()=>speak(q.q+'. '+q.o.join('. '));
+  document.getElementById('explainBox').classList.remove('show');
+  document.getElementById('nextWrap').classList.remove('show');
+  const grid=document.getElementById('optGrid');grid.innerHTML='';
+  shuffle(q.o.map((t,idx)=>({t,idx}))).forEach(op=>{
+    const b=document.createElement('button');b.className='opt';b.textContent=op.t;
+    b.addEventListener('click',()=>answerQuiz(b,op.idx===q.c,q));grid.appendChild(b);});
+  document.getElementById('quizModal').classList.add('show');
+  speak(q.q);
+}
+function answerQuiz(btn,ok,q){
+  document.querySelectorAll('#optGrid .opt').forEach(b=>{b.disabled=true;
+    if(b.textContent===q.o[q.c])b.classList.add('correct');});
+  if(ok){ activeBlock.done=true; G.correct++; G.score+=100; SFX.correct();
+    popText(activeBlock.x*TILE+20,activeBlock.y*TILE,'+100','#16a34a');
+    if(G.correct===QUOTA){SFX.unlock();toast('🔓 ¡Jaula desbloqueada! Corre hacia '+PIONEERS[G.world].name);} }
+  else{ btn.classList.add('wrong'); G.lives--; SFX.wrong();
+    if(G.lives<=0){updateHud();document.getElementById('explainText').textContent=q.e;
+      document.getElementById('explainBox').classList.add('show');
+      setTimeout(()=>endLevel(false),1600);return;} }
+  updateHud();
+  document.getElementById('explainText').textContent=q.e;
+  document.getElementById('explainBox').classList.add('show');
+  document.getElementById('nextWrap').classList.add('show');
+  document.getElementById('btnNext').onclick=closeQuizResume;
+  document.getElementById('btnNext').focus();
+}
+function closeQuiz(){document.getElementById('quizModal').classList.remove('show');}
+function closeQuizResume(){
+  closeQuiz();
+  if(activeBlock&&!activeBlock.done){const p=G.player;
+    p.y=(activeBlock.y+1)*TILE-p.h-2; p.vy=0;
+    p.x += (p.x+p.w/2 < (activeBlock.x+0.5)*TILE ? -TILE*0.9 : TILE*0.9);}
+  activeBlock=null; G.paused=false;
+}
+
+/* ---------- FIN NIVEL ---------- */
+function endLevel(passed){
+  G.running=false; cancelAnimationFrame(G.raf); closeQuiz(); exitFullscreen();
+  const total=G.score;
+  const stars=passed?Math.max(1,G.lives):0;
+  const isNewUnlock = passed && S.worlds[currentWorld]!==1;
+  if(total>S.best[currentWorld])S.best[currentWorld]=total;
+  if(passed){
+    if(S.worlds[currentWorld]!==1)S.worlds[currentWorld]=1;
+    if(stars>S.stars[currentWorld])S.stars[currentWorld]=stars;
+    SFX.win();
+  }
+  S.gems+=G.gemsN; save();
+  function showResult(){
+    document.getElementById('resEmoji').textContent=passed?'🏆':'💪';
+    document.getElementById('resTitle').textContent=passed?'¡Mundo superado!':'¡Casi lo tienes!';
+    document.getElementById('resStars').textContent=passed?('★'.repeat(stars)+'☆'.repeat(3-stars)):'';
+    document.getElementById('resMsg').textContent=passed
+      ? '¡Has liberado a '+PIONEERS[currentWorld].name+'! Su carta ya está en tu álbum. Las gemas van a tu monedero del Vestuario.'
+      : 'Te has quedado sin corazones, pero conservas las gemas 💎. ¡Vuelve a intentarlo para liberar a '+PIONEERS[currentWorld].name+'!';
+    document.getElementById('resScore').textContent=total;
+    document.getElementById('resGems').textContent='+'+G.gemsN;
+    document.getElementById('resBest').textContent=S.best[currentWorld];
+    const wrap=document.getElementById('resCardWrap');wrap.innerHTML='';
+    if(passed){wrap.innerHTML='<div class="card-reveal">'+pioneerCardHTML(PIONEERS[currentWorld],true,true,'result')+'</div>';
+      confetti();speak('¡Enhorabuena! Has liberado a '+PIONEERS[currentWorld].name+'.');}
+    document.getElementById('resRetry').onclick=()=>startGame(currentWorld);
+    go('scr-result');
+  }
+  if(isNewUnlock) watchPioneerVideo(currentWorld,showResult);
+  else showResult();
+}
+function exitLevel(){G.running=false;cancelAnimationFrame(G.raf);closeQuiz();exitFullscreen();
+  S.gems+=G.gemsN;save();go('scr-map');renderMap();}
+
+/* ---------- CONTROLES ---------- */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    const active=document.querySelector('.screen.active').id;
+    if(active==='scr-game'&&!document.getElementById('quizModal').classList.contains('show')) exitLevel();
+    return;
+  }
+  if(!G.running||G.paused)return;
+  if(['ArrowLeft','a','A'].includes(e.key))keys.l=true;
+  if(['ArrowRight','d','D'].includes(e.key))keys.r=true;
+  if(['ArrowUp','w','W',' '].includes(e.key)){keys.j=true;e.preventDefault();}
+});
+document.addEventListener('keyup',e=>{
+  if(['ArrowLeft','a','A'].includes(e.key))keys.l=false;
+  if(['ArrowRight','d','D'].includes(e.key))keys.r=false;
+  if(['ArrowUp','w','W',' '].includes(e.key))keys.j=false;
+});
+function bindTouch(id,key){const el=document.getElementById(id);
+  const on=e=>{e.preventDefault();keys[key]=true;}, off=e=>{e.preventDefault();keys[key]=false;};
+  el.addEventListener('touchstart',on,{passive:false});el.addEventListener('touchend',off);
+  el.addEventListener('touchcancel',off);
+  el.addEventListener('mousedown',on);el.addEventListener('mouseup',off);el.addEventListener('mouseleave',off);}
+bindTouch('tcLeft','l');bindTouch('tcRight','r');bindTouch('tcJump','j');
+
+/* ================== CARTAS / ÁLBUM ================== */
+function pioneerCardHTML(p,unlocked,shine,ctx){
+  return `<div class="pioneer-card ${unlocked?'':'locked'}" role="group" aria-label="Carta de ${p.name}${unlocked?'':' (bloqueada)'}">
+    ${unlocked&&shine?'<div class="pc-shine"></div>':''}
+    <div class="pc-top"><div class="pc-avatar" style="background:${p.color}">${unlocked?p.ini:'?'}</div></div>
+    <h4>${unlocked?p.name:'Pionera misteriosa'}</h4>
+    <div class="pc-years">${unlocked?p.years:'¿ ? – ?'}</div><br>
+    <span class="pc-field">${unlocked?p.field:'BLOQUEADA'}</span>
+    <p class="pc-bio">${unlocked?p.bio:'Supera el Mundo '+(p.id+1)+' para liberar a esta Pionera y descubrir su historia.'}</p>
+    ${unlocked?`<div style="padding:0 0 16px;display:flex;gap:8px;justify-content:center">
+      <button class="btn-tts" aria-label="Escuchar biografía de ${p.name}" onclick="speak('${p.name}. ${p.bio.replace(/'/g,"\\'")}')">🔊</button>
+      <button class="btn-tts" aria-label="Ver vídeo de agradecimiento de ${p.name}" onclick="watchPioneerVideo(${p.id},'${ctx||'album'}')">🎬</button>
+    </div>`:''}
+  </div>`;
+}
+function renderAlbum(){
+  const g=document.getElementById('albumGrid'); g.innerHTML='';
+  let n=0;
+  PIONEERS.forEach(p=>{ const u=S.worlds[p.id]===1; if(u)n++;
+    const d=document.createElement('div'); d.innerHTML=pioneerCardHTML(p,u,false,'album'); g.appendChild(d.firstElementChild); });
+  document.getElementById('albumCount').textContent=`Has liberado ${n} de 6 Pioneras`;
+  document.getElementById('btnDiploma').hidden = n<6;
+}
+
+/* ================== VESTUARIO ================== */
+function renderShop(){
+  document.getElementById('walletShop').textContent=S.gems;
+  const g=document.getElementById('shopGrid'); g.innerHTML='';
+  CAPES.forEach(c=>{
+    const owned=S.capes.includes(c.id), equipped=S.cape===c.id;
+    const sw = c.c==='rainbow'
+      ? 'background:linear-gradient(135deg,#f43f5e,#f59e0b,#22c55e,#3b82f6)'
+      : 'background:'+c.c+(c.stars?';background-image:radial-gradient(circle at 30% 30%, #fbbf24 3px, transparent 4px),radial-gradient(circle at 70% 60%, #fbbf24 2.5px, transparent 3.5px),radial-gradient(circle at 45% 75%, #fbbf24 2px, transparent 3px)':'');
+    const card=document.createElement('div');
+    card.className='cape-card'+(equipped?' equipped':'');
+    card.innerHTML=`<div class="cape-swatch" style="${sw}"></div>
+      <h4>${c.name}</h4>
+      <div class="cape-price">${c.price===0?'Gratis':owned?'Conseguida ✓':'💎 '+c.price}</div>
+      <button class="btn ${equipped?'btn-ghost':owned?'':'btn-gold'}" style="padding:10px 18px;min-height:44px;font-size:1rem"
+        ${equipped?'disabled':''} data-cape="${c.id}">${equipped?'✓ Equipada':owned?'Equipar':'Comprar'}</button>`;
+    card.querySelector('button').addEventListener('click',()=>capeAction(c.id));
+    g.appendChild(card);
+  });
+}
+function capeAction(id){
+  const c=CAPES.find(x=>x.id===id);
+  if(S.capes.includes(id)){ S.cape=id; save(); SFX.gem(); toast('🧥 '+c.name+' equipada'); }
+  else if(S.gems>=c.price){ S.gems-=c.price; S.capes.push(id); S.cape=id; save(); SFX.buy(); confetti();
+    toast('🎉 ¡Has desbloqueado la '+c.name+'!'); }
+  else toast('Te faltan '+(c.price-S.gems)+' gemas 💎. ¡Consíguelas en los niveles!');
+  renderShop();
+}
+
+/* ================== DUELO ================== */
+const D={qs:[],i:0,turn:0,scores:[0,0],names:['Equipo 1','Equipo 2']};
+function startDuel(){
+  D.names[0]=document.getElementById('t1name').value.trim()||'Equipo 1';
+  D.names[1]=document.getElementById('t2name').value.trim()||'Equipo 2';
+  D.qs=shuffle(DUEL_QUESTIONS).slice(0,10); D.i=0; D.turn=0; D.scores=[0,0];
+  document.getElementById('dName1').textContent='💜 '+D.names[0];
+  document.getElementById('dName2').textContent='💗 '+D.names[1];
+  go('scr-duel'); renderDuelQ();
+}
+function renderDuelQ(){
+  const q=D.qs[D.i];
+  document.getElementById('duelRound').textContent=D.i+1;
+  document.getElementById('dScore1').textContent=D.scores[0];
+  document.getElementById('dScore2').textContent=D.scores[1];
+  document.getElementById('dTeam1').classList.toggle('turn',D.turn===0);
+  document.getElementById('dTeam2').classList.toggle('turn',D.turn===1);
+  document.getElementById('turnBanner').textContent='⭐ Turno de: '+D.names[D.turn];
+  document.getElementById('dqText').textContent=q.q;
+  document.getElementById('dqTts').onclick=()=>speak(q.q+'. '+q.o.join('. '));
+  document.getElementById('dExplainBox').classList.remove('show');
+  document.getElementById('dNextWrap').classList.remove('show');
+  const grid=document.getElementById('dOptGrid'); grid.innerHTML='';
+  shuffle(q.o.map((t,idx)=>({t,idx}))).forEach(op=>{
+    const b=document.createElement('button'); b.className='opt'; b.textContent=op.t;
+    b.addEventListener('click',()=>duelAnswer(b,op.idx===q.c,q)); grid.appendChild(b);
+  });
+}
+function duelAnswer(btn,ok,q){
+  document.querySelectorAll('#dOptGrid .opt').forEach(b=>{ b.disabled=true;
+    if(b.textContent===q.o[q.c]) b.classList.add('correct'); });
+  if(ok){ D.scores[D.turn]+=100; SFX.correct(); speak('¡Punto para '+D.names[D.turn]+'!'); }
+  else {btn.classList.add('wrong'); SFX.wrong();}
+  document.getElementById('dScore1').textContent=D.scores[0];
+  document.getElementById('dScore2').textContent=D.scores[1];
+  document.getElementById('dExplainText').textContent=q.e;
+  document.getElementById('dExplainBox').classList.add('show');
+  document.getElementById('dNextWrap').classList.add('show');
+  document.getElementById('dBtnNext').onclick=()=>{
+    D.i++; D.turn=1-D.turn;
+    if(D.i>=D.qs.length) return endDuel();
+    renderDuelQ();
+  };
+  document.getElementById('dBtnNext').focus();
+}
+function endDuel(){
+  const w = D.scores[0]===D.scores[1] ? -1 : (D.scores[0]>D.scores[1]?0:1);
+  document.getElementById('duelWinner').textContent = w===-1 ? '¡Empate! Ganáis los dos equipos'
+    : '¡Gana '+D.names[w]+'!';
+  document.getElementById('duelFinalScores').innerHTML =
+    `<div class="stat"><span class="s-val">${D.scores[0]}</span><span class="s-lab">${D.names[0]}</span></div>
+     <div class="stat"><span class="s-val">${D.scores[1]}</span><span class="s-lab">${D.names[1]}</span></div>`;
+  confetti(); SFX.win(); go('scr-duel-result');
+}
+
+/* ================== DIPLOMA ================== */
+function renderDiploma(){
+  document.getElementById('diplomaName').value=S.diplomaName;
+  document.getElementById('dName').textContent=S.diplomaName||'_______________';
+}
+function setDiplomaName(){
+  S.diplomaName=document.getElementById('diplomaName').value.trim(); save(); renderDiploma();
+  if(S.diplomaName) toast('✓ Nombre guardado');
+}
+
+/* ================== PWA: registro del service worker ================== */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+
+</script>
+</body>
+</html>
