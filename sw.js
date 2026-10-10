@@ -1,4 +1,4 @@
-const CACHE='iguales-quest-v5';
+const CACHE='iguales-quest-v5-b2610102005';
 const ASSETS=[
   './',
   './index.html',
